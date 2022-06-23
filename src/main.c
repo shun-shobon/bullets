@@ -1,112 +1,124 @@
 #define GL_SILENCE_DEPRECATION
-#include <GLUT/glut.h>
+#include "opengl.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "util.h"
 
 // clang-format off
-GLdouble vertex[][3] = {
-  { 0.0, 0.0, 0.0 },
-  { 1.0, 0.0, 0.0 },
-  { 1.0, 1.0, 0.0 },
-  { 0.0, 1.0, 0.0 },
-  { 0.0, 0.0, 1.0 },
-  { 1.0, 0.0, 1.0 },
-  { 1.0, 1.0, 1.0 },
-  { 0.0, 1.0, 1.0 },
+static const GLfloat g_vertex_buffer_data[] = {
+  -1.0f,-1.0f,-1.0f, // 三角形1:開始
+  -1.0f,-1.0f, 1.0f,
+  -1.0f, 1.0f, 1.0f, // 三角形1:終了
+   1.0f, 1.0f,-1.0f, // 三角形2:開始
+  -1.0f,-1.0f,-1.0f,
+  -1.0f, 1.0f,-1.0f, // 三角形2:終了
+   1.0f,-1.0f, 1.0f,
+  -1.0f,-1.0f,-1.0f,
+   1.0f,-1.0f,-1.0f,
+   1.0f, 1.0f,-1.0f,
+   1.0f,-1.0f,-1.0f,
+  -1.0f,-1.0f,-1.0f,
+  -1.0f,-1.0f,-1.0f,
+  -1.0f, 1.0f, 1.0f,
+  -1.0f, 1.0f,-1.0f,
+   1.0f,-1.0f, 1.0f,
+  -1.0f,-1.0f, 1.0f,
+  -1.0f,-1.0f,-1.0f,
+  -1.0f, 1.0f, 1.0f,
+  -1.0f,-1.0f, 1.0f,
+   1.0f,-1.0f, 1.0f,
+   1.0f, 1.0f, 1.0f,
+   1.0f,-1.0f,-1.0f,
+   1.0f, 1.0f,-1.0f,
+   1.0f,-1.0f,-1.0f,
+   1.0f, 1.0f, 1.0f,
+   1.0f,-1.0f, 1.0f,
+   1.0f, 1.0f, 1.0f,
+   1.0f, 1.0f,-1.0f,
+  -1.0f, 1.0f,-1.0f,
+   1.0f, 1.0f, 1.0f,
+  -1.0f, 1.0f,-1.0f,
+  -1.0f, 1.0f, 1.0f,
+   1.0f, 1.0f, 1.0f,
+  -1.0f, 1.0f, 1.0f,
+   1.0f,-1.0f, 1.0f
 };
 
-int edge[][2] = {
-  { 0, 1 },
-  { 1, 2 },
-  { 2, 3 },
-  { 3, 0 },
-  { 4, 5 },
-  { 5, 6 },
-  { 6, 7 },
-  { 7, 4 },
-  { 0, 4 },
-  { 1, 5 },
-  { 2, 6 },
-  { 3, 7 },
-};
-
-int face[][4] = {
-  { 0, 1, 2, 3 },
-  { 1, 5, 6, 2 },
-  { 5, 4, 7, 6 },
-  { 4, 0, 3, 7 },
-  { 4, 5, 1, 0 },
-  { 3, 2, 6, 7 },
-};
-
-GLdouble color[][3] = {
-  { 1.0, 0.0, 0.0 }, /* 赤 */
-  { 0.0, 1.0, 0.0 }, /* 緑 */
-  { 0.0, 0.0, 1.0 }, /* 青 */
-  { 1.0, 1.0, 0.0 }, /* 黄 */
-  { 1.0, 0.0, 1.0 }, /* マゼンタ */
-  { 0.0, 1.0, 1.0 }, /* シアン */
-};
-
-GLdouble normal[][3] = {
-  { 0.0, 0.0,-1.0 },
-  { 1.0, 0.0, 0.0 },
-  { 0.0, 0.0, 1.0 },
-  {-1.0, 0.0, 0.0 },
-  { 0.0,-1.0, 0.0 },
-  { 0.0, 1.0, 0.0 }
+static const GLfloat g_color_buffer_data[] = {
+    0.583f,  0.771f,  0.014f,
+    0.609f,  0.115f,  0.436f,
+    0.327f,  0.483f,  0.844f,
+    0.822f,  0.569f,  0.201f,
+    0.435f,  0.602f,  0.223f,
+    0.310f,  0.747f,  0.185f,
+    0.597f,  0.770f,  0.761f,
+    0.559f,  0.436f,  0.730f,
+    0.359f,  0.583f,  0.152f,
+    0.483f,  0.596f,  0.789f,
+    0.559f,  0.861f,  0.639f,
+    0.195f,  0.548f,  0.859f,
+    0.014f,  0.184f,  0.576f,
+    0.771f,  0.328f,  0.970f,
+    0.406f,  0.615f,  0.116f,
+    0.676f,  0.977f,  0.133f,
+    0.971f,  0.572f,  0.833f,
+    0.140f,  0.616f,  0.489f,
+    0.997f,  0.513f,  0.064f,
+    0.945f,  0.719f,  0.592f,
+    0.543f,  0.021f,  0.978f,
+    0.279f,  0.317f,  0.505f,
+    0.167f,  0.620f,  0.077f,
+    0.347f,  0.857f,  0.137f,
+    0.055f,  0.953f,  0.042f,
+    0.714f,  0.505f,  0.345f,
+    0.783f,  0.290f,  0.734f,
+    0.722f,  0.645f,  0.174f,
+    0.302f,  0.455f,  0.848f,
+    0.225f,  0.587f,  0.040f,
+    0.517f,  0.713f,  0.338f,
+    0.053f,  0.959f,  0.120f,
+    0.393f,  0.621f,  0.362f,
+    0.673f,  0.211f,  0.457f,
+    0.820f,  0.883f,  0.371f,
+    0.982f,  0.099f,  0.879f
 };
 // clang-format on
 
-GLfloat light0pos[] = {0.0, 3.0, 5.0, 1.0};
-GLfloat light1pos[] = {5.0, 3.0, 0.0, 1.0};
+static GLuint program_id;
+static GLuint vertexbuffer;
+static GLuint colorbuffer;
 
-GLfloat green[] = {0.0, 1.0, 0.0, 1.0};
-GLfloat red[] = {0.8, 0.2, 0.2, 1.0};
-
-void cube(void) {
-  glBegin(GL_QUADS);
-  for (int i = 0; i < 6; i++) {
-    glNormal3dv(normal[i]);
-    // glColor3dv(color[i]);
-    for (int j = 0; j < 4; j++) {
-      glVertex3dv(vertex[face[i][j]]);
-    }
-  }
-  glEnd();
-}
-
-void idle(void) { glutPostRedisplay(); }
-
-void display(void) {
-  static int r = 0;
-
+void display() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glLightfv(GL_LIGHT0, GL_POSITION, light0pos);
-  glLightfv(GL_LIGHT1, GL_POSITION, light0pos);
+  glUseProgram(program_id);
+
+  GLuint vertexAttributeLocation = glGetAttribLocation(program_id, "position");
+  GLuint colorAttributeLocation = glGetAttribLocation(program_id, "color");
+
+  glEnableVertexAttribArray(vertexAttributeLocation);
+  glEnableVertexAttribArray(colorAttributeLocation);
+
+  glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+  glVertexAttribPointer(vertexAttributeLocation, 3, GL_FLOAT, GL_FALSE, 0,
+                        NULL);
+
+  glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
+  glVertexAttribPointer(colorAttributeLocation, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+  glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
 
   glPushMatrix();
-
-  glRotated((double)r, 0.0, 1.0, 0.0);
-
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, red);
-
-  cube();
-
-  glPushMatrix();
-  glTranslated(1.0, 1.0, 1.0);
-  glRotated((double)(r * 2), 0.0, 1.0, 0.0);
-  cube();
+  glTranslated(-2, 2, 0);
+  glRotated(90, 0, 1, 0);
+  glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
   glPopMatrix();
 
-  glPopMatrix();
+  glDisableVertexAttribArray(vertexAttributeLocation);
+  glDisableVertexAttribArray(colorAttributeLocation);
 
   glutSwapBuffers();
-
-  if (++r >= 360)
-    r = 0;
 }
 
 void resize(int w, int h) {
@@ -114,53 +126,32 @@ void resize(int w, int h) {
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective(30.0, (GLdouble)w / (GLdouble)h, 1.0, 100.0);
+  gluPerspective(45.0, (GLdouble)w / (GLdouble)h, 0.1, 100.0);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(3.0, 4.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-}
-
-void mouse(int button, int state, UNUSED int x, UNUSED int y) {
-
-  switch (button) {
-  case GLUT_LEFT_BUTTON:
-    if (state == GLUT_DOWN) {
-      glutIdleFunc(idle);
-    } else {
-      glutIdleFunc(NULL);
-    }
-    break;
-  case GLUT_RIGHT_BUTTON:
-    if (state == GLUT_DOWN) {
-      glutPostRedisplay();
-    }
-    break;
-  }
-}
-
-void keyboard(unsigned char key, UNUSED int x, UNUSED int y) {
-  switch (key) {
-  case 'q':
-  case 'Q':
-  case '\033':
-    exit(0);
-  }
+  gluLookAt(4.0, 3.0, -3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
 
 void init() {
-  glClearColor(1.0, 1.0, 1.0, 1.0);
+  glClearColor(0.0, 0.0, 0.4, 1.0);
 
   glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
 
-  glEnable(GL_CULL_FACE);
-  glCullFace(GL_FRONT);
+  program_id =
+      create_program("./shaders/vertex.glsl", "./shaders/fragment.glsl");
 
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-  glEnable(GL_LIGHT1);
-  glLightfv(GL_LIGHT1, GL_DIFFUSE, green);
-  glLightfv(GL_LIGHT1, GL_SPECULAR, green);
+  // バッファのバインド
+  glGenBuffers(1, &vertexbuffer);
+  glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data),
+               g_vertex_buffer_data, GL_STATIC_DRAW);
+
+  glGenBuffers(1, &colorbuffer);
+  glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data),
+               g_color_buffer_data, GL_STATIC_DRAW);
 }
 
 int main(int argc, char *argv[]) {
@@ -171,8 +162,6 @@ int main(int argc, char *argv[]) {
 
   glutDisplayFunc(display);
   glutReshapeFunc(resize);
-  glutMouseFunc(mouse);
-  glutKeyboardFunc(keyboard);
 
   init();
   glutMainLoop();

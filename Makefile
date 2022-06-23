@@ -9,11 +9,18 @@ SRCS = $(wildcard $(SRCDIR)/*.c)
 OBJS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCS))
 DEPS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.d,$(SRCS))
 
-STD=-std=c11
+STD = -std=c11
 
 CCFLAGS = -Wall -Wextra -Wpedantic
-CC_DEBUG_FLAGS = -g -O0
+CC_DEBUG_FLAGS = -g -O0 \
+	-fsanitize=address,undefined,integer,nullability \
+	-fno-omit-frame-pointer
 CC_RELEASE_FLAGS = -O3 -march=native -flto
+
+LDFLAGS =
+LD_DEBUG_FLAGS = -fsanitize=address
+LD_RELEASE_FLAGS =
+
 
 UNAME = $(shell uname)
 
@@ -38,9 +45,11 @@ endif
 all: $(BINDIR)/$(TARGET)
 
 debug: CCFLAGS += $(CC_DEBUG_FLAGS)
+debug: LDFLAGS += $(LD_DEBUG_FLAGS)
 debug: all
 
 release: CCFLAGS += $(CC_RELEASE_FLAGS)
+release: LDFLAGS += $(LD_RELEASE_FLAGS)
 release: all
 
 clean:
@@ -48,7 +57,7 @@ clean:
 
 $(BINDIR)/$(TARGET): $(OBJS)
 	@[ -d $(BINDIR) ] || mkdir -p $(BINDIR)
-	$(LD) $(OBJS) -o $@ $(LIBS)
+	$(LD) $(LDFLAGS) $(OBJS) -o $@ $(LIBS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile
 	@[ -d $(OBJDIR) ] || mkdir -p $(OBJDIR)
