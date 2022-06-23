@@ -3,9 +3,11 @@ TARGET = cubeworld
 
 BINDIR = ./bin
 SRCDIR = ./src
+INCDIR = ./src
 OBJDIR = ./obj
 
 SRCS = $(wildcard $(SRCDIR)/*.c)
+INCS = $(wildcard $(INCDIR)/*.h)
 OBJS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCS))
 DEPS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.d,$(SRCS))
 
@@ -13,6 +15,7 @@ STD = -std=c11
 
 CCFLAGS = -Wall -Wextra -Wpedantic
 CC_DEBUG_FLAGS = -g -O0 \
+	-Werror \
 	-fsanitize=address,undefined,integer,nullability \
 	-fno-omit-frame-pointer
 CC_RELEASE_FLAGS = -O3 -march=native -flto
@@ -20,6 +23,10 @@ CC_RELEASE_FLAGS = -O3 -march=native -flto
 LDFLAGS =
 LD_DEBUG_FLAGS = -fsanitize=address
 LD_RELEASE_FLAGS =
+
+ifeq ($(CC),clang)
+	CC_DEBUG_FLAGS += -Weverything
+endif
 
 
 UNAME = $(shell uname)
@@ -42,15 +49,21 @@ endif
 
 .PHONY: all debug release run clean
 
-all: $(BINDIR)/$(TARGET)
+release: CCFLAGS += $(CC_RELEASE_FLAGS)
+release: LDFLAGS += $(LD_RELEASE_FLAGS)
+release: all
 
 debug: CCFLAGS += $(CC_DEBUG_FLAGS)
 debug: LDFLAGS += $(LD_DEBUG_FLAGS)
 debug: all
 
-release: CCFLAGS += $(CC_RELEASE_FLAGS)
-release: LDFLAGS += $(LD_RELEASE_FLAGS)
-release: all
+all: $(BINDIR)/$(TARGET)
+
+fmt: $(SRCS) $(INCS)
+	clang-format -i $(SRCS) $(INCS)
+
+lint: $(SRCS) compile_commands.json
+	clang-tidy $(SRCS)
 
 clean:
 	rm -rf $(BINDIR) $(OBJDIR)
@@ -65,5 +78,8 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile
 
 $(OBJDIR)/icon.o: $(SRCDIR)/icon.rc $(SRCDIR)/icon.ico
 	i686-pc-cygwin-windres -i $(SRCDIR)/icon.rc -o $@
+
+compile_commands.json: $(SRCS) Makefile
+	bear -- make all
 
 -include $(DEPS)

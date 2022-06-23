@@ -1,16 +1,16 @@
 #include "util.h"
 
-#include "opengl.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
+#include "opengl.h"
+
 void *malloc_safe(size_t size) {
   void *ptr = malloc(size);
-  if (ptr == NULL)
-    abort();
+  if (ptr == NULL) abort();
 
   return ptr;
 }
@@ -40,7 +40,7 @@ char *read_file(const char *filepath) {
   char *str = malloc_safe(size + sizeof(char));
   size_t idx = 0;
   char c;
-  while ((c = fgetc(fp)) != EOF) {
+  while ((c = (char)fgetc(fp)) != EOF) {
     str[idx++] = c;
   }
   str[idx] = '\0';

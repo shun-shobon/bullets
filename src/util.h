@@ -1,7 +1,8 @@
 #pragma once
 
-#include "opengl.h"
 #include <stdlib.h>
+
+#include "opengl.h"
 
 #define UNUSED __attribute__((unused))
 
