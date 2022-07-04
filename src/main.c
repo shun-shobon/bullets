@@ -32,7 +32,6 @@ void display() {
   glEnableVertexAttribArray(position_attribute);
   glEnableVertexAttribArray(uv_attribute);
 
-  glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, texture.id);
   glUniform1i(texture_sampler_uniform, 0);
 
@@ -67,6 +66,7 @@ void init() {
 
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
+  glActiveTexture(GL_TEXTURE0);
 
   // シェーダの読み込み
   program_id = create_program("shaders/vertex.glsl", "shaders/fragment.glsl");
