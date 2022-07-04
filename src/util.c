@@ -15,6 +15,11 @@ void *malloc_safe(size_t size) {
   return ptr;
 }
 
+uint32_t read_u32_le(const uint8_t *array, size_t offset) {
+  return array[offset + 3] << 3 | array[offset + 2] << 2 |
+         array[offset + 1] << 1 | array[offset];
+}
+
 char *read_file(const char *filepath) {
   int fd = open(filepath, O_RDONLY);
   if (fd == -1) {

@@ -66,7 +66,7 @@ lint: $(SRCS) compile_commands.json
 	clang-tidy $(SRCS)
 
 clean:
-	rm -rf $(BINDIR) $(OBJDIR)
+	rm -rf $(BINDIR) $(OBJDIR) compile_commands.json
 
 $(BINDIR)/$(TARGET): $(OBJS)
 	@[ -d $(BINDIR) ] || mkdir -p $(BINDIR)
