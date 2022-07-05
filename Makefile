@@ -1,5 +1,5 @@
 # 作成者: j19426 西澤駿太郎
-TARGET = cubeworld
+TARGET = shooting
 
 BINDIR = ./bin
 SRCDIR = ./src
