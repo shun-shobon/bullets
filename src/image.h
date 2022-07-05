@@ -5,6 +5,7 @@
 
 #include "opengl.h"
 #include "util.h"
+#include "err.h"
 
 typedef struct {
   GLuint id;
@@ -12,4 +13,4 @@ typedef struct {
   uint32_t height;
 } texture_t;
 
-err_t load_bmp(char *filepath, texture_t *texture);
+void load_bmp(err_t *err, texture_t *texture, char *filepath);

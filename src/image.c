@@ -6,10 +6,14 @@
 #include <stdlib.h>
 
 #include "util.h"
+#include "err.h"
 
-err_t load_bmp(char *filepath, texture_t *texture) {
+void load_bmp(err_t *err, texture_t *texture, char *filepath) {
   FILE *file = fopen(filepath, "rb");
-  if (file == NULL) return ERR_FILE_LOAD;
+  if (file == NULL) {
+    set_err(err, ERR_FILE_LOAD)
+    return;
+  }
 
   // ヘッダーサイズ
   static const size_t HEADER_SIZE = 54;
@@ -17,12 +21,13 @@ err_t load_bmp(char *filepath, texture_t *texture) {
   // ファイルヘッダーが読み込めるか
   if (fread(header, sizeof(uint8_t), HEADER_SIZE, file) != HEADER_SIZE) {
     fclose(file);
-    return ERR_FILE_LOAD;
+    return;
   }
   // ファイルヘッダーのはじめが"BM"から始まっているか
   if (header[0] != 'B' || header[1] != 'M') {
     fclose(file);
-    return ERR_FILE_LOAD;
+    set_err(err, ERR_FILE_LOAD)
+    return;
   }
 
   // エッダーから各種情報を取得
@@ -40,7 +45,8 @@ err_t load_bmp(char *filepath, texture_t *texture) {
   if (fread(data, sizeof(uint8_t), size, file) != size) {
     free(data);
     fclose(file);
-    return ERR_FILE_LOAD;
+    set_err(err, ERR_FILE_LOAD)
+    return;
   }
 
   fclose(file);
@@ -60,6 +66,4 @@ err_t load_bmp(char *filepath, texture_t *texture) {
   // 拡大縮小の挙動を設定
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-  return ERR_NO;
 }

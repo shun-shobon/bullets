@@ -4,6 +4,7 @@
 #include "image.h"
 #include "opengl.h"
 #include "util.h"
+#include "err.h"
 
 static const GLfloat vertex_buffer_data[][3] = {
     {0.0F, 0.0F, 0.0F}, {1.0F, 0.0F, 0.0F}, {1.0F, 0.0F, 1.0F},
@@ -72,10 +73,9 @@ void init() {
   program_id = create_program("shaders/vertex.glsl", "shaders/fragment.glsl");
 
   // テクスチャの読み込み
-  err_t err = load_bmp("assets/debug.bmp", &texture);
-  if (err != ERR_NO) {
-    abort();
-  }
+  err_t err = INIT_ERR;
+  load_bmp(&err, &texture, "assets/hage.bmp");
+  panic_if_err(&err);
 
   // バッファのバインド
   glGenBuffers(1, &vertex_buffer);
