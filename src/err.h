@@ -15,7 +15,8 @@ typedef struct {
   int line;
 } err_t;
 
-#define INIT_ERR (err_t){ false }
+#define INIT_ERR \
+  (err_t) { false }
 
 #define set_err(err, msg)     \
   {                           \
@@ -26,7 +27,7 @@ typedef struct {
       (err)->file = __FILE__; \
       (err)->line = __LINE__; \
     }                         \
-  }                           \
+  }
 
 char *str_errmsg(errmsg_t msg);
 

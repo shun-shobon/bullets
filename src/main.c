@@ -45,9 +45,7 @@ void resize(int win_width, int win_height) {
   glLoadIdentity();
 }
 
-void init() {
-  glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
-}
+void init() { glClearColor(0.0F, 0.0F, 0.0F, 1.0F); }
 
 int main(int argc, char *argv[]) {
   glutInit(&argc, argv);
