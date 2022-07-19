@@ -1,12 +1,11 @@
 // 作成者: j19426 西澤駿太郎
 #include <stdio.h>
 
+#include "consts.h"
 #include "event.h"
+#include "game.h"
 #include "opengl.h"
 #include "player.h"
-
-#define WIDTH 600
-#define HEIGHT 400
 
 void idle() {
   static int time_before = 0;
@@ -34,18 +33,18 @@ void display() {
   glColor3ub(0x00, 0x00, 0x30);
   glBegin(GL_QUADS);
   glVertex2f(0.0F, 0.0F);
-  glVertex2f(WIDTH, 0.0F);
-  glVertex2f(WIDTH, HEIGHT);
-  glVertex2f(0.0F, HEIGHT);
+  glVertex2f(WINDOW_SIZE.x, 0.0F);
+  glVertex2f(WINDOW_SIZE.x, WINDOW_SIZE.y);
+  glVertex2f(0.0F, WINDOW_SIZE.y);
   glEnd();
 
-  player_draw();
+  game_draw();
 
   glutSwapBuffers();
 }
 
 void resize(int win_width, int win_height) {
-  float aspect = (float)WIDTH / (float)HEIGHT;
+  float aspect = WINDOW_SIZE.x / WINDOW_SIZE.y;
   float win_aspect = (float)win_width / (float)win_height;
 
   // アスペクト比からウィンドウにビューポートを合わせる
@@ -66,7 +65,7 @@ void resize(int win_width, int win_height) {
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluOrtho2D(0, WIDTH, 0, HEIGHT);
+  gluOrtho2D(0.0F, WINDOW_SIZE.x, 0.0F, WINDOW_SIZE.y);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -81,7 +80,7 @@ void init() {
 
 int main(int argc, char *argv[]) {
   glutInit(&argc, argv);
-  glutInitWindowSize(WIDTH, HEIGHT);
+  glutInitWindowSize((int)WINDOW_SIZE.x, (int)WINDOW_SIZE.y);
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
   glutCreateWindow(argv[0]);
 

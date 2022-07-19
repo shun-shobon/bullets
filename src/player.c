@@ -68,9 +68,9 @@ void player_update(int time_delta) {
 void player_draw() {
   player_t *player = &player_global;
 
-  float size = 20.0F;
+  float size = 10.0F;
 
-  glColor3ub(0xFF, 0xFF, 0xFF);
+  glColor3ub(0x00, 0xFF, 0x00);
   glBegin(GL_QUADS);
   glVertex2f(player->position.x - size, player->position.y - size);
   glVertex2f(player->position.x + size, player->position.y - size);
