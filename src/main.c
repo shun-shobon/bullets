@@ -1,18 +1,45 @@
 // 作成者: j19426 西澤駿太郎
+#include <stdio.h>
+
+#include "event.h"
 #include "opengl.h"
+#include "player.h"
 
 #define WIDTH 600
 #define HEIGHT 400
 
+void idle() {
+  static int time_before = 0;
+  static int before_print_fps = 0;
+  static int frame_count = 0;
+  int time_now = glutGet(GLUT_ELAPSED_TIME);
+  int time_delta = time_now - time_before;
+  time_before = time_now;
+
+  frame_count++;
+  if (time_now - before_print_fps > 1000) {
+    printf("fps: %d\n", frame_count);
+    before_print_fps = time_now;
+    frame_count = 0;
+  }
+
+  player_update(time_delta);
+
+  glutPostRedisplay();
+}
+
 void display() {
   glClear(GL_COLOR_BUFFER_BIT);
 
+  glColor3ub(0x00, 0x00, 0x30);
   glBegin(GL_QUADS);
   glVertex2f(0.0F, 0.0F);
   glVertex2f(WIDTH, 0.0F);
   glVertex2f(WIDTH, HEIGHT);
   glVertex2f(0.0F, HEIGHT);
   glEnd();
+
+  player_draw();
 
   glutSwapBuffers();
 }
@@ -45,7 +72,12 @@ void resize(int win_width, int win_height) {
   glLoadIdentity();
 }
 
-void init() { glClearColor(0.0F, 0.0F, 0.0F, 1.0F); }
+void init() {
+  glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
+  for (int i = 0; i < KEY_LENGTH; i++) {
+    key_state[i] = false;
+  }
+}
 
 int main(int argc, char *argv[]) {
   glutInit(&argc, argv);
@@ -55,6 +87,9 @@ int main(int argc, char *argv[]) {
 
   glutDisplayFunc(display);
   glutReshapeFunc(resize);
+  glutIdleFunc(idle);
+  glutSpecialFunc(handle_special_key_down);
+  glutSpecialUpFunc(handle_special_key_up);
 
   init();
   glutMainLoop();

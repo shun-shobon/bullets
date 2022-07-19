@@ -63,7 +63,7 @@ fmt: $(SRCS) $(INCS)
 	clang-format -i $(SRCS) $(INCS)
 
 lint: $(SRCS) compile_commands.json
-	clang-tidy $(SRCS)
+	clang-tidy --fix $(SRCS)
 
 clean:
 	rm -rf $(BINDIR) $(OBJDIR) compile_commands.json
