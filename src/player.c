@@ -3,6 +3,7 @@
 
 #include <math.h>
 
+#include "consts.h"
 #include "event.h"
 #include "opengl.h"
 
@@ -63,6 +64,20 @@ void playerUpdate(int timeDelta) {
 
   vec2_t moveAmount = vec2MulScalar(&player->vector, (float)timeDelta);
   player->position = vec2Add(&player->position, &moveAmount);
+
+  // 画面外に行かないようにする
+  if (player->position.x < 0) {
+    player->position.x = 0;
+  }
+  if (GAME_SIZE.x < player->position.x) {
+    player->position.x = GAME_SIZE.x;
+  }
+  if (player->position.y < 0) {
+    player->position.y = 0;
+  }
+  if (GAME_SIZE.y < player->position.y) {
+    player->position.y = GAME_SIZE.y;
+  }
 }
 
 void playerDraw() {
