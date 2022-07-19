@@ -22,7 +22,7 @@ void idle() {
     frame_count = 0;
   }
 
-  player_update(time_delta);
+  playerUpdate(time_delta);
 
   glutPostRedisplay();
 }
@@ -38,28 +38,28 @@ void display() {
   glVertex2f(0.0F, WINDOW_SIZE.y);
   glEnd();
 
-  game_draw();
+  gameDraw();
 
   glutSwapBuffers();
 }
 
-void resize(int win_width, int win_height) {
+void resize(int winWidth, int winHeight) {
   float aspect = WINDOW_SIZE.x / WINDOW_SIZE.y;
-  float win_aspect = (float)win_width / (float)win_height;
+  float winAspect = (float)winWidth / (float)winHeight;
 
   // アスペクト比からウィンドウにビューポートを合わせる
   int width;
   int height;
-  if (aspect < win_aspect) {
-    height = win_height;
-    width = (int)((float)win_height * aspect);
+  if (aspect < winAspect) {
+    height = winHeight;
+    width = (int)((float)winHeight * aspect);
   } else {
-    width = win_width;
-    height = (int)((float)win_width / aspect);
+    width = winWidth;
+    height = (int)((float)winWidth / aspect);
   }
 
-  int x = (win_width - width) / 2;
-  int y = (win_height - height) / 2;
+  int x = (winWidth - width) / 2;
+  int y = (winHeight - height) / 2;
 
   glViewport(x, y, width, height);
 
@@ -74,7 +74,7 @@ void resize(int win_width, int win_height) {
 void init() {
   glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
   for (int i = 0; i < KEY_LENGTH; i++) {
-    key_state[i] = false;
+    keyState[i] = false;
   }
 }
 
@@ -87,8 +87,8 @@ int main(int argc, char *argv[]) {
   glutDisplayFunc(display);
   glutReshapeFunc(resize);
   glutIdleFunc(idle);
-  glutSpecialFunc(handle_special_key_down);
-  glutSpecialUpFunc(handle_special_key_up);
+  glutSpecialFunc(handleSpecialKeyDown);
+  glutSpecialUpFunc(handleSpecialKeyUp);
 
   init();
   glutMainLoop();

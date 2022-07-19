@@ -8,19 +8,19 @@
 
 #include "opengl.h"
 
-void *malloc_safe(size_t size) {
+void *mallocSafe(size_t size) {
   void *ptr = malloc(size);
   if (ptr == NULL) abort();
 
   return ptr;
 }
 
-uint32_t read_u32_le(const uint8_t *array, size_t offset) {
+uint32_t readU32Le(const uint8_t *array, size_t offset) {
   return array[offset + 3] << 3 | array[offset + 2] << 2 |
          array[offset + 1] << 1 | array[offset];
 }
 
-char *read_file(const char *filepath) {
+char *readFile(const char *filepath) {
   int fd = open(filepath, O_RDONLY);
   if (fd == -1) {
     abort();
@@ -42,7 +42,7 @@ char *read_file(const char *filepath) {
   }
 
   // ファイルサイズ + NULL文字
-  char *str = malloc_safe(size + sizeof(char));
+  char *str = mallocSafe(size + sizeof(char));
   size_t idx = 0;
   char c;
   while ((c = (char)fgetc(fp)) != EOF) {
@@ -55,65 +55,63 @@ char *read_file(const char *filepath) {
   return str;
 }
 
-GLuint create_program(const char *vertex_shader_filepath,
-                      const char *fragment_shader_filepath) {
+GLuint createProgram(const char *vertex_shader_filepath,
+                     const char *fragment_shader_filepath) {
   GLint result;
-  GLint log_length;
+  GLint logLength;
 
   // 頂点シェーダのコンパイル
-  GLuint vertex_shader_id = glCreateShader(GL_VERTEX_SHADER);
-  char *vertex_shader_code = read_file(vertex_shader_filepath);
-  glShaderSource(vertex_shader_id, 1, (const char **)&vertex_shader_code, NULL);
-  free(vertex_shader_code);
-  glCompileShader(vertex_shader_id);
-  glGetShaderiv(vertex_shader_id, GL_COMPILE_STATUS, &result);
+  GLuint vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
+  char *vertexShaderCode = readFile(vertex_shader_filepath);
+  glShaderSource(vertexShaderId, 1, (const char **)&vertexShaderCode, NULL);
+  free(vertexShaderCode);
+  glCompileShader(vertexShaderId);
+  glGetShaderiv(vertexShaderId, GL_COMPILE_STATUS, &result);
   if (result == GL_FALSE) {
-    glGetShaderiv(vertex_shader_id, GL_INFO_LOG_LENGTH, &log_length);
-    char *vertex_shader_log = malloc_safe(sizeof(char) * log_length);
-    glGetShaderInfoLog(vertex_shader_id, log_length, NULL, vertex_shader_log);
-    printf("%s", vertex_shader_log);
-    free(vertex_shader_log);
+    glGetShaderiv(vertexShaderId, GL_INFO_LOG_LENGTH, &logLength);
+    char *vertexShaderLog = mallocSafe(sizeof(char) * logLength);
+    glGetShaderInfoLog(vertexShaderId, logLength, NULL, vertexShaderLog);
+    printf("%s", vertexShaderLog);
+    free(vertexShaderLog);
 
     abort();
   }
 
   // フラグメントシェーダのコンパイル
-  GLuint fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER);
-  char *fragment_shader_code = read_file(fragment_shader_filepath);
-  glShaderSource(fragment_shader_id, 1, (const char **)&fragment_shader_code,
-                 NULL);
-  free(fragment_shader_code);
-  glCompileShader(fragment_shader_id);
-  glGetShaderiv(fragment_shader_id, GL_COMPILE_STATUS, &result);
+  GLuint fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
+  char *fragmentShaderCode = readFile(fragment_shader_filepath);
+  glShaderSource(fragmentShaderId, 1, (const char **)&fragmentShaderCode, NULL);
+  free(fragmentShaderCode);
+  glCompileShader(fragmentShaderId);
+  glGetShaderiv(fragmentShaderId, GL_COMPILE_STATUS, &result);
   if (result == GL_FALSE) {
-    glGetShaderiv(fragment_shader_id, GL_INFO_LOG_LENGTH, &log_length);
-    char *fragment_shader_log = malloc_safe(sizeof(char) * log_length);
-    glGetShaderInfoLog(fragment_shader_id, log_length, NULL,
-                       fragment_shader_log);
-    printf("%s", fragment_shader_log);
-    free(fragment_shader_log);
+    glGetShaderiv(fragmentShaderId, GL_INFO_LOG_LENGTH, &logLength);
+    char *fragmentShaderLog = mallocSafe(sizeof(char) * logLength);
+    glGetShaderInfoLog(fragmentShaderId, logLength, NULL, fragmentShaderLog);
+    printf("%s", fragmentShaderLog);
+    free(fragmentShaderLog);
 
     abort();
   }
 
   // プログラムのリンク
-  GLuint program_id = glCreateProgram();
-  glAttachShader(program_id, vertex_shader_id);
-  glAttachShader(program_id, fragment_shader_id);
-  glLinkProgram(program_id);
-  glGetShaderiv(program_id, GL_COMPILE_STATUS, &result);
+  GLuint programId = glCreateProgram();
+  glAttachShader(programId, vertexShaderId);
+  glAttachShader(programId, fragmentShaderId);
+  glLinkProgram(programId);
+  glGetShaderiv(programId, GL_COMPILE_STATUS, &result);
   if (result == GL_FALSE) {
-    glGetShaderiv(program_id, GL_INFO_LOG_LENGTH, &log_length);
-    char *program_log = malloc_safe(sizeof(char) * log_length);
-    glGetShaderInfoLog(program_id, log_length, NULL, program_log);
-    printf("%s", program_log);
-    free(program_log);
+    glGetShaderiv(programId, GL_INFO_LOG_LENGTH, &logLength);
+    char *programLog = mallocSafe(sizeof(char) * logLength);
+    glGetShaderInfoLog(programId, logLength, NULL, programLog);
+    printf("%s", programLog);
+    free(programLog);
 
     abort();
   }
 
-  glDeleteShader(vertex_shader_id);
-  glDeleteShader(fragment_shader_id);
+  glDeleteShader(vertexShaderId);
+  glDeleteShader(fragmentShaderId);
 
-  return program_id;
+  return programId;
 }

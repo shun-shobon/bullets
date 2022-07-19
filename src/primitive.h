@@ -7,33 +7,33 @@
 typedef struct {
   float x;
   float y;
-} vec2;
+} vec2_t;
 
 // 線分
 typedef struct {
-  vec2 point;
-  vec2 vector;
-} seg2;
+  vec2_t point;
+  vec2_t vector;
+} seg2_t;
 
 // 円
 typedef struct {
-  vec2 point;
+  vec2_t point;
   float radius;
-} circle2;
+} circle2_t;
 
 // カプセル
 typedef struct {
-  seg2 segment;
+  seg2_t segment;
   float radius;
-} capsule2;
+} capsule2_t;
 
-vec2 vec2_add(vec2 *v1, vec2 *v2);
-vec2 vec2_sub(vec2 *v1, vec2 *v2);
-vec2 vec2_mul(vec2 *v1, vec2 *v2);
-vec2 vec2_div(vec2 *v1, vec2 *v2);
-vec2 vec2_mul_scalar(vec2 *v, float s);
-vec2 vec2_div_scalar(vec2 *v, float s);
-float vec2_dot(vec2 *v1, vec2 *v2);
-float vec2_cross(vec2 *v1, vec2 *v2);
-float vec2_length(vec2 *v);
-float vec2_length_sq(vec2 *v);
+vec2_t vec2Add(vec2_t *v1, vec2_t *v2);
+vec2_t vec2Sub(vec2_t *v1, vec2_t *v2);
+vec2_t vec2Mul(vec2_t *v1, vec2_t *v2);
+vec2_t vec2Div(vec2_t *v1, vec2_t *v2);
+vec2_t vec2MulScalar(vec2_t *v, float s);
+vec2_t vec2DivScalar(vec2_t *v, float s);
+float vec2Dot(vec2_t *v1, vec2_t *v2);
+float vec2Cross(vec2_t *v1, vec2_t *v2);
+float vec2Length(vec2_t *v);
+float vec2LengthSq(vec2_t *v);

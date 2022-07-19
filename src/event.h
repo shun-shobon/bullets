@@ -9,7 +9,7 @@ typedef enum {
   KEY_LENGTH,
 } key_t;
 
-extern bool key_state[KEY_LENGTH];
+extern bool keyState[KEY_LENGTH];
 
-void handle_special_key_down(int raw_key, int x, int y);
-void handle_special_key_up(int raw_key, int x, int y);
+void handleSpecialKeyDown(int rawKey, int x, int y);
+void handleSpecialKeyUp(int rawKey, int x, int y);

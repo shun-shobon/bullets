@@ -6,28 +6,28 @@
 #include "event.h"
 #include "opengl.h"
 
-player_t player_global;
+player_t playerGlobal;
 
-static void player_set_vector(player_t *player) {
+static void playerSetVector(player_t *player) {
   static const float MOVEMENT = 0.15F;
 
   int vertical = 0;
-  if ((key_state[KEY_UP] && key_state[KEY_DOWN]) ||
-      (!key_state[KEY_UP] && !key_state[KEY_DOWN])) {
+  if ((keyState[KEY_UP] && keyState[KEY_DOWN]) ||
+      (!keyState[KEY_UP] && !keyState[KEY_DOWN])) {
     vertical = 0;
-  } else if (key_state[KEY_UP] && !key_state[KEY_DOWN]) {
+  } else if (keyState[KEY_UP] && !keyState[KEY_DOWN]) {
     vertical = 1;
-  } else if (!key_state[KEY_UP] && key_state[KEY_DOWN]) {
+  } else if (!keyState[KEY_UP] && keyState[KEY_DOWN]) {
     vertical = -1;
   }
 
   int horizontal = 0;
-  if ((key_state[KEY_RIGHT] && key_state[KEY_LEFT]) ||
-      (!key_state[KEY_RIGHT] && !key_state[KEY_LEFT])) {
+  if ((keyState[KEY_RIGHT] && keyState[KEY_LEFT]) ||
+      (!keyState[KEY_RIGHT] && !keyState[KEY_LEFT])) {
     horizontal = 0;
-  } else if (key_state[KEY_RIGHT] && !key_state[KEY_LEFT]) {
+  } else if (keyState[KEY_RIGHT] && !keyState[KEY_LEFT]) {
     horizontal = 1;
-  } else if (!key_state[KEY_RIGHT] && key_state[KEY_LEFT]) {
+  } else if (!keyState[KEY_RIGHT] && keyState[KEY_LEFT]) {
     horizontal = -1;
   }
 
@@ -56,17 +56,17 @@ static void player_set_vector(player_t *player) {
   }
 }
 
-void player_update(int time_delta) {
-  player_t *player = &player_global;
+void playerUpdate(int timeDelta) {
+  player_t *player = &playerGlobal;
 
-  player_set_vector(player);
+  playerSetVector(player);
 
-  vec2 move_amount = vec2_mul_scalar(&player->vector, (float)time_delta);
-  player->position = vec2_add(&player->position, &move_amount);
+  vec2_t moveAmount = vec2MulScalar(&player->vector, (float)timeDelta);
+  player->position = vec2Add(&player->position, &moveAmount);
 }
 
-void player_draw() {
-  player_t *player = &player_global;
+void playerDraw() {
+  player_t *player = &playerGlobal;
 
   float size = 10.0F;
 

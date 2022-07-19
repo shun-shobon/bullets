@@ -4,10 +4,10 @@
 #include "primitive.h"
 
 typedef struct {
-  vec2 position;
-  vec2 vector;
+  vec2_t position;
+  vec2_t vector;
 } player_t;
 
-void player_update(int time_delta);
+void playerUpdate(int timeDelta);
 
-void player_draw();
+void playerDraw();

@@ -18,7 +18,7 @@ typedef struct {
 #define INIT_ERR \
   (err_t) { false }
 
-#define set_err(err, msg)     \
+#define setErr(err, msg)      \
   {                           \
     if ((err) != NULL) {      \
       (err)->has_err = true;  \
@@ -29,7 +29,7 @@ typedef struct {
     }                         \
   }
 
-char *str_errmsg(errmsg_t msg);
+char *strErrmsg(errmsg_t msg);
 
-#define panic_if_err(err) panic_if_err_(__func__, __FILE__, __LINE__, err)
-void panic_if_err_(const char *func, const char *file, int line, err_t *err);
+#define panicIfErr(err) panicIfErr_(__func__, __FILE__, __LINE__, err)
+void panicIfErr_(const char *func, const char *file, int line, err_t *err);

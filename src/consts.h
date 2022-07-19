@@ -4,8 +4,8 @@
 #include "primitive.h"
 
 // 画面サイズ
-extern const vec2 WINDOW_SIZE;
+extern const vec2_t WINDOW_SIZE;
 
 // ゲームサイズとオフセット
-extern const vec2 GAME_SIZE;
-extern const vec2 GAME_OFFSET;
+extern const vec2_t GAME_SIZE;
+extern const vec2_t GAME_OFFSET;

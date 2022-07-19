@@ -5,10 +5,10 @@
 #include "opengl.h"
 #include "player.h"
 
-void game_draw() {
+void gameDraw() {
   glPushMatrix();
   glTranslatef(GAME_OFFSET.x, GAME_OFFSET.y, 0);
-  player_draw();
+  playerDraw();
   glPopMatrix();
 
   // 枠を描画
