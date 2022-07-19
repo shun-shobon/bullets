@@ -1,28 +1,15 @@
 // 作成者: j19426 西澤駿太郎
-#include <stdio.h>
-
 #include "consts.h"
 #include "event.h"
 #include "game.h"
 #include "opengl.h"
 #include "player.h"
+#include "util.h"
 
 void idle() {
-  static int time_before = 0;
-  static int before_print_fps = 0;
-  static int frame_count = 0;
-  int time_now = glutGet(GLUT_ELAPSED_TIME);
-  int time_delta = time_now - time_before;
-  time_before = time_now;
+  deltaTimeUpdate();
 
-  frame_count++;
-  if (time_now - before_print_fps > 1000) {
-    printf("fps: %d\n", frame_count);
-    before_print_fps = time_now;
-    frame_count = 0;
-  }
-
-  playerUpdate(time_delta);
+  playerUpdate(timeDelta);
 
   glutPostRedisplay();
 }
@@ -39,6 +26,8 @@ void display() {
   glEnd();
 
   gameDraw();
+
+  fpsDraw();
 
   glutSwapBuffers();
 }
