@@ -2,18 +2,16 @@
 #include <stdbool.h>
 
 #include "consts.h"
-#include "enemy.h"
 #include "event.h"
 #include "game.h"
 #include "opengl.h"
-#include "player.h"
 #include "util.h"
 
 void idle() {
   deltaTimeUpdate();
 
-  playerUpdate(globalTimeDelta);
-  enemiesUpdate(globalTimeDelta);
+  // TODO: 仮置
+  gameUpdate(globalTimeDelta);
 
   glutPostRedisplay();
 }
@@ -69,7 +67,9 @@ void init() {
   for (int i = 0; i < KEY_LENGTH; i++) {
     keyState[i] = false;
   }
-  enemiesInit();
+
+  // TODO: 仮置
+  gameInit();
 }
 
 int main(int argc, char *argv[]) {

@@ -28,3 +28,10 @@ void gameDraw() {
   glVertex2f(GAME_OFFSET.x, GAME_OFFSET.y);
   glEnd();
 }
+
+void gameInit() { enemiesInit(); }
+
+void gameUpdate(int timeDelta) {
+  playerUpdate(timeDelta);
+  enemiesUpdate(timeDelta);
+}

@@ -2,3 +2,7 @@
 #pragma once
 
 void gameDraw();
+
+void gameInit();
+
+void gameUpdate(int timeDelta);
