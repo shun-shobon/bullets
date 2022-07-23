@@ -1,5 +1,8 @@
 // 作成者: j19426 西澤駿太郎
+#include <stdbool.h>
+
 #include "consts.h"
+#include "enemy.h"
 #include "event.h"
 #include "game.h"
 #include "opengl.h"
@@ -9,7 +12,8 @@
 void idle() {
   deltaTimeUpdate();
 
-  playerUpdate(timeDelta);
+  playerUpdate(globalTimeDelta);
+  enemiesUpdate(globalTimeDelta);
 
   glutPostRedisplay();
 }
@@ -65,6 +69,7 @@ void init() {
   for (int i = 0; i < KEY_LENGTH; i++) {
     keyState[i] = false;
   }
+  enemiesInit();
 }
 
 int main(int argc, char *argv[]) {

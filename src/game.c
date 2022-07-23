@@ -2,6 +2,7 @@
 #include "game.h"
 
 #include "consts.h"
+#include "enemy.h"
 #include "opengl.h"
 #include "player.h"
 
@@ -9,6 +10,7 @@ void gameDraw() {
   glPushMatrix();
   glTranslatef(GAME_OFFSET.x, GAME_OFFSET.y, 0);
   playerDraw();
+  enemiesDraw();
   glPopMatrix();
 
   // 枠を描画
