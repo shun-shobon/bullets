@@ -1,8 +1,6 @@
 // 作成者: j19426 西澤駿太郎
 #include "enemy.h"
 
-#include <stdio.h>
-
 #include "consts.h"
 #include "opengl.h"
 

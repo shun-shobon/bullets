@@ -38,7 +38,7 @@ void fpsDraw() {
     glutBitmapCharacter(GLUT_BITMAP_9_BY_15, fpsStr[i]);
   }
 
-  glColor3ub(0xFF, 0xFF, 0xFF);
+  glColor3ub(0xff, 0xff, 0xff);
   glRasterPos2f(5.0F, 6.0F);
   for (unsigned int i = 0; i < length; i++) {
     glutBitmapCharacter(GLUT_BITMAP_9_BY_15, fpsStr[i]);

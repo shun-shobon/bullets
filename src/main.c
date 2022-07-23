@@ -10,7 +10,7 @@
 void idle() {
   deltaTimeUpdate();
 
-  // TODO: 仮置
+  // TODO(shun_shobon): 仮置
   gameUpdate(globalTimeDelta);
 
   glutPostRedisplay();
@@ -39,8 +39,8 @@ void resize(int winWidth, int winHeight) {
   float winAspect = (float)winWidth / (float)winHeight;
 
   // アスペクト比からウィンドウにビューポートを合わせる
-  int width;
-  int height;
+  int width = 0;
+  int height = 0;
   if (aspect < winAspect) {
     height = winHeight;
     width = (int)((float)winHeight * aspect);
@@ -68,7 +68,7 @@ void init() {
     keyState[i] = false;
   }
 
-  // TODO: 仮置
+  // TODO(shun_shobon): 仮置
   gameInit();
 }
 

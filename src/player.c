@@ -85,7 +85,7 @@ void playerDraw() {
 
   float size = 10.0F;
 
-  glColor3ub(0x00, 0xFF, 0x00);
+  glColor3ub(0x00, 0xff, 0x00);
   glBegin(GL_QUADS);
   glVertex2f(player->position.x - size, player->position.y - size);
   glVertex2f(player->position.x + size, player->position.y - size);

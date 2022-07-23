@@ -1,7 +1,7 @@
 #pragma once
 
 // 誤差
-#define EPSILON 0.000001f
+#define EPSILON 0.000001F
 
 // 二次元ベクトル
 typedef struct {

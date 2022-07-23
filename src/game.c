@@ -14,7 +14,7 @@ void gameDraw() {
   glPopMatrix();
 
   // 枠を描画
-  glColor3ub(0xFF, 0xFF, 0xFF);
+  glColor3ub(0xff, 0xff, 0xff);
   glBegin(GL_QUAD_STRIP);
   glVertex2f(0.0F, 0.0F);
   glVertex2f(GAME_OFFSET.x, GAME_OFFSET.y);
