@@ -1,8 +1,11 @@
 // 作成者: j19426 西澤駿太郎
 #include "enemy.h"
 
+#include <stdlib.h>
+
 #include "consts.h"
 #include "opengl.h"
+#include "util.h"
 
 void enemyMoveLiner(enemy_t *self, int timeDelta) {
   self->age += timeDelta;

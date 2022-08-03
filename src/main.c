@@ -8,12 +8,14 @@
 #include "util.h"
 
 game_state_t gameState;
+int timeDelta = 0;
+int fps = 0;
 
 void idle() {
-  deltaTimeUpdate();
+  deltaTimeUpdate(&timeDelta, &fps);
 
   // TODO(shun_shobon): 仮置
-  gameUpdate(&gameState, globalTimeDelta);
+  gameUpdate(&gameState, timeDelta);
 
   glutPostRedisplay();
 }
@@ -31,7 +33,7 @@ void display() {
 
   gameDraw(&gameState);
 
-  fpsDraw();
+  fpsDraw(fps);
 
   glutSwapBuffers();
 }
