@@ -39,8 +39,8 @@ void resize(int winWidth, int winHeight) {
   float winAspect = (float)winWidth / (float)winHeight;
 
   // アスペクト比からウィンドウにビューポートを合わせる
-  int width = 0;
-  int height = 0;
+  int width;
+  int height;
   if (aspect < winAspect) {
     height = winHeight;
     width = (int)((float)winHeight * aspect);

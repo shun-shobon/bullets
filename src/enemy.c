@@ -4,15 +4,18 @@
 #include "consts.h"
 #include "opengl.h"
 
-VEC_IMPL(enemy_t)
-
 int timeStart;
-vec_enemy_t enemies;
+enemies_t globalEnemies;
 
 void enemyMoveLiner(enemy_t *self, int timeDelta) {
-  static const float MOVEMENT = 0.05F;
+  self->age += timeDelta;
 
+  static const float MOVEMENT = 0.05F;
   self->position.y -= (float)timeDelta * MOVEMENT;
+
+  if (self->age > 5000) {
+    self->shouldRemove = true;
+  }
 }
 
 void enemyDrawSquare(enemy_t *self) {
@@ -27,17 +30,21 @@ void enemyDrawSquare(enemy_t *self) {
   glEnd();
 }
 
-void enemiesInit() {
+void enemyInit() {
   timeStart = glutGet(GLUT_ELAPSED_TIME);
-  vec_init_enemy_t(&enemies);
+  enemiesInit(&globalEnemies);
 }
 
-void enemiesUpdate(int timeDelta) {
+void enemyUpdate(int timeDelta) {
+  enemies_t *enemies = &globalEnemies;
+
   timeStart += timeDelta;
 
-  for (size_t i = 0; i < enemies.len; i++) {
-    enemies.ptr[i].move(&enemies.ptr[i], timeDelta);
+  for (enemy_node_t *node = enemies->head; node; node = node->next) {
+    node->item.move(&node->item, timeDelta);
   }
+  // TODO(shun_shobon): 削除処理
+  enemiesGC(enemies);
 
   // 以下は仮置
   // 3秒おきに敵を生成
@@ -50,12 +57,71 @@ void enemiesUpdate(int timeDelta) {
                         .age = 0,
                         .draw = enemyDrawSquare,
                         .move = enemyMoveLiner};
-    vec_push_enemy_t(&enemies, newEnemy);
+    enemiesPushBack(enemies, newEnemy);
   }
 }
 
-void enemiesDraw() {
-  for (size_t i = 0; i < enemies.len; i++) {
-    enemies.ptr[i].draw(&enemies.ptr[i]);
+void enemyDraw() {
+  enemies_t *enemies = &globalEnemies;
+
+  for (enemy_node_t *node = enemies->head; node; node = node->next) {
+    node->item.draw(&node->item);
   }
+}
+
+void enemiesInit(enemies_t *enemies) {
+  enemies->head = NULL;
+  enemies->tail = NULL;
+  enemies->len = 0;
+}
+
+void enemiesDrop(enemies_t *enemies) {
+  enemy_node_t *head = enemies->head;
+  while (head) {
+    enemiesPop(enemies, head);
+    head = enemies->head;
+  }
+}
+
+void enemiesGC(enemies_t *enemies) {
+  for (enemy_node_t *node = enemies->head; node; node = node->next) {
+    if (node->item.shouldRemove) {
+      enemy_node_t *prev = node->prev;
+      enemiesPop(enemies, node);
+      node = prev;
+    }
+    if (!node) break;
+  }
+}
+
+void enemiesPop(enemies_t *enemies, enemy_node_t *node) {
+  if (node->prev) {
+    node->prev->next = node->next;
+  } else {
+    enemies->head = node->next;
+  }
+  if (node->next) {
+    node->next->prev = node->prev;
+  } else {
+    enemies->tail = node->prev;
+  }
+
+  free(node);
+  enemies->len -= 1;
+}
+
+void enemiesPushBack(enemies_t *enemies, enemy_t newEnemy) {
+  enemy_node_t *node = malloc_safe(sizeof(struct enemy_node));
+  node->item = newEnemy;
+  node->prev = enemies->tail;
+  node->next = NULL;
+
+  if (enemies->tail) {
+    enemies->tail->next = node;
+  } else {
+    enemies->head = node;
+  }
+
+  enemies->tail = node;
+  enemies->len += 1;
 }

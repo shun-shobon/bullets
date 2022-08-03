@@ -10,7 +10,7 @@ void gameDraw() {
   glPushMatrix();
   glTranslatef(GAME_OFFSET.x, GAME_OFFSET.y, 0);
   playerDraw();
-  enemiesDraw();
+  enemyDraw();
   glPopMatrix();
 
   // 枠を描画
@@ -29,9 +29,9 @@ void gameDraw() {
   glEnd();
 }
 
-void gameInit() { enemiesInit(); }
+void gameInit() { enemyInit(); }
 
 void gameUpdate(int timeDelta) {
   playerUpdate(timeDelta);
-  enemiesUpdate(timeDelta);
+  enemyUpdate(timeDelta);
 }
