@@ -9,7 +9,5 @@ typedef struct {
 } player_t;
 
 void playerInit(player_t *player);
-
 void playerUpdate(player_t *player, int timeDelta);
-
 void playerDraw(player_t *player);

@@ -2,28 +2,33 @@
 #include "game.h"
 
 #include "consts.h"
-#include "enemy.h"
+#include "enemies.h"
 #include "opengl.h"
 #include "player.h"
 
+static void gameWindowDraw();
+
 void gameInit(game_state_t *gameState) {
   playerInit(&gameState->player);
-  enemyInit(&gameState->enemies);
+  enemiesInit(&gameState->enemies);
 }
 
 void gameUpdate(game_state_t *gameState, int timeDelta) {
   playerUpdate(&gameState->player, timeDelta);
-  enemyUpdate(&gameState->enemies, timeDelta);
+  enemiesUpdate(&gameState->enemies, timeDelta);
 }
 
 void gameDraw(game_state_t *gameState) {
   glPushMatrix();
   glTranslatef(GAME_OFFSET.x, GAME_OFFSET.y, 0);
   playerDraw(&gameState->player);
-  enemyDraw(&gameState->enemies);
+  enemiesDraw(&gameState->enemies);
   glPopMatrix();
 
-  // 枠を描画
+  gameWindowDraw();
+}
+
+static void gameWindowDraw() {
   glColor3ub(0xff, 0xff, 0xff);
   glBegin(GL_QUAD_STRIP);
   glVertex2f(0.0F, 0.0F);
