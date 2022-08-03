@@ -6,11 +6,21 @@
 #include "opengl.h"
 #include "player.h"
 
-void gameDraw() {
+void gameInit(game_state_t *gameState) {
+  playerInit(&gameState->player);
+  enemyInit(&gameState->enemies);
+}
+
+void gameUpdate(game_state_t *gameState, int timeDelta) {
+  playerUpdate(&gameState->player, timeDelta);
+  enemyUpdate(&gameState->enemies, timeDelta);
+}
+
+void gameDraw(game_state_t *gameState) {
   glPushMatrix();
   glTranslatef(GAME_OFFSET.x, GAME_OFFSET.y, 0);
-  playerDraw();
-  enemyDraw();
+  playerDraw(&gameState->player);
+  enemyDraw(&gameState->enemies);
   glPopMatrix();
 
   // 枠を描画
@@ -27,11 +37,4 @@ void gameDraw() {
   glVertex2f(0.0F, 0.0F);
   glVertex2f(GAME_OFFSET.x, GAME_OFFSET.y);
   glEnd();
-}
-
-void gameInit() { enemyInit(); }
-
-void gameUpdate(int timeDelta) {
-  playerUpdate(timeDelta);
-  enemyUpdate(timeDelta);
 }

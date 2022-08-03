@@ -28,14 +28,12 @@ typedef struct {
   size_t len;
 } enemies_t;
 
+void enemyInit(enemies_t *enemies);
+void enemyUpdate(enemies_t *enemies, int timeDelta);
+void enemyDraw(enemies_t *enemies);
+
 void enemiesInit(enemies_t *enemies);
 void enemiesDrop(enemies_t *enemies);
 void enemiesGC(enemies_t *enemies);
 void enemiesPop(enemies_t *enemies, enemy_node_t *node);
 void enemiesPushBack(enemies_t *enemies, enemy_t newEnemy);
-
-void enemyInit();
-
-void enemyUpdate(int timeDelta);
-
-void enemyDraw();

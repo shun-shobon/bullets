@@ -8,6 +8,8 @@ typedef struct {
   vec2_t vector;
 } player_t;
 
-void playerUpdate(int timeDelta);
+void playerInit(player_t *player);
 
-void playerDraw();
+void playerUpdate(player_t *player, int timeDelta);
+
+void playerDraw(player_t *player);

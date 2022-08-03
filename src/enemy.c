@@ -4,9 +4,6 @@
 #include "consts.h"
 #include "opengl.h"
 
-int timeStart;
-enemies_t globalEnemies;
-
 void enemyMoveLiner(enemy_t *self, int timeDelta) {
   self->age += timeDelta;
 
@@ -30,20 +27,13 @@ void enemyDrawSquare(enemy_t *self) {
   glEnd();
 }
 
-void enemyInit() {
-  timeStart = glutGet(GLUT_ELAPSED_TIME);
-  enemiesInit(&globalEnemies);
-}
+void enemyInit(enemies_t *enemies) { enemiesInit(enemies); }
 
-void enemyUpdate(int timeDelta) {
-  enemies_t *enemies = &globalEnemies;
-
-  timeStart += timeDelta;
-
+void enemyUpdate(enemies_t *enemies, int timeDelta) {
   for (enemy_node_t *node = enemies->head; node; node = node->next) {
     node->item.move(&node->item, timeDelta);
   }
-  // TODO(shun_shobon): 削除処理
+
   enemiesGC(enemies);
 
   // 以下は仮置
@@ -61,9 +51,7 @@ void enemyUpdate(int timeDelta) {
   }
 }
 
-void enemyDraw() {
-  enemies_t *enemies = &globalEnemies;
-
+void enemyDraw(enemies_t *enemies) {
   for (enemy_node_t *node = enemies->head; node; node = node->next) {
     node->item.draw(&node->item);
   }

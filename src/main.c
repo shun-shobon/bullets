@@ -7,11 +7,13 @@
 #include "opengl.h"
 #include "util.h"
 
+game_state_t gameState;
+
 void idle() {
   deltaTimeUpdate();
 
   // TODO(shun_shobon): 仮置
-  gameUpdate(globalTimeDelta);
+  gameUpdate(&gameState, globalTimeDelta);
 
   glutPostRedisplay();
 }
@@ -27,7 +29,7 @@ void display() {
   glVertex2f(0.0F, WINDOW_SIZE.y);
   glEnd();
 
-  gameDraw();
+  gameDraw(&gameState);
 
   fpsDraw();
 
@@ -69,7 +71,7 @@ void init() {
   }
 
   // TODO(shun_shobon): 仮置
-  gameInit();
+  gameInit(&gameState);
 }
 
 int main(int argc, char *argv[]) {
