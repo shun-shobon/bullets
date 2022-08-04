@@ -28,7 +28,7 @@ void playerUpdate(player_t *player, int timeDelta) {
   if (GAME_SIZE.y < player->position.y) player->position.y = GAME_SIZE.y;
 }
 
-void playerDraw(player_t *player) {
+void playerDraw(const player_t *player) {
   float size = 10.0F;
 
   glColor3ub(0x00, 0xff, 0x00);

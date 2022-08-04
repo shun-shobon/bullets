@@ -1,7 +1,7 @@
 // 作成者: j19426 西澤駿太郎
 #pragma once
 
-#include "primitive.h"
+#include "vector.h"
 
 typedef struct {
   vec2_t position;
@@ -10,4 +10,4 @@ typedef struct {
 
 void playerInit(player_t *player);
 void playerUpdate(player_t *player, int timeDelta);
-void playerDraw(player_t *player);
+void playerDraw(const player_t *player);

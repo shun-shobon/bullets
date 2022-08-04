@@ -1,4 +1,4 @@
-#include "primitive.h"
+#include "vector.h"
 
 #include <math.h>
 #include <stdbool.h>

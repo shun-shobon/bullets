@@ -1,7 +1,7 @@
 // 作成者: j19426 西澤駿太郎
 #pragma once
 
-#include "primitive.h"
+#include "vector.h"
 
 // 画面サイズ
 extern const vec2_t WINDOW_SIZE;

@@ -1,11 +1,30 @@
 // 作成者: j19426 西澤駿太郎
 #include "event.h"
 
+#include <stdbool.h>
+
 #include "opengl.h"
 
 bool keyState[KEY_LENGTH];
 
-// NOLINTNEXTLINE
+void handleKeyDown(unsigned char rawKeyCode, __attribute__((unused)) int x,
+                   __attribute__((unused)) int y) {
+  switch (rawKeyCode) {
+    case 'z':
+      keyState[KEY_Z] = true;
+      break;
+  }
+}
+
+void handleKeyUp(unsigned char rawKeyCode, __attribute__((unused)) int x,
+                 __attribute__((unused)) int y) {
+  switch (rawKeyCode) {
+    case 'z':
+      keyState[KEY_Z] = false;
+      break;
+  }
+}
+
 void handleSpecialKeyDown(int rawKey, __attribute__((unused)) int x,
                           __attribute__((unused)) int y) {
   switch (rawKey) {
@@ -21,12 +40,9 @@ void handleSpecialKeyDown(int rawKey, __attribute__((unused)) int x,
     case GLUT_KEY_RIGHT:
       keyState[KEY_RIGHT] = true;
       break;
-    default:
-      return;
   }
 }
 
-// NOLINTNEXTLINE
 void handleSpecialKeyUp(int rawKey, __attribute__((unused)) int x,
                         __attribute__((unused)) int y) {
   switch (rawKey) {

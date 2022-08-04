@@ -15,6 +15,14 @@ void enemiesInit(enemies_t *enemies) {
   enemies->len = 0;
 }
 
+void enemiesDrop(enemies_t *enemies) {
+  enemy_node_t *head = enemies->head;
+  while (head) {
+    enemiesPop(enemies, head);
+    head = enemies->head;
+  }
+}
+
 void enemiesUpdate(enemies_t *enemies, int timeDelta) {
   for (enemy_node_t *node = enemies->head; node; node = node->next) {
     node->item.move(&node->item, timeDelta);
@@ -37,17 +45,9 @@ void enemiesUpdate(enemies_t *enemies, int timeDelta) {
   }
 }
 
-void enemiesDraw(enemies_t *enemies) {
+void enemiesDraw(const enemies_t *enemies) {
   for (enemy_node_t *node = enemies->head; node; node = node->next) {
     node->item.draw(&node->item);
-  }
-}
-
-void enemiesDrop(enemies_t *enemies) {
-  enemy_node_t *head = enemies->head;
-  while (head) {
-    enemiesPop(enemies, head);
-    head = enemies->head;
   }
 }
 

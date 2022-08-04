@@ -5,23 +5,27 @@
 #include "enemies.h"
 #include "opengl.h"
 #include "player.h"
+#include "shots.h"
 
 static void gameWindowDraw();
 
 void gameInit(game_state_t *gameState) {
   playerInit(&gameState->player);
+  shotsInit(&gameState->shots);
   enemiesInit(&gameState->enemies);
 }
 
 void gameUpdate(game_state_t *gameState, int timeDelta) {
   playerUpdate(&gameState->player, timeDelta);
+  shotsUpdate(&gameState->shots, timeDelta, &gameState->player);
   enemiesUpdate(&gameState->enemies, timeDelta);
 }
 
-void gameDraw(game_state_t *gameState) {
+void gameDraw(const game_state_t *gameState) {
   glPushMatrix();
   glTranslatef(GAME_OFFSET.x, GAME_OFFSET.y, 0);
   playerDraw(&gameState->player);
+  shotsDraw(&gameState->shots);
   enemiesDraw(&gameState->enemies);
   glPopMatrix();
 

@@ -85,6 +85,8 @@ int main(int argc, char *argv[]) {
   glutDisplayFunc(display);
   glutReshapeFunc(resize);
   glutIdleFunc(idle);
+  glutKeyboardFunc(handleKeyDown);
+  glutKeyboardUpFunc(handleKeyUp);
   glutSpecialFunc(handleSpecialKeyDown);
   glutSpecialUpFunc(handleSpecialKeyUp);
 

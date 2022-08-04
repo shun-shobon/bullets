@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#include "primitive.h"
+#include "vector.h"
 
 struct enemy {
   vec2_t position;
