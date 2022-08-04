@@ -6,11 +6,14 @@ typedef enum {
   KEY_DOWN,
   KEY_LEFT,
   KEY_RIGHT,
+  KEY_Q,
   KEY_Z,
   KEY_LENGTH,
 } key_t;
 
 extern bool keyState[KEY_LENGTH];
+
+void eventInit();
 
 void handleKeyDown(unsigned char rawKeyCode, int x, int y);
 void handleKeyUp(unsigned char rawKeyCode, int x, int y);

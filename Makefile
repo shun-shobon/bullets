@@ -1,7 +1,6 @@
 # 作成者: j19426 西澤駿太郎
 TARGET = shooting
 
-BINDIR = ./bin
 SRCDIR = ./src
 INCDIR = ./src
 OBJDIR = ./obj
@@ -57,7 +56,7 @@ debug: CCFLAGS += $(CC_DEBUG_FLAGS)
 debug: LDFLAGS += $(LD_DEBUG_FLAGS)
 debug: all
 
-all: $(BINDIR)/$(TARGET)
+all: $(TARGET)
 
 fmt: $(SRCS) $(INCS)
 	clang-format -i $(SRCS) $(INCS)
@@ -66,9 +65,9 @@ lint: $(SRCS) compile_commands.json
 	clang-tidy --fix $(SRCS)
 
 clean:
-	rm -rf $(BINDIR) $(OBJDIR) compile_commands.json
+	rm -rf $(TARGET) $(OBJDIR) compile_commands.json
 
-$(BINDIR)/$(TARGET): $(OBJS)
+$(TARGET): $(OBJS)
 	@[ -d $(BINDIR) ] || mkdir -p $(BINDIR)
 	$(LD) $(LDFLAGS) $(OBJS) -o $@ $(LIBS)
 

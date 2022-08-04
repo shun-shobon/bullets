@@ -1,5 +1,5 @@
 // 作成者: j19426 西澤駿太郎
-#include <stdbool.h>
+#include <stdlib.h>
 
 #include "consts.h"
 #include "event.h"
@@ -16,6 +16,10 @@ void idle() {
 
   // TODO(shun_shobon): 仮置
   gameUpdate(&gameState, timeDelta);
+
+  if (keyState[KEY_Q]) {
+    exit(0);
+  }
 
   glutPostRedisplay();
 }
@@ -68,9 +72,8 @@ void resize(int winWidth, int winHeight) {
 
 void init() {
   glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
-  for (int i = 0; i < KEY_LENGTH; i++) {
-    keyState[i] = false;
-  }
+
+  eventInit();
 
   // TODO(shun_shobon): 仮置
   gameInit(&gameState);
@@ -82,6 +85,7 @@ int main(int argc, char *argv[]) {
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
   glutCreateWindow(argv[0]);
 
+  // イベントハンドラの登録
   glutDisplayFunc(display);
   glutReshapeFunc(resize);
   glutIdleFunc(idle);

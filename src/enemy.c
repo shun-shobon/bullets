@@ -3,6 +3,7 @@
 
 #include "opengl.h"
 
+// 直線的な移動
 void enemyMoveLiner(enemy_t *self, int timeDelta) {
   self->age += timeDelta;
 
@@ -14,6 +15,7 @@ void enemyMoveLiner(enemy_t *self, int timeDelta) {
   }
 }
 
+// 正方形描画
 void enemyDrawSquare(enemy_t *self) {
   static const float SIZE = 10.0F;
 

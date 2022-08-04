@@ -14,6 +14,7 @@ typedef struct {
   bool didHit;
 } shot_t;
 
+// リングバッファ
 typedef struct {
   shot_t buff[SHOT_MAX];
   int head;
