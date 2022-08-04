@@ -13,4 +13,4 @@ struct bullet {
 };
 typedef struct bullet bullet_t;
 
-void bulletDrawDot(bullet_t *bullet);
+void bulletDrawDot(const bullet_t *bullet);

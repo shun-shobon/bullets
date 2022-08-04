@@ -16,5 +16,6 @@ typedef struct {
 } bullets_t;
 
 void bulletsInit(bullets_t *bullets);
-void bulletsUpdate(bullets_t *bullets, int timeDelta);
+void bulletsUpdate(bullets_t *bullets);
 void bulletsDraw(const bullets_t *bullets);
+void bulletsPushBack(bullets_t *bullets, bullet_t bullet);

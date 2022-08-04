@@ -13,12 +13,14 @@ void gameInit(game_state_t *gameState) {
   playerInit(&gameState->player);
   shotsInit(&gameState->shots);
   enemiesInit(&gameState->enemies);
+  bulletsInit(&gameState->bullets);
 }
 
 void gameUpdate(game_state_t *gameState) {
   playerUpdate(&gameState->player);
   shotsUpdate(&gameState->shots, &gameState->player);
-  enemiesUpdate(&gameState->enemies);
+  enemiesUpdate(&gameState->enemies, &gameState->bullets);
+  bulletsUpdate(&gameState->bullets);
 }
 
 void gameDraw(const game_state_t *gameState) {
@@ -27,6 +29,7 @@ void gameDraw(const game_state_t *gameState) {
   playerDraw(&gameState->player);
   shotsDraw(&gameState->shots);
   enemiesDraw(&gameState->enemies);
+  bulletsDraw(&gameState->bullets);
   glPopMatrix();
 
   gameWindowDraw();

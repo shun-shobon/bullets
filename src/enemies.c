@@ -1,6 +1,7 @@
 // 作成者: j19426 西澤駿太郎
 #include "enemies.h"
 
+#include "bullets.h"
 #include "consts.h"
 #include "enemy.h"
 #include "util.h"
@@ -23,10 +24,12 @@ void enemiesDrop(enemies_t *enemies) {
   }
 }
 
-void enemiesUpdate(enemies_t *enemies) {
+void enemiesUpdate(enemies_t *enemies, bullets_t *bullets) {
   for (enemy_node_t *node = enemies->head; node; node = node->next) {
-    node->item.age += 1;
-    node->item.move(&node->item);
+    enemy_t *enemy = &node->item;
+    enemy->age += 1;
+    enemy->move(&node->item);
+    enemy->bullet(&node->item, bullets);
   }
 
   enemiesGC(enemies);
@@ -39,6 +42,7 @@ void enemiesUpdate(enemies_t *enemies) {
     enemy_t newEnemy = {.position = {GAME_SIZE.x / 2, GAME_SIZE.y},
                         .age = 0,
                         .draw = enemyDrawSquare,
+                        .bullet = enemyBulletNormal,
                         .move = enemyMoveLiner};
     enemiesPushBack(enemies, newEnemy);
   }

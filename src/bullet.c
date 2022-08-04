@@ -3,8 +3,9 @@
 
 #include "opengl.h"
 
-void bulletDrawDot(bullet_t *bullet) {
+void bulletDrawDot(const bullet_t *bullet) {
   glPointSize(5.0F);
+  glColor3ub(0xff, 0x00, 0x00);
   glBegin(GL_POINTS);
   glVertex2f(bullet->position.x, bullet->position.y);
   glEnd();
