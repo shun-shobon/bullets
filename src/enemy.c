@@ -4,13 +4,12 @@
 #include "opengl.h"
 
 // 直線的な移動
-void enemyMoveLiner(enemy_t *self, int timeDelta) {
-  self->age += timeDelta;
+void enemyMoveLiner(enemy_t *self) {
+  static const float MOVEMENT = 1.0F;
+  self->position.y -= MOVEMENT;
 
-  static const float MOVEMENT = 0.05F;
-  self->position.y -= (float)timeDelta * MOVEMENT;
-
-  if (self->age > 5000) {
+  // TODO(shun_shobon): 勝手に死ぬ
+  if (self->age > 300) {
     self->shouldRemove = true;
   }
 }

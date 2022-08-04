@@ -9,3 +9,7 @@ extern const vec2_t WINDOW_SIZE;
 // ゲームサイズとオフセット
 extern const vec2_t GAME_SIZE;
 extern const vec2_t GAME_OFFSET;
+
+// プレイヤー関連
+extern const float PLAYER_MOVEMENT;
+extern const float SHOT_MOVEMENT;

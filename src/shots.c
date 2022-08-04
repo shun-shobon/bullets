@@ -1,6 +1,7 @@
 // 作成者: j19426 西澤駿太郎
 #include "shots.h"
 
+#include "consts.h"
 #include "event.h"
 #include "opengl.h"
 #include "player.h"
@@ -11,27 +12,24 @@ static void shotsPushBack(shots_t *shots, shot_t shot);
 void shotsInit(shots_t *shots) {
   shots->head = 0;
   shots->tail = 0;
+  shots->coolTime = 0;
 }
 
-void shotsUpdate(shots_t *shots, int timeDelta, const player_t *player) {
-  static const vec2_t SHOT_VECTOR = {0.0F, 0.2F};
-  static const int shotInterval = 100;
-
-  static int shotCoolTime = 0;
-  shotCoolTime += timeDelta;
-  if (keyState[KEY_Z] && shotInterval < shotCoolTime) {
+void shotsUpdate(shots_t *shots, const player_t *player) {
+  shots->coolTime += 1;
+  if (keyState[KEY_Z] && SHOT_INTERVAL < shots->coolTime) {
+    vec2_t vector = {0.0F, SHOT_MOVEMENT};
     shot_t shot = {
-        .position = player->position, .vector = SHOT_VECTOR, .didHit = false};
+        .position = player->position, .vector = vector, .didHit = false};
     shotsPushBack(shots, shot);
-    shotCoolTime = 0;
+    shots->coolTime = 0;
   }
 
   int limit = shots->head <= shots->tail ? shots->tail : shots->tail + SHOT_MAX;
   for (int i = shots->head; i < limit; i++) {
     int idx = i % SHOT_MAX;
     shot_t *shot = &shots->buff[idx];
-    vec2_t incremental = vec2MulScalar(&shot->vector, (float)timeDelta);
-    shot->position = vec2Add(&shot->position, &incremental);
+    shot->position = vec2Add(&shot->position, &shot->vector);
   }
 }
 

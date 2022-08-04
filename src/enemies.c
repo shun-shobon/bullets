@@ -23,20 +23,19 @@ void enemiesDrop(enemies_t *enemies) {
   }
 }
 
-void enemiesUpdate(enemies_t *enemies, int timeDelta) {
+void enemiesUpdate(enemies_t *enemies) {
   for (enemy_node_t *node = enemies->head; node; node = node->next) {
-    node->item.move(&node->item, timeDelta);
+    node->item.age += 1;
+    node->item.move(&node->item);
   }
 
   enemiesGC(enemies);
 
-  // TODO(shun_shobon): 以下は仮置
-  // 3秒おきに敵を生成
-  static int timeEnemySpawn = 0;
-  timeEnemySpawn += timeDelta;
-
-  if (3000 < timeEnemySpawn) {
-    timeEnemySpawn = timeEnemySpawn - 3000;
+  // TODO(shun_shobon): 自動的に敵が出てくるようにする
+  static int enemySpawnCoolTime = 0;
+  enemySpawnCoolTime += 1;
+  if (100 < enemySpawnCoolTime) {
+    enemySpawnCoolTime = 0;
     enemy_t newEnemy = {.position = {GAME_SIZE.x / 2, GAME_SIZE.y},
                         .age = 0,
                         .draw = enemyDrawSquare,

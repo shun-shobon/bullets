@@ -7,24 +7,27 @@
 #include "opengl.h"
 #include "util.h"
 
+#define UPDATE_INTERVAL 30
+
 game_state_t gameState;
-int timeDelta = 0;
-int fps = 0;
+fps_t fps;
 
-void idle() {
-  deltaTimeUpdate(&timeDelta, &fps);
+void idle() { glutPostRedisplay(); }
 
+void update(__attribute__((unused)) int value) {
   // TODO(shun_shobon): 仮置
-  gameUpdate(&gameState, timeDelta);
+  gameUpdate(&gameState);
 
   if (keyState[KEY_Q]) {
     exit(0);
   }
 
-  glutPostRedisplay();
+  glutTimerFunc(UPDATE_INTERVAL, update, 0);
 }
 
 void display() {
+  fpsUpdate(&fps);
+
   glClear(GL_COLOR_BUFFER_BIT);
 
   glColor3ub(0x00, 0x00, 0x30);
@@ -37,7 +40,7 @@ void display() {
 
   gameDraw(&gameState);
 
-  fpsDraw(fps);
+  fpsDraw(&fps);
 
   glutSwapBuffers();
 }
@@ -73,6 +76,7 @@ void resize(int winWidth, int winHeight) {
 void init() {
   glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
 
+  fpsInit(&fps);
   eventInit();
 
   // TODO(shun_shobon): 仮置
@@ -89,6 +93,7 @@ int main(int argc, char *argv[]) {
   glutDisplayFunc(display);
   glutReshapeFunc(resize);
   glutIdleFunc(idle);
+  glutTimerFunc(UPDATE_INTERVAL, update, 0);
   glutKeyboardFunc(handleKeyDown);
   glutKeyboardUpFunc(handleKeyUp);
   glutSpecialFunc(handleSpecialKeyDown);

@@ -7,6 +7,7 @@
 #include "vector.h"
 
 #define SHOT_MAX 30
+#define SHOT_INTERVAL 1
 
 typedef struct {
   vec2_t position;
@@ -14,13 +15,13 @@ typedef struct {
   bool didHit;
 } shot_t;
 
-// リングバッファ
 typedef struct {
   shot_t buff[SHOT_MAX];
   int head;
   int tail;
+  int coolTime;
 } shots_t;
 
 void shotsInit(shots_t *shots);
-void shotsUpdate(shots_t *shots, int timeDelta, const player_t *player);
+void shotsUpdate(shots_t *shots, const player_t *player);
 void shotsDraw(const shots_t *shots);

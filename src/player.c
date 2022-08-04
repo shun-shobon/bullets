@@ -15,11 +15,10 @@ void playerInit(player_t *player) {
   player->vector.x = 0.0F;
   player->vector.y = 0.0F;
 }
-void playerUpdate(player_t *player, int timeDelta) {
+void playerUpdate(player_t *player) {
   playerSetVector(player);
 
-  vec2_t moveAmount = vec2MulScalar(&player->vector, (float)timeDelta);
-  player->position = vec2Add(&player->position, &moveAmount);
+  player->position = vec2Add(&player->position, &player->vector);
 
   // 画面外に行かないようにする
   if (player->position.x < 0) player->position.x = 0;
@@ -41,8 +40,6 @@ void playerDraw(const player_t *player) {
 }
 
 static void playerSetVector(player_t *player) {
-  static const float MOVEMENT = 0.15F;
-
   int vertical = 0;
   if ((keyState[KEY_UP] && keyState[KEY_DOWN]) ||
       (!keyState[KEY_UP] && !keyState[KEY_DOWN])) {
@@ -66,24 +63,24 @@ static void playerSetVector(player_t *player) {
   float amount = vertical && horizontal ? sqrtf(3.0F) / 2.0F : 1;
   switch (vertical) {
     case 1:
-      player->vector.y = MOVEMENT * amount;
+      player->vector.y = PLAYER_MOVEMENT * amount;
       break;
     case 0:
       player->vector.y = 0;
       break;
     case -1:
-      player->vector.y = -MOVEMENT * amount;
+      player->vector.y = -PLAYER_MOVEMENT * amount;
       break;
   }
   switch (horizontal) {
     case 1:
-      player->vector.x = MOVEMENT * amount;
+      player->vector.x = PLAYER_MOVEMENT * amount;
       break;
     case 0:
       player->vector.x = 0;
       break;
     case -1:
-      player->vector.x = -MOVEMENT * amount;
+      player->vector.x = -PLAYER_MOVEMENT * amount;
       break;
   }
 }

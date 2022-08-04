@@ -13,5 +13,5 @@ typedef struct {
 } game_state_t;
 
 void gameInit(game_state_t *gameState);
-void gameUpdate(game_state_t *gameState, int timeDelta);
+void gameUpdate(game_state_t *gameState);
 void gameDraw(const game_state_t *gameState);

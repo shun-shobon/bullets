@@ -15,10 +15,10 @@ void gameInit(game_state_t *gameState) {
   enemiesInit(&gameState->enemies);
 }
 
-void gameUpdate(game_state_t *gameState, int timeDelta) {
-  playerUpdate(&gameState->player, timeDelta);
-  shotsUpdate(&gameState->shots, timeDelta, &gameState->player);
-  enemiesUpdate(&gameState->enemies, timeDelta);
+void gameUpdate(game_state_t *gameState) {
+  playerUpdate(&gameState->player);
+  shotsUpdate(&gameState->shots, &gameState->player);
+  enemiesUpdate(&gameState->enemies);
 }
 
 void gameDraw(const game_state_t *gameState) {

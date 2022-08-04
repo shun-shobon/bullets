@@ -10,10 +10,10 @@ struct enemy {
   vec2_t position;
   int age;
   void (*draw)(struct enemy *self);
-  void (*move)(struct enemy *self, int timeDelta);
+  void (*move)(struct enemy *self);
   bool shouldRemove;
 };
 typedef struct enemy enemy_t;
 
-void enemyMoveLiner(enemy_t *self, int timeDelta);
+void enemyMoveLiner(enemy_t *self);
 void enemyDrawSquare(enemy_t *self);
