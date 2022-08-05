@@ -6,6 +6,7 @@ typedef enum {
   KEY_DOWN,
   KEY_LEFT,
   KEY_RIGHT,
+  KEY_SHIFT,
   KEY_Q,
   KEY_Z,
   KEY_LENGTH,

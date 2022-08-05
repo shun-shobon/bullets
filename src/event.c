@@ -9,6 +9,7 @@ bool keyState[KEY_LENGTH];
 
 static void handleKey(unsigned char rawKeyCode, bool isDown);
 static void handleSpecialKey(int rawKey, bool isDown);
+static void handleModifierKey();
 
 void eventInit() {
   for (int i = 0; i < KEY_LENGTH; i++) {
@@ -39,12 +40,16 @@ void handleSpecialKeyUp(int rawKey, __attribute__((unused)) int x,
 static void handleKey(unsigned char rawKeyCode, bool isDown) {
   switch (rawKeyCode) {
     case 'z':
+    case 'Z':
       keyState[KEY_Z] = isDown;
       break;
     case 'q':
+    case 'Q':
       keyState[KEY_Q] = isDown;
       break;
   }
+
+  handleModifierKey();
 }
 
 void handleSpecialKey(int rawKey, bool isDown) {
@@ -62,4 +67,11 @@ void handleSpecialKey(int rawKey, bool isDown) {
       keyState[KEY_RIGHT] = isDown;
       break;
   }
+
+  handleModifierKey();
+}
+
+static void handleModifierKey() {
+  int modifiers = glutGetModifiers();
+  keyState[KEY_SHIFT] = (bool)(modifiers & GLUT_ACTIVE_SHIFT);
 }

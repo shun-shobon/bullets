@@ -81,27 +81,29 @@ static void playerSetVector(player_t *player) {
     horizontal = -1;
   }
 
+  float movement =
+      keyState[KEY_SHIFT] ? PLAYER_MOVEMENT_SLOW : PLAYER_MOVEMENT_NORMAL;
   float amount = vertical && horizontal ? sqrtf(3.0F) / 2.0F : 1;
   switch (vertical) {
     case 1:
-      player->vector.y = PLAYER_MOVEMENT * amount;
+      player->vector.y = movement * amount;
       break;
     case 0:
       player->vector.y = 0;
       break;
     case -1:
-      player->vector.y = -PLAYER_MOVEMENT * amount;
+      player->vector.y = -movement * amount;
       break;
   }
   switch (horizontal) {
     case 1:
-      player->vector.x = PLAYER_MOVEMENT * amount;
+      player->vector.x = movement * amount;
       break;
     case 0:
       player->vector.x = 0;
       break;
     case -1:
-      player->vector.x = -PLAYER_MOVEMENT * amount;
+      player->vector.x = -movement * amount;
       break;
   }
 }
