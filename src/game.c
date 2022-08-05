@@ -19,7 +19,7 @@ void gameInit(game_state_t *gameState) {
 void gameUpdate(game_state_t *gameState) {
   playerUpdate(&gameState->player, &gameState->bullets);
   shotsUpdate(&gameState->shots, &gameState->player);
-  enemiesUpdate(&gameState->enemies, &gameState->bullets);
+  enemiesUpdate(&gameState->enemies, &gameState->bullets, &gameState->shots);
   bulletsUpdate(&gameState->bullets);
 }
 

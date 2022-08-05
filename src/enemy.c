@@ -4,11 +4,13 @@
 #include "bullet.h"
 #include "bullets.h"
 #include "opengl.h"
+#include "primitive.h"
 
 // 直線的な移動
 void enemyMoveLiner(enemy_t *self) {
   static const float MOVEMENT = 1.0F;
   self->position.y -= MOVEMENT;
+  self->vector.y = -MOVEMENT;
 
   // TODO(shun_shobon): 勝手に死ぬ
   if (self->age > 300) {
@@ -31,13 +33,6 @@ void enemyBulletNormal(enemy_t *self, bullets_t *bullets) {
 
 // 正方形描画
 void enemyDrawSquare(enemy_t *self) {
-  static const float SIZE = 10.0F;
-
   glColor3ub(0xff, 0xff, 0xff);
-  glBegin(GL_QUADS);
-  glVertex2f(self->position.x - SIZE, self->position.y - SIZE);
-  glVertex2f(self->position.x + SIZE, self->position.y - SIZE);
-  glVertex2f(self->position.x + SIZE, self->position.y + SIZE);
-  glVertex2f(self->position.x - SIZE, self->position.y + SIZE);
-  glEnd();
+  drawSquare(&self->position, self->size);
 }

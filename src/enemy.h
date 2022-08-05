@@ -8,6 +8,8 @@
 
 struct enemy {
   vec2_t position;
+  vec2_t vector;
+  float size;
   int age;
   void (*move)(struct enemy *self);
   void (*bullet)(struct enemy *self, bullets_t *bullets);

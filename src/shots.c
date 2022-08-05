@@ -5,9 +5,11 @@
 #include "event.h"
 #include "opengl.h"
 #include "player.h"
+#include "primitive.h"
 #include "vector.h"
 
 static void shotsPushBack(shots_t *shots, shot_t shot);
+static void shotDraw(const shot_t *shot);
 
 void shotsInit(shots_t *shots) {
   shots->head = 0;
@@ -34,19 +36,15 @@ void shotsUpdate(shots_t *shots, const player_t *player) {
 }
 
 void shotsDraw(const shots_t *shots) {
-  glPointSize(5.0F);
-  glColor3ub(0x55, 0xaa, 0x55);
-  glBegin(GL_POINTS);
-
   int limit = shots->head <= shots->tail ? shots->tail : shots->tail + SHOT_MAX;
   for (int i = shots->head; i < limit; i++) {
     int idx = i % SHOT_MAX;
     const shot_t *shot = &shots->buff[idx];
 
-    glVertex2f(shot->position.x, shot->position.y);
-  }
+    if (shot->didHit) continue;
 
-  glEnd();
+    shotDraw(shot);
+  }
 }
 
 static void shotsPushBack(shots_t *shots, shot_t shot) {
@@ -63,4 +61,9 @@ static void shotsPushBack(shots_t *shots, shot_t shot) {
       shots->head = 0;
     }
   }
+}
+
+static void shotDraw(const shot_t *shot) {
+  glColor3ub(0x55, 0xaa, 0x55);
+  drawSquare(&shot->position, SHOT_SIZE);
 }

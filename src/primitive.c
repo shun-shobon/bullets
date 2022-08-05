@@ -21,3 +21,12 @@ void drawCircle(const vec2_t *center, float radius, bool fill) {
   }
   glEnd();
 }
+
+void drawSquare(const vec2_t *center, float size) {
+  glBegin(GL_QUADS);
+  glVertex2f(center->x - size / 2, center->y - size / 2);
+  glVertex2f(center->x + size / 2, center->y - size / 2);
+  glVertex2f(center->x + size / 2, center->y + size / 2);
+  glVertex2f(center->x - size / 2, center->y + size / 2);
+  glEnd();
+}

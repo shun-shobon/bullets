@@ -3,6 +3,7 @@
 
 #include "bullets.h"
 #include "enemy.h"
+#include "shots.h"
 
 struct enemy_node {
   enemy_t item;
@@ -20,5 +21,5 @@ typedef struct {
 
 void enemiesInit(enemies_t *enemies);
 void enemiesDrop(enemies_t *enemies);
-void enemiesUpdate(enemies_t *enemies, bullets_t *bullets);
+void enemiesUpdate(enemies_t *enemies, bullets_t *bullets, shots_t *shots);
 void enemiesDraw(const enemies_t *enemies);

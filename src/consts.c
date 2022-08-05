@@ -9,3 +9,4 @@ const vec2_t GAME_OFFSET = {20, 20};
 const float PLAYER_MOVEMENT = 3.0F;
 const float PLAYER_SIZE = 3.0F;
 const float SHOT_MOVEMENT = 10.0F;
+const float SHOT_SIZE = 5.0F;

@@ -13,4 +13,6 @@ extern const vec2_t GAME_OFFSET;
 // プレイヤー関連
 extern const float PLAYER_MOVEMENT;
 extern const float PLAYER_SIZE;
+// 自弾
 extern const float SHOT_MOVEMENT;
+extern const float SHOT_SIZE;

@@ -6,3 +6,4 @@
 #include "vector.h"
 
 void drawCircle(const vec2_t *center, float radius, bool fill);
+void drawSquare(const vec2_t *center, float size);
