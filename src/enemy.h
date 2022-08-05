@@ -11,6 +11,8 @@ struct enemy {
   vec2_t velocity;
   float size;
   int age;
+  int hp;
+  int maxHp;
   void (*move)(struct enemy *self);
   void (*bullet)(struct enemy *self, bullets_t *bullets);
   void (*draw)(struct enemy *self);
@@ -18,7 +20,7 @@ struct enemy {
 };
 typedef struct enemy enemy_t;
 
-static inline enemy_t enemyNew(vec2_t position, float size,
+static inline enemy_t enemyNew(vec2_t position, float size, int hp,
                                void (*move)(enemy_t *self),
                                void (*bullet)(enemy_t *self,
                                               bullets_t *bullets),
@@ -27,6 +29,8 @@ static inline enemy_t enemyNew(vec2_t position, float size,
                    .velocity = {0.0F, 0.0F},
                    .size = size,
                    .age = 0,
+                   .hp = hp,
+                   .maxHp = hp,
                    .move = move,
                    .bullet = bullet,
                    .draw = draw,

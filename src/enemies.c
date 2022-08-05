@@ -37,9 +37,16 @@ void enemiesUpdate(enemies_t *enemies, bullets_t *bullets, shots_t *shots) {
     for (int i = shots->head; i < limit; i++) {
       int idx = i % SHOT_MAX;
       shot_t *shot = &shots->buff[idx];
+      if (shot->wasHit) continue;
 
       if (isEnemyShotCollision(enemy, shot)) {
         shot->wasHit = true;
+
+        enemy->hp -= 1;
+        if (enemy->hp == 0) {
+          enemy->shouldRemove = true;
+          break;
+        }
       }
     }
   }
@@ -52,8 +59,8 @@ void enemiesUpdate(enemies_t *enemies, bullets_t *bullets, shots_t *shots) {
   if (100 < enemySpawnCoolTime) {
     enemySpawnCoolTime = 0;
     enemy_t newEnemy =
-        enemyNew((vec2_t){GAME_SIZE.x / 2, GAME_SIZE.y}, 20.F, enemyMoveLiner,
-                 enemyBulletNormal, enemyDrawSquare);
+        enemyNew((vec2_t){GAME_SIZE.x / 2, GAME_SIZE.y}, 20.F, 10,
+                 enemyMoveLiner, enemyBulletNormal, enemyDrawSquare);
     enemiesPushBack(enemies, newEnemy);
   }
 }
