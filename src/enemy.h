@@ -9,6 +9,7 @@
 struct enemy {
   vec2_t spawnPosition;
   vec2_t position;
+  float yVelocity;
   vec2_t velocity;
   float size;
   int age;
@@ -24,12 +25,13 @@ typedef void (*enemy_move_func_t)(enemy_t *self);
 typedef void (*enemy_bullet_func_t)(enemy_t *self, bullets_t *bullets);
 typedef void (*enemy_draw_func_t)(enemy_t *self);
 
-static inline enemy_t enemyNew(vec2_t position, float size, int hp,
-                               enemy_move_func_t move,
+static inline enemy_t enemyNew(vec2_t position, float yVelocity, float size,
+                               int hp, enemy_move_func_t move,
                                enemy_bullet_func_t bullet,
                                enemy_draw_func_t draw) {
   return (enemy_t){.spawnPosition = position,
                    .position = position,
+                   .yVelocity = yVelocity,
                    .velocity = {0.0F, 0.0F},
                    .size = size,
                    .age = 0,

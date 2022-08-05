@@ -36,19 +36,17 @@ enemy_draw_func_t getRandomEnemyDrawFunc() {
 
 // 直線的な移動
 static void enemyMoveLiner(enemy_t *self) {
-  static const float MOVEMENT = 1.0F;
-  self->position.y -= MOVEMENT;
-  self->velocity.y = -MOVEMENT;
+  self->position.y -= self->yVelocity;
+  self->velocity.y = -self->yVelocity;
 }
 
 // 波打った移動
 static void enemyMoveWave(enemy_t *self) {
-  static const float MOVEMENT_Y = 1.0F;
   static const float CYCLE = 50.0F;
   static const float MOVEMENT_X_MAX = 40.0F;
 
-  self->position.y -= MOVEMENT_Y;
-  self->velocity.y = -MOVEMENT_Y;
+  self->position.y -= self->yVelocity;
+  self->velocity.y = -self->yVelocity;
 
   float theta = self->position.y * (float)M_PI / CYCLE;
   float x = self->spawnPosition.x + MOVEMENT_X_MAX * sinf(theta);
