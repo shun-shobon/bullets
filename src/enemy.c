@@ -11,17 +11,19 @@
 
 static void enemyMoveLiner(enemy_t *self);
 static void enemyMoveWave(enemy_t *self);
-static void enemyBulletNormal(enemy_t *self, bullets_t *bullets);
+static void enemyBulletStraight(enemy_t *self, bullets_t *bullets);
+static void enemyBulletFan(enemy_t *self, bullets_t *bullets);
 static void enemyDrawSquare(enemy_t *self);
 
 void enemyUpdate(enemy_t *enemy, bullets_t *bullets) {
-  enemy->age += 1;
   enemy->move(enemy);
   enemy->bullet(enemy, bullets);
+  enemy->age += 1;
 }
 
 const enemy_move_func_t enemyMoveFuncs[] = {enemyMoveLiner, enemyMoveWave};
-const enemy_bullet_func_t enemyBulletFuncs[] = {enemyBulletNormal};
+const enemy_bullet_func_t enemyBulletFuncs[] = {enemyBulletStraight,
+                                                enemyBulletFan};
 const enemy_draw_func_t enemyDrawFuncs[] = {enemyDrawSquare};
 
 enemy_move_func_t getRandomEnemyMoveFunc() {
@@ -54,13 +56,35 @@ static void enemyMoveWave(enemy_t *self) {
   self->position.x = x;
 }
 
-// ノーマル弾発射
-static void enemyBulletNormal(enemy_t *self, bullets_t *bullets) {
-  if (self->age % 20 == 0) {
-    bullet_t bullet = bulletNew(self->position, (vec2_t){0.0F, -3.0F}, 5.0F,
-                                bulletDrawCircle);
-    bulletsPushBack(bullets, bullet);
-  }
+// 直線弾発射
+static void enemyBulletStraight(enemy_t *self, bullets_t *bullets) {
+  if (self->age % 20 == 0) return;
+
+  bullet_t bullet =
+      bulletNew(self->position, (vec2_t){0.0F, -3.0F}, 5.0F, bulletDrawSquare);
+  bulletsPushBack(bullets, bullet);
+}
+
+// 扇弾発射
+static void enemyBulletFan(enemy_t *self, bullets_t *bullets) {
+  static const float VELOCITY = 3.0F;
+  static const float ANGLE = 30.0F * 2.0F * (float)M_PI / 360.0F;
+
+  if (self->age % 60 != 0) return;
+
+  bullet_t bulletCenter =
+      bulletNew(self->position, (vec2_t){0.0F, -3.0F}, 5.0F, bulletDrawSquare);
+  bullet_t bulletRight = bulletNew(
+      self->position, (vec2_t){VELOCITY * sinf(ANGLE), -VELOCITY * cosf(ANGLE)},
+      5.0F, bulletDrawSquare);
+  bullet_t bulletLeft =
+      bulletNew(self->position,
+                (vec2_t){VELOCITY * sinf(-ANGLE), -VELOCITY * cosf(-ANGLE)},
+                5.0F, bulletDrawSquare);
+
+  bulletsPushBack(bullets, bulletCenter);
+  bulletsPushBack(bullets, bulletRight);
+  bulletsPushBack(bullets, bulletLeft);
 }
 
 // 正方形描画
