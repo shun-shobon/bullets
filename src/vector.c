@@ -2,7 +2,6 @@
 
 #include <math.h>
 #include <stdbool.h>
-#include <stdio.h>
 
 #include "util.h"
 
@@ -81,7 +80,6 @@ float distanceSegmentSegment(const vec2_t *p1, const vec2_t *v1,
   }
   // 線分が交差
   if (isCrossSegmentSegment(p1, v1, p2, v2)) {
-    puts("交差");
     return 0.0F;
   }
 

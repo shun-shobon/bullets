@@ -7,6 +7,7 @@
 #include "vector.h"
 
 struct enemy {
+  vec2_t spawnPosition;
   vec2_t position;
   vec2_t velocity;
   float size;
@@ -27,7 +28,8 @@ static inline enemy_t enemyNew(vec2_t position, float size, int hp,
                                enemy_move_func_t move,
                                enemy_bullet_func_t bullet,
                                enemy_draw_func_t draw) {
-  return (enemy_t){.position = position,
+  return (enemy_t){.spawnPosition = position,
+                   .position = position,
                    .velocity = {0.0F, 0.0F},
                    .size = size,
                    .age = 0,
@@ -41,7 +43,7 @@ static inline enemy_t enemyNew(vec2_t position, float size, int hp,
 
 void enemyUpdate(enemy_t *enemy, bullets_t *bullets);
 
-#define ENEMY_MOVE_FUNCS 1
+#define ENEMY_MOVE_FUNCS 2
 #define ENEMY_BULLET_FUNCS 1
 #define ENEMY_DRAW_FUNCS 1
 
@@ -52,8 +54,3 @@ extern const enemy_draw_func_t enemyDrawFuncs[];
 enemy_move_func_t getRandomEnemyMoveFunc();
 enemy_bullet_func_t getRandomEnemyBulletFunc();
 enemy_draw_func_t getRandomEnemyDrawFunc();
-
-// TODO(shun_shobon): staticにして消す
-void enemyMoveLiner(enemy_t *self);
-void enemyBulletNormal(enemy_t *self, bullets_t *bullets);
-void enemyDrawSquare(enemy_t *self);
