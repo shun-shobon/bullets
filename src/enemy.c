@@ -21,8 +21,10 @@ void enemyBulletNormal(enemy_t *self, bullets_t *bullets) {
   if (self->age % 10 == 0) {
     bullet_t bullet = {.position = self->position,
                        .vector = {0.0F, -5.0F},
+                       .size = 5.0F,
                        .age = 0,
-                       .draw = bulletDrawDot};
+                       .wasHit = false,
+                       .draw = bulletDrawSquare};
     bulletsPushBack(bullets, bullet);
   }
 }

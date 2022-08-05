@@ -18,3 +18,5 @@ void fpsUpdate(fps_t *fps);
 void fpsDraw(const fps_t *fps);
 
 void *malloc_safe(size_t size);
+
+float absf(float x);

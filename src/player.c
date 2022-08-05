@@ -2,12 +2,18 @@
 #include "player.h"
 
 #include <math.h>
+#include <stdio.h>
 
+#include "bullets.h"
 #include "consts.h"
 #include "event.h"
 #include "opengl.h"
+#include "primitive.h"
+#include "vector.h"
 
 static void playerSetVector(player_t *player);
+static bool isPlayerBulletCollision(const player_t *player,
+                                    const bullet_t *bullet);
 
 void playerInit(player_t *player) {
   player->position.x = GAME_SIZE.x / 2;
@@ -15,7 +21,8 @@ void playerInit(player_t *player) {
   player->vector.x = 0.0F;
   player->vector.y = 0.0F;
 }
-void playerUpdate(player_t *player) {
+
+void playerUpdate(player_t *player, bullets_t *bullets) {
   playerSetVector(player);
 
   player->position = vec2Add(&player->position, &player->vector);
@@ -25,6 +32,17 @@ void playerUpdate(player_t *player) {
   if (player->position.y < 0) player->position.y = 0;
   if (GAME_SIZE.x < player->position.x) player->position.x = GAME_SIZE.x;
   if (GAME_SIZE.y < player->position.y) player->position.y = GAME_SIZE.y;
+
+  // 敵弾との当たり判定
+  int limit = bullets->head <= bullets->tail ? bullets->tail
+                                             : bullets->tail + BULLETS_MAX;
+  for (int i = bullets->head; i < limit; i++) {
+    int idx = i % BULLETS_MAX;
+    bullet_t *bullet = &bullets->buff[idx];
+    if (isPlayerBulletCollision(player, bullet)) {
+      bullet->wasHit = true;
+    }
+  }
 }
 
 void playerDraw(const player_t *player) {
@@ -37,6 +55,9 @@ void playerDraw(const player_t *player) {
   glVertex2f(player->position.x + size, player->position.y + size);
   glVertex2f(player->position.x - size, player->position.y + size);
   glEnd();
+
+  glColor3ub(0xff, 0x00, 0x00);
+  drawCircle(&player->position, PLAYER_SIZE / 2, true);
 }
 
 static void playerSetVector(player_t *player) {
@@ -83,4 +104,11 @@ static void playerSetVector(player_t *player) {
       player->vector.x = -PLAYER_MOVEMENT * amount;
       break;
   }
+}
+
+static bool isPlayerBulletCollision(const player_t *player,
+                                    const bullet_t *bullet) {
+  float distance = distanceSegmentSegment(&player->position, &player->vector,
+                                          &bullet->position, &bullet->vector);
+  return distance < PLAYER_SIZE / 2 + bullet->size / 2;
 }

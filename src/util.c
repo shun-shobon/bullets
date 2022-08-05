@@ -73,3 +73,5 @@ void *malloc_safe(size_t size) {
 
   return ptr;
 }
+
+float absf(float x) { return x < 0.0F ? -x : x; }

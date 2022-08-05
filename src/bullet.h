@@ -8,9 +8,12 @@
 struct bullet {
   vec2_t position;
   vec2_t vector;
+  float size;
   int age;
+  bool wasHit;
   void (*draw)(const struct bullet *self);
 };
 typedef struct bullet bullet_t;
 
-void bulletDrawDot(const bullet_t *bullet);
+void bulletDrawSquare(const bullet_t *bullet);
+void bulletDrawCircle(const bullet_t *bullet);

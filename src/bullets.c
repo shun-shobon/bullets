@@ -26,6 +26,7 @@ void bulletsDraw(const bullets_t *bullets) {
   for (int i = bullets->head; i < limit; i++) {
     int idx = i % BULLETS_MAX;
     const bullet_t *bullet = &bullets->buff[idx];
+    if (bullet->wasHit) continue;
     bullet->draw(bullet);
   }
 }
