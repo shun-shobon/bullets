@@ -19,12 +19,14 @@ struct enemy {
   bool shouldRemove;
 };
 typedef struct enemy enemy_t;
+typedef void (*enemy_move_func_t)(enemy_t *self);
+typedef void (*enemy_bullet_func_t)(enemy_t *self, bullets_t *bullets);
+typedef void (*enemy_draw_func_t)(enemy_t *self);
 
 static inline enemy_t enemyNew(vec2_t position, float size, int hp,
-                               void (*move)(enemy_t *self),
-                               void (*bullet)(enemy_t *self,
-                                              bullets_t *bullets),
-                               void (*draw)(enemy_t *self)) {
+                               enemy_move_func_t move,
+                               enemy_bullet_func_t bullet,
+                               enemy_draw_func_t draw) {
   return (enemy_t){.position = position,
                    .velocity = {0.0F, 0.0F},
                    .size = size,
@@ -37,6 +39,21 @@ static inline enemy_t enemyNew(vec2_t position, float size, int hp,
                    .shouldRemove = false};
 }
 
+void enemyUpdate(enemy_t *enemy, bullets_t *bullets);
+
+#define ENEMY_MOVE_FUNCS 1
+#define ENEMY_BULLET_FUNCS 1
+#define ENEMY_DRAW_FUNCS 1
+
+extern const enemy_move_func_t enemyMoveFuncs[];
+extern const enemy_bullet_func_t enemyBulletFuncs[];
+extern const enemy_draw_func_t enemyDrawFuncs[];
+
+enemy_move_func_t getRandomEnemyMoveFunc();
+enemy_bullet_func_t getRandomEnemyBulletFunc();
+enemy_draw_func_t getRandomEnemyDrawFunc();
+
+// TODO(shun_shobon): staticにして消す
 void enemyMoveLiner(enemy_t *self);
 void enemyBulletNormal(enemy_t *self, bullets_t *bullets);
 void enemyDrawSquare(enemy_t *self);

@@ -1,6 +1,9 @@
 // 作成者: j19426 西澤駿太郎
 #include "game.h"
 
+#include <stdlib.h>
+#include <time.h>
+
 #include "consts.h"
 #include "enemies.h"
 #include "opengl.h"
@@ -10,17 +13,23 @@
 static void gameWindowDraw();
 
 void gameInit(game_state_t *gameState) {
+  srandom(time(NULL));
+
   playerInit(&gameState->player);
   shotsInit(&gameState->shots);
   enemiesInit(&gameState->enemies);
   bulletsInit(&gameState->bullets);
+  spawnerInit(&gameState->spawner);
 }
 
 void gameUpdate(game_state_t *gameState) {
+  gameState->age += 1;
+
   playerUpdate(&gameState->player, &gameState->bullets);
   shotsUpdate(&gameState->shots, &gameState->player);
   enemiesUpdate(&gameState->enemies, &gameState->bullets, &gameState->shots);
   bulletsUpdate(&gameState->bullets);
+  spawnerUpdate(&gameState->spawner, &gameState->enemies, gameState->age);
 }
 
 void gameDraw(const game_state_t *gameState) {
