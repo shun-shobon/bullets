@@ -10,7 +10,7 @@
 void enemyMoveLiner(enemy_t *self) {
   static const float MOVEMENT = 1.0F;
   self->position.y -= MOVEMENT;
-  self->vector.y = -MOVEMENT;
+  self->velocity.y = -MOVEMENT;
 
   // TODO(shun_shobon): 勝手に死ぬ
   if (self->age > 300) {
@@ -21,12 +21,8 @@ void enemyMoveLiner(enemy_t *self) {
 // ノーマル弾発射
 void enemyBulletNormal(enemy_t *self, bullets_t *bullets) {
   if (self->age % 10 == 0) {
-    bullet_t bullet = {.position = self->position,
-                       .vector = {0.0F, -5.0F},
-                       .size = 5.0F,
-                       .age = 0,
-                       .wasHit = false,
-                       .draw = bulletDrawSquare};
+    bullet_t bullet = bulletNew(self->position, (vec2_t){0.0F, -5.0F}, 5.0F,
+                                bulletDrawCircle);
     bulletsPushBack(bullets, bullet);
   }
 }

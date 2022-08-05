@@ -39,7 +39,7 @@ void enemiesUpdate(enemies_t *enemies, bullets_t *bullets, shots_t *shots) {
       shot_t *shot = &shots->buff[idx];
 
       if (isEnemyShotCollision(enemy, shot)) {
-        shot->didHit = true;
+        shot->wasHit = true;
       }
     }
   }
@@ -51,13 +51,9 @@ void enemiesUpdate(enemies_t *enemies, bullets_t *bullets, shots_t *shots) {
   enemySpawnCoolTime += 1;
   if (100 < enemySpawnCoolTime) {
     enemySpawnCoolTime = 0;
-    enemy_t newEnemy = {.position = {GAME_SIZE.x / 2, GAME_SIZE.y},
-                        .vector = {0.0F, 0.0F},
-                        .age = 0,
-                        .size = 20.0F,
-                        .draw = enemyDrawSquare,
-                        .bullet = enemyBulletNormal,
-                        .move = enemyMoveLiner};
+    enemy_t newEnemy =
+        enemyNew((vec2_t){GAME_SIZE.x / 2, GAME_SIZE.y}, 20.F, enemyMoveLiner,
+                 enemyBulletNormal, enemyDrawSquare);
     enemiesPushBack(enemies, newEnemy);
   }
 }
@@ -112,7 +108,7 @@ static void enemiesPushBack(enemies_t *enemies, enemy_t newEnemy) {
 }
 
 static bool isEnemyShotCollision(const enemy_t *enemy, const shot_t *shot) {
-  float distance = distanceSegmentSegment(&enemy->position, &enemy->vector,
-                                          &shot->position, &shot->vector);
+  float distance = distanceSegmentSegment(&enemy->position, &enemy->velocity,
+                                          &shot->position, &shot->velocity);
   return distance < enemy->size / 2 + SHOT_SIZE / 2;
 }

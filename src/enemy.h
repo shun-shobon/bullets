@@ -8,7 +8,7 @@
 
 struct enemy {
   vec2_t position;
-  vec2_t vector;
+  vec2_t velocity;
   float size;
   int age;
   void (*move)(struct enemy *self);
@@ -17,6 +17,21 @@ struct enemy {
   bool shouldRemove;
 };
 typedef struct enemy enemy_t;
+
+static inline enemy_t enemyNew(vec2_t position, float size,
+                               void (*move)(enemy_t *self),
+                               void (*bullet)(enemy_t *self,
+                                              bullets_t *bullets),
+                               void (*draw)(enemy_t *self)) {
+  return (enemy_t){.position = position,
+                   .velocity = {0.0F, 0.0F},
+                   .size = size,
+                   .age = 0,
+                   .move = move,
+                   .bullet = bullet,
+                   .draw = draw,
+                   .shouldRemove = false};
+}
 
 void enemyMoveLiner(enemy_t *self);
 void enemyBulletNormal(enemy_t *self, bullets_t *bullets);

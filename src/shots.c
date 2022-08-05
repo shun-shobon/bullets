@@ -20,9 +20,8 @@ void shotsInit(shots_t *shots) {
 void shotsUpdate(shots_t *shots, const player_t *player) {
   shots->coolTime += 1;
   if (keyState[KEY_Z] && SHOT_INTERVAL < shots->coolTime) {
-    vec2_t vector = {0.0F, SHOT_MOVEMENT};
-    shot_t shot = {
-        .position = player->position, .vector = vector, .didHit = false};
+    vec2_t velocity = {0.0F, SHOT_MOVEMENT};
+    shot_t shot = shotNew(player->position, velocity);
     shotsPushBack(shots, shot);
     shots->coolTime = 0;
   }
@@ -31,7 +30,7 @@ void shotsUpdate(shots_t *shots, const player_t *player) {
   for (int i = shots->head; i < limit; i++) {
     int idx = i % SHOT_MAX;
     shot_t *shot = &shots->buff[idx];
-    shot->position = vec2Add(&shot->position, &shot->vector);
+    shot->position = vec2Add(&shot->position, &shot->velocity);
   }
 }
 
@@ -41,7 +40,7 @@ void shotsDraw(const shots_t *shots) {
     int idx = i % SHOT_MAX;
     const shot_t *shot = &shots->buff[idx];
 
-    if (shot->didHit) continue;
+    if (shot->wasHit) continue;
 
     shotDraw(shot);
   }

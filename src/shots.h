@@ -11,9 +11,13 @@
 
 typedef struct {
   vec2_t position;
-  vec2_t vector;
-  bool didHit;
+  vec2_t velocity;
+  bool wasHit;
 } shot_t;
+
+static inline shot_t shotNew(vec2_t position, vec2_t velocity) {
+  return (shot_t){.position = position, .velocity = velocity, false};
+}
 
 typedef struct {
   shot_t buff[SHOT_MAX];

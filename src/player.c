@@ -109,6 +109,6 @@ static void playerSetVector(player_t *player) {
 static bool isPlayerBulletCollision(const player_t *player,
                                     const bullet_t *bullet) {
   float distance = distanceSegmentSegment(&player->position, &player->vector,
-                                          &bullet->position, &bullet->vector);
+                                          &bullet->position, &bullet->velocity);
   return distance < PLAYER_SIZE / 2 + bullet->size / 2;
 }

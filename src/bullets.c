@@ -14,7 +14,7 @@ void bulletsUpdate(bullets_t *bullets) {
   for (int i = bullets->head; i < limit; i++) {
     int idx = i % BULLETS_MAX;
     bullet_t *bullet = &bullets->buff[idx];
-    bullet->position = vec2Add(&bullet->position, &bullet->vector);
+    bullet->position = vec2Add(&bullet->position, &bullet->velocity);
   }
 
   bulletsGC(bullets);
