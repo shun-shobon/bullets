@@ -5,6 +5,13 @@
 
 #include "vector.h"
 
+// フェイズ
+typedef enum {
+  PHASE_NONE,
+  PHASE_TITLE,
+  PHASE_GAME,
+} phase_t;
+
 // 画面サイズ
 static const vec2_t WINDOW_SIZE = {340, 480};
 

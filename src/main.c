@@ -4,24 +4,20 @@
 #include "consts.h"
 #include "effect.h"
 #include "event.h"
-#include "game.h"
+#include "global.h"
 #include "opengl.h"
 #include "texture.h"
-#include "title.h"
 #include "util.h"
 
 #define UPDATE_INTERVAL 30
 
-title_t title;
-game_t game;
+global_t global;
 fps_t fps;
 
 void idle() { glutPostRedisplay(); }
 
 void update(__attribute__((unused)) int value) {
-  // TODO(shun_shobon): 仮置
-  gameUpdate(&game);
-  titleUpdate(&title);
+  globalUpdate(&global);
 
   if (keyState[KEY_Q]) {
     exit(0);
@@ -43,9 +39,7 @@ void display() {
   glVertex2f(0.0F, WINDOW_SIZE.y);
   glEnd();
 
-  // gameDraw(&game);
-  titleDraw(&title);
-
+  globalDraw(&global);
   fpsDraw(&fps);
 
   glutSwapBuffers();
@@ -88,10 +82,7 @@ void init() {
   textureInit();
   fpsInit(&fps);
   eventInit();
-
-  // TODO(shun_shobon): 仮置
-  gameInit(&game);
-  titleInit(&title);
+  globalInit(&global);
 }
 
 int main(int argc, char *argv[]) {

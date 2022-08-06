@@ -28,7 +28,9 @@ void gameInit(game_t *game) {
   spawnerInit(&game->spawner, &game->gamestate);
 }
 
-void gameUpdate(game_t *game) {
+void gameDrop(game_t *game) { enemiesDrop(&game->enemies); }
+
+void gameUpdate(game_t *game, __attribute__((unused)) phase_t *moveNextPhase) {
   gamestateUpdate(&game->gamestate);
   playerUpdate(&game->player, &game->bullets);
   shotsUpdate(&game->shots, &game->player);

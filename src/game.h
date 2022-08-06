@@ -2,6 +2,7 @@
 #pragma once
 
 #include "bullets.h"
+#include "consts.h"
 #include "enemies.h"
 #include "gamestate.h"
 #include "player.h"
@@ -18,5 +19,6 @@ typedef struct {
 } game_t;
 
 void gameInit(game_t *game);
-void gameUpdate(game_t *game);
+void gameDrop(game_t *game);
+void gameUpdate(game_t *game, phase_t *moveNextPhase);
 void gameDraw(const game_t *game);
