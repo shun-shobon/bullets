@@ -10,4 +10,5 @@ typedef enum {
 } align_t;
 
 void textInit();
-void drawText(vec2_t *position, char *str, float height, align_t align);
+void drawText(vec2_t *position, char *str, float height, float alpha,
+              align_t align);

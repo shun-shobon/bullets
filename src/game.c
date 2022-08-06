@@ -73,10 +73,10 @@ static void gameWindowDraw() {
 
 static void gameScoreDraw(const gamestate_t *gamestate) {
   char scoreStr[32];
-  snprintf(scoreStr, 32, "SCORE %08d", gamestate->score);
+  snprintf(scoreStr, 32, "SCORE %09d", gamestate->score);
 
   vec2_t position = {GAME_OFFSET.x, GAME_OFFSET.y - 20.0F};
-  drawText(&position, scoreStr, 20.0F, ALIGN_LEFT);
+  drawText(&position, scoreStr, 20.0F, 1.0F, ALIGN_LEFT);
 }
 
 static void gameLevelDraw(const gamestate_t *gamestate) {
@@ -84,5 +84,5 @@ static void gameLevelDraw(const gamestate_t *gamestate) {
   snprintf(scoreStr, 16, "LEVEL %02d", gamestate->level);
 
   vec2_t position = {GAME_OFFSET.x, GAME_OFFSET.y - 40.0F};
-  drawText(&position, scoreStr, 20.0F, ALIGN_LEFT);
+  drawText(&position, scoreStr, 20.0F, 1.0F, ALIGN_LEFT);
 }

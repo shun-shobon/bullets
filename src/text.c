@@ -8,7 +8,7 @@
 #include "texture.h"
 #include "vector.h"
 
-static void drawChar(vec2_t *position, char c, float height);
+static void drawChar(vec2_t *position, char c, float height, float alpha);
 
 static texture_t alphabetTextures['Z' - 'A' + 1];
 static texture_t numberTextures['9' - '0' + 1];
@@ -37,7 +37,8 @@ void textInit() {
               GL_NEAREST, GL_NEAREST);
 }
 
-void drawText(vec2_t *position, char *str, float height, align_t align) {
+void drawText(vec2_t *position, char *str, float height, float alpha,
+              align_t align) {
   int length = (int)strlen(str);
   float width = (float)length * height;
 
@@ -56,12 +57,12 @@ void drawText(vec2_t *position, char *str, float height, align_t align) {
   }
 
   for (int i = 0; i < length; i++) {
-    drawChar(&charPosition, str[i], height);
+    drawChar(&charPosition, str[i], height, alpha);
     charPosition.x += height;
   }
 }
 
-static void drawChar(vec2_t *position, char c, float height) {
+static void drawChar(vec2_t *position, char c, float height, float alpha) {
   texture_t *texture;
   if ('0' <= c && c <= '9') {
     texture = &numberTextures[c - '0'];
@@ -75,7 +76,7 @@ static void drawChar(vec2_t *position, char c, float height) {
 
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texture->id);
-  glColor4ub(0xff, 0xff, 0xff, 0xff);
+  glColor4f(1.0F, 1.0F, 1.0F, alpha);
 
   glBegin(GL_QUADS);
 

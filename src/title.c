@@ -1,6 +1,8 @@
 // 作成者: j19426 西澤駿太郎
 #include "title.h"
 
+#include <math.h>
+
 #include "consts.h"
 #include "effect.h"
 #include "event.h"
@@ -26,5 +28,7 @@ void titleDraw(__attribute__((unused)) const title_t *title) {
   drawTexture(&(vec2_t){WINDOW_SIZE.x / 2.0F, WINDOW_SIZE.y * 0.7F},
               WINDOW_SIZE.x, TEXTURE_TITLE);
   drawText(&(vec2_t){WINDOW_SIZE.x / 2.0F, WINDOW_SIZE.y * 0.3F},
-           "PRESS Z TO START", 20.0F, ALIGN_CENTER);
+           "PRESS Z TO START", 20.0F,
+           0.5F + sinf((float)title->age * 2.0F * (float)M_PI / 40.0F) / 2.0F,
+           ALIGN_CENTER);
 }
