@@ -7,18 +7,21 @@
 #include "game.h"
 #include "opengl.h"
 #include "texture.h"
+#include "title.h"
 #include "util.h"
 
 #define UPDATE_INTERVAL 30
 
-game_t gameState;
+title_t title;
+game_t game;
 fps_t fps;
 
 void idle() { glutPostRedisplay(); }
 
 void update(__attribute__((unused)) int value) {
   // TODO(shun_shobon): 仮置
-  gameUpdate(&gameState);
+  gameUpdate(&game);
+  titleUpdate(&title);
 
   if (keyState[KEY_Q]) {
     exit(0);
@@ -40,7 +43,8 @@ void display() {
   glVertex2f(0.0F, WINDOW_SIZE.y);
   glEnd();
 
-  gameDraw(&gameState);
+  // gameDraw(&game);
+  titleDraw(&title);
 
   fpsDraw(&fps);
 
@@ -86,7 +90,8 @@ void init() {
   eventInit();
 
   // TODO(shun_shobon): 仮置
-  gameInit(&gameState);
+  gameInit(&game);
+  titleInit(&title);
 }
 
 int main(int argc, char *argv[]) {
