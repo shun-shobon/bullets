@@ -14,14 +14,14 @@ void titleDrop(__attribute__((unused)) title_t *title) {}
 void titleUpdate(title_t *title, phase_t *moveNextPhase) {
   title->age += 1;
 
-  gridDraw(&(vec2_t){0.0F, 0.0F}, &WINDOW_SIZE, title->age);
-
   if (keyState[KEY_Z]) {
     *moveNextPhase = PHASE_GAME;
   }
 }
 
 void titleDraw(__attribute__((unused)) const title_t *title) {
+  gridDraw(&(vec2_t){0.0F, 0.0F}, &WINDOW_SIZE, title->age);
+
   drawTexture(&(vec2_t){WINDOW_SIZE.x / 2.0F, WINDOW_SIZE.y * 0.7F},
               WINDOW_SIZE.x, TEXTURE_TITLE);
 }
