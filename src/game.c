@@ -56,7 +56,7 @@ void gameDraw(const game_t *game) {
 }
 
 static void gameWindowDraw() {
-  glColor3ub(0x00, 0x00, 0x00);
+  glColor3ub(0x00, 0x00, 0x40);
   glBegin(GL_QUAD_STRIP);
   glVertex2f(0.0F, 0.0F);
   glVertex2f(GAME_OFFSET.x, GAME_OFFSET.y);
@@ -68,6 +68,15 @@ static void gameWindowDraw() {
   glVertex2f(GAME_OFFSET.x, GAME_OFFSET.y + GAME_SIZE.y);
   glVertex2f(0.0F, 0.0F);
   glVertex2f(GAME_OFFSET.x, GAME_OFFSET.y);
+  glEnd();
+
+  glLineWidth(1.0F);
+  glColor3ub(0xff, 0xff, 0xff);
+  glBegin(GL_LINE_LOOP);
+  glVertex2f(GAME_OFFSET.x, GAME_OFFSET.y);
+  glVertex2f(GAME_OFFSET.x + GAME_SIZE.x, GAME_OFFSET.y);
+  glVertex2f(GAME_OFFSET.x + GAME_SIZE.x, GAME_OFFSET.y + GAME_SIZE.y);
+  glVertex2f(GAME_OFFSET.x, GAME_OFFSET.y + GAME_SIZE.y);
   glEnd();
 }
 
