@@ -43,6 +43,10 @@ static void handleKey(unsigned char rawKeyCode, bool isDown) {
     case 'Z':
       keyState[KEY_Z] = isDown;
       break;
+    case 'x':
+    case 'X':
+      keyState[KEY_X] = isDown;
+      break;
     case 'q':
     case 'Q':
       keyState[KEY_Q] = isDown;

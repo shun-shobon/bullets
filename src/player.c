@@ -2,6 +2,7 @@
 #include "player.h"
 
 #include <math.h>
+#include <stdbool.h>
 
 #include "bullets.h"
 #include "consts.h"
@@ -22,7 +23,9 @@ void playerInit(player_t *player) {
   player->vector.y = 0.0F;
 }
 
-void playerUpdate(player_t *player, bullets_t *bullets) {
+void playerUpdate(player_t *player, bullets_t *bullets, bool *isGameOver) {
+  if (*isGameOver) return;
+
   playerSetVector(player);
 
   player->position = vec2Add(&player->position, &player->vector);
@@ -41,11 +44,16 @@ void playerUpdate(player_t *player, bullets_t *bullets) {
     bullet_t *bullet = &bullets->buff[idx];
     if (isPlayerBulletCollision(player, bullet)) {
       bullet->wasHit = true;
+      *isGameOver = true;
+      player->vector.x = 0;
+      player->vector.y = 0;
     }
   }
 }
 
-void playerDraw(const player_t *player) {
+void playerDraw(const player_t *player, bool isGameOver) {
+  if (isGameOver) return;
+
   static const float size = 40.0F;
 
   drawTexture(&player->position, size, TEXTURE_PLAYER);

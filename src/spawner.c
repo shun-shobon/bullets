@@ -1,6 +1,7 @@
 // 作成者: j19426 西澤駿太郎
 #include "spawner.h"
 
+#include <stdbool.h>
 #include <stdlib.h>
 
 #include "consts.h"
@@ -20,7 +21,8 @@ void spawnerInit(spawner_t *spawner, const stats_t *gamestate) {
 }
 
 void spawnerUpdate(spawner_t *spawner, enemies_t *enemies,
-                   const stats_t *gamestate) {
+                   const stats_t *gamestate, bool isGameOver) {
+  if (isGameOver) return;
   if (spawner->nextSpawnAge != gamestate->age) return;
   spawner->nextSpawnAge = getNextSpawnAge(gamestate);
 

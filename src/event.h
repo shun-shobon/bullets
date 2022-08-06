@@ -8,6 +8,7 @@ typedef enum {
   KEY_RIGHT,
   KEY_SHIFT,
   KEY_Q,
+  KEY_X,
   KEY_Z,
   KEY_LENGTH,
 } key_t;

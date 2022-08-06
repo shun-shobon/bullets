@@ -26,5 +26,5 @@ typedef struct {
 } shots_t;
 
 void shotsInit(shots_t *shots);
-void shotsUpdate(shots_t *shots, const player_t *player);
+void shotsUpdate(shots_t *shots, const player_t *player, bool isGameOver);
 void shotsDraw(const shots_t *shots);

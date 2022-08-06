@@ -17,9 +17,9 @@ void shotsInit(shots_t *shots) {
   shots->coolTime = 0;
 }
 
-void shotsUpdate(shots_t *shots, const player_t *player) {
+void shotsUpdate(shots_t *shots, const player_t *player, bool isGameOver) {
   shots->coolTime += 1;
-  if (keyState[KEY_Z] && SHOT_INTERVAL < shots->coolTime) {
+  if (!isGameOver && keyState[KEY_Z] && SHOT_INTERVAL < shots->coolTime) {
     shot_t shotCenter =
         shotNew(player->position, (vec2_t){0.0F, SHOT_MOVEMENT});
     shot_t shotRight =

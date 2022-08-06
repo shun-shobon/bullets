@@ -1,6 +1,8 @@
 // 作成者: j19426 西澤駿太郎
 #pragma once
 
+#include <stdbool.h>
+
 #include "bullets.h"
 #include "consts.h"
 #include "enemies.h"
@@ -10,6 +12,7 @@
 #include "stats.h"
 
 typedef struct {
+  bool isGameOver;
   stats_t stats;
   enemies_t enemies;
   player_t player;

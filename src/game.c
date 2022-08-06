@@ -8,19 +8,24 @@
 
 #include "consts.h"
 #include "enemies.h"
+#include "event.h"
 #include "opengl.h"
 #include "player.h"
+#include "primitive.h"
 #include "shots.h"
 #include "stats.h"
 #include "text.h"
+#include "texture.h"
 
 static void gameWindowDraw();
-static void gameScoreDraw(const stats_t *gamestate);
-static void gameLevelDraw(const stats_t *gamestate);
+static void gameScoreDraw(const stats_t *stats);
+static void gameLevelDraw(const stats_t *stats);
+static void gameOverDraw(const game_t *game);
 
 void gameInit(game_t *game) {
   srandom(time(NULL));
 
+  game->isGameOver = false;
   statsInit(&game->stats);
   playerInit(&game->player);
   shotsInit(&game->shots);
@@ -31,20 +36,22 @@ void gameInit(game_t *game) {
 
 void gameDrop(game_t *game) { enemiesDrop(&game->enemies); }
 
-void gameUpdate(game_t *game, __attribute__((unused)) phase_t *moveNextPhase) {
+void gameUpdate(game_t *game, phase_t *moveNextPhase) {
   statsUpdate(&game->stats);
-  playerUpdate(&game->player, &game->bullets);
-  shotsUpdate(&game->shots, &game->player);
+  playerUpdate(&game->player, &game->bullets, &game->isGameOver);
+  shotsUpdate(&game->shots, &game->player, game->isGameOver);
   enemiesUpdate(&game->enemies, &game->bullets, &game->shots, &game->player,
                 &game->stats);
   bulletsUpdate(&game->bullets);
-  spawnerUpdate(&game->spawner, &game->enemies, &game->stats);
+  spawnerUpdate(&game->spawner, &game->enemies, &game->stats, game->isGameOver);
+
+  if (game->isGameOver && keyState[KEY_X]) *moveNextPhase = PHASE_TITLE;
 }
 
 void gameDraw(const game_t *game) {
   glPushMatrix();
   glTranslatef(GAME_OFFSET.x, GAME_OFFSET.y, 0);
-  playerDraw(&game->player);
+  playerDraw(&game->player, game->isGameOver);
   shotsDraw(&game->shots);
   enemiesDraw(&game->enemies);
   bulletsDraw(&game->bullets);
@@ -53,6 +60,7 @@ void gameDraw(const game_t *game) {
   gameWindowDraw();
   gameScoreDraw(&game->stats);
   gameLevelDraw(&game->stats);
+  gameOverDraw(game);
 }
 
 static void gameWindowDraw() {
@@ -80,18 +88,30 @@ static void gameWindowDraw() {
   glEnd();
 }
 
-static void gameScoreDraw(const stats_t *gamestate) {
+static void gameScoreDraw(const stats_t *stats) {
   char scoreStr[32];
-  snprintf(scoreStr, 32, "SCORE %09d", gamestate->score);
+  snprintf(scoreStr, 32, "SCORE %09d", stats->score);
 
   vec2_t position = {GAME_OFFSET.x, GAME_OFFSET.y - 20.0F};
   drawText(&position, scoreStr, 20.0F, 1.0F, ALIGN_LEFT);
 }
 
-static void gameLevelDraw(const stats_t *gamestate) {
+static void gameLevelDraw(const stats_t *stats) {
   char scoreStr[16];
-  snprintf(scoreStr, 16, "LEVEL %02d", gamestate->level);
+  snprintf(scoreStr, 16, "LEVEL %02d", stats->level);
 
   vec2_t position = {GAME_OFFSET.x, GAME_OFFSET.y - 40.0F};
   drawText(&position, scoreStr, 20.0F, 1.0F, ALIGN_LEFT);
+}
+
+static void gameOverDraw(const game_t *game) {
+  if (!game->isGameOver) return;
+
+  drawTexture(&(vec2_t){WINDOW_SIZE.x / 2.0F, WINDOW_SIZE.y * 0.7F},
+              GAME_SIZE.x, TEXTURE_GAMEOVER);
+  drawText(
+      &(vec2_t){WINDOW_SIZE.x / 2.0F, WINDOW_SIZE.y * 0.3F},
+      "PRESS X TO MOVE TITLE", 13.0F,
+      0.5F + sinf((float)game->stats.age * 2.0F * (float)M_PI / 40.0F) / 2.0F,
+      ALIGN_CENTER);
 }
