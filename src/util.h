@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#define FPS_BUFF_MAX 100
+#define FPS_BUFF_MAX 10
 typedef struct {
   int buff[FPS_BUFF_MAX];
   int head;
