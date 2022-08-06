@@ -1,7 +1,9 @@
 // 作成者: j19426 西澤駿太郎
 #include "game.h"
 
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #include "consts.h"
@@ -12,6 +14,8 @@
 #include "shots.h"
 
 static void gameWindowDraw();
+static void gameScoreDraw(const gamestate_t *gamestate);
+static void gameLevelDraw(const gamestate_t *gamestate);
 
 void gameInit(game_t *game) {
   srandom(time(NULL));
@@ -44,6 +48,8 @@ void gameDraw(const game_t *game) {
   glPopMatrix();
 
   gameWindowDraw();
+  gameScoreDraw(&game->gamestate);
+  gameLevelDraw(&game->gamestate);
 }
 
 static void gameWindowDraw() {
@@ -60,4 +66,46 @@ static void gameWindowDraw() {
   glVertex2f(0.0F, 0.0F);
   glVertex2f(GAME_OFFSET.x, GAME_OFFSET.y);
   glEnd();
+}
+
+static void gameScoreDraw(const gamestate_t *gamestate) {
+  char scoreStr[32];
+  snprintf(scoreStr, 32, "SCORE: %010d", gamestate->score);
+  unsigned int length = strlen(scoreStr);
+
+  float x = GAME_OFFSET.x * 2.0F + GAME_SIZE.x;
+  float y = WINDOW_SIZE.y / 2.0F + 20.0F;
+
+  glColor3ub(0x00, 0x00, 0x00);
+  glRasterPos2f(x - 1, y - 1);
+  for (unsigned int i = 0; i < length; i++) {
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, scoreStr[i]);
+  }
+
+  glColor3ub(0xff, 0xff, 0xff);
+  glRasterPos2f(x, y);
+  for (unsigned int i = 0; i < length; i++) {
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, scoreStr[i]);
+  }
+}
+
+static void gameLevelDraw(const gamestate_t *gamestate) {
+  char scoreStr[16];
+  snprintf(scoreStr, 16, "LEVEL: %02d", gamestate->level);
+  unsigned int length = strlen(scoreStr);
+
+  float x = GAME_OFFSET.x * 2.0F + GAME_SIZE.x;
+  float y = WINDOW_SIZE.y / 2.0F;
+
+  glColor3ub(0x00, 0x00, 0x00);
+  glRasterPos2f(x - 1, y - 1);
+  for (unsigned int i = 0; i < length; i++) {
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, scoreStr[i]);
+  }
+
+  glColor3ub(0xff, 0xff, 0xff);
+  glRasterPos2f(x, y);
+  for (unsigned int i = 0; i < length; i++) {
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, scoreStr[i]);
+  }
 }
