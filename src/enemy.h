@@ -46,7 +46,7 @@ static inline enemy_t enemyNew(vec2_t position, float yVelocity, float size,
 void enemyUpdate(enemy_t *enemy, bullets_t *bullets);
 
 #define ENEMY_MOVE_FUNCS 2
-#define ENEMY_BULLET_FUNCS 2
+#define ENEMY_BULLET_FUNCS 3
 #define ENEMY_DRAW_FUNCS 1
 
 extern const enemy_move_func_t enemyMoveFuncs[];

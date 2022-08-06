@@ -13,6 +13,7 @@ static void enemyMoveLiner(enemy_t *self);
 static void enemyMoveWave(enemy_t *self);
 static void enemyBulletStraight(enemy_t *self, bullets_t *bullets);
 static void enemyBulletFan(enemy_t *self, bullets_t *bullets);
+static void enemyBulletCircle(enemy_t *self, bullets_t *bullets);
 static void enemyDrawSquare(enemy_t *self);
 
 void enemyUpdate(enemy_t *enemy, bullets_t *bullets) {
@@ -22,8 +23,8 @@ void enemyUpdate(enemy_t *enemy, bullets_t *bullets) {
 }
 
 const enemy_move_func_t enemyMoveFuncs[] = {enemyMoveLiner, enemyMoveWave};
-const enemy_bullet_func_t enemyBulletFuncs[] = {enemyBulletStraight,
-                                                enemyBulletFan};
+const enemy_bullet_func_t enemyBulletFuncs[] = {
+    enemyBulletStraight, enemyBulletFan, enemyBulletCircle};
 const enemy_draw_func_t enemyDrawFuncs[] = {enemyDrawSquare};
 
 enemy_move_func_t getRandomEnemyMoveFunc() {
@@ -58,7 +59,7 @@ static void enemyMoveWave(enemy_t *self) {
 
 // 直線弾発射
 static void enemyBulletStraight(enemy_t *self, bullets_t *bullets) {
-  if (self->age % 20 == 0) return;
+  if (self->age % 20 != 0) return;
 
   bullet_t bullet =
       bulletNew(self->position, (vec2_t){0.0F, -3.0F}, 5.0F, bulletDrawSquare);
@@ -85,6 +86,22 @@ static void enemyBulletFan(enemy_t *self, bullets_t *bullets) {
   bulletsPushBack(bullets, bulletCenter);
   bulletsPushBack(bullets, bulletRight);
   bulletsPushBack(bullets, bulletLeft);
+}
+
+// 円形弾発射
+static void enemyBulletCircle(enemy_t *self, bullets_t *bullets) {
+  static const float VELOCITY = 3.0F;
+  static const int AMOUNT = 8;
+
+  if (self->age % 80 != 0) return;
+
+  for (int i = 0; i < AMOUNT; i++) {
+    float theta = (float)i * 2.0F * (float)M_PI / (float)AMOUNT;
+    vec2_t velocity = {VELOCITY * sinf(theta), VELOCITY * cosf(theta)};
+    bullet_t bullet =
+        bulletNew(self->position, velocity, 5.0F, bulletDrawSquare);
+    bulletsPushBack(bullets, bullet);
+  }
 }
 
 // 正方形描画
