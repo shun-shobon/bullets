@@ -12,6 +12,7 @@
 #include "opengl.h"
 #include "player.h"
 #include "shots.h"
+#include "text.h"
 
 static void gameWindowDraw();
 static void gameScoreDraw(const gamestate_t *gamestate);
@@ -55,7 +56,7 @@ void gameDraw(const game_t *game) {
 }
 
 static void gameWindowDraw() {
-  glColor3ub(0xff, 0xff, 0xff);
+  glColor3ub(0x00, 0x00, 0x00);
   glBegin(GL_QUAD_STRIP);
   glVertex2f(0.0F, 0.0F);
   glVertex2f(GAME_OFFSET.x, GAME_OFFSET.y);
@@ -72,42 +73,16 @@ static void gameWindowDraw() {
 
 static void gameScoreDraw(const gamestate_t *gamestate) {
   char scoreStr[32];
-  snprintf(scoreStr, 32, "SCORE: %010d", gamestate->score);
-  unsigned int length = strlen(scoreStr);
+  snprintf(scoreStr, 32, "SCORE %08d", gamestate->score);
 
-  float x = GAME_OFFSET.x;
-  float y = GAME_OFFSET.y - 20.0F;
-
-  glColor3ub(0x00, 0x00, 0x00);
-  glRasterPos2f(x - 1, y - 1);
-  for (unsigned int i = 0; i < length; i++) {
-    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, scoreStr[i]);
-  }
-
-  glColor3ub(0xff, 0xff, 0xff);
-  glRasterPos2f(x, y);
-  for (unsigned int i = 0; i < length; i++) {
-    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, scoreStr[i]);
-  }
+  vec2_t position = {GAME_OFFSET.x, GAME_OFFSET.y - 20.0F};
+  drawText(&position, scoreStr, 20.0F, ALIGN_LEFT);
 }
 
 static void gameLevelDraw(const gamestate_t *gamestate) {
   char scoreStr[16];
-  snprintf(scoreStr, 16, "LEVEL: %02d", gamestate->level);
-  unsigned int length = strlen(scoreStr);
+  snprintf(scoreStr, 16, "LEVEL %02d", gamestate->level);
 
-  float x = GAME_OFFSET.x;
-  float y = GAME_OFFSET.y - 40.0F;
-
-  glColor3ub(0x00, 0x00, 0x00);
-  glRasterPos2f(x - 1, y - 1);
-  for (unsigned int i = 0; i < length; i++) {
-    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, scoreStr[i]);
-  }
-
-  glColor3ub(0xff, 0xff, 0xff);
-  glRasterPos2f(x, y);
-  for (unsigned int i = 0; i < length; i++) {
-    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, scoreStr[i]);
-  }
+  vec2_t position = {GAME_OFFSET.x, GAME_OFFSET.y - 40.0F};
+  drawText(&position, scoreStr, 20.0F, ALIGN_LEFT);
 }

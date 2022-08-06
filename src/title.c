@@ -5,6 +5,7 @@
 #include "effect.h"
 #include "event.h"
 #include "primitive.h"
+#include "text.h"
 #include "vector.h"
 
 void titleInit(title_t *title) { title->age = 0; }
@@ -24,4 +25,6 @@ void titleDraw(__attribute__((unused)) const title_t *title) {
 
   drawTexture(&(vec2_t){WINDOW_SIZE.x / 2.0F, WINDOW_SIZE.y * 0.7F},
               WINDOW_SIZE.x, TEXTURE_TITLE);
+  drawText(&(vec2_t){WINDOW_SIZE.x / 2.0F, WINDOW_SIZE.y * 0.3F},
+           "PRESS Z TO START", 20.0F, ALIGN_CENTER);
 }

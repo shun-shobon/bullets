@@ -6,6 +6,7 @@
 #include "event.h"
 #include "global.h"
 #include "opengl.h"
+#include "text.h"
 #include "texture.h"
 #include "util.h"
 
@@ -80,6 +81,7 @@ void init() {
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
   textureInit();
+  textInit();
   fpsInit(&fps);
   eventInit();
   globalInit(&global);
