@@ -20,9 +20,17 @@ void shotsInit(shots_t *shots) {
 void shotsUpdate(shots_t *shots, const player_t *player) {
   shots->coolTime += 1;
   if (keyState[KEY_Z] && SHOT_INTERVAL < shots->coolTime) {
-    vec2_t velocity = {0.0F, SHOT_MOVEMENT};
-    shot_t shot = shotNew(player->position, velocity);
-    shotsPushBack(shots, shot);
+    shot_t shotCenter =
+        shotNew(player->position, (vec2_t){0.0F, SHOT_MOVEMENT});
+    shot_t shotRight =
+        shotNew(player->position, (vec2_t){SHOT_MOVEMENT * sinf(SHOT_ANGLE),
+                                           SHOT_MOVEMENT * cosf(SHOT_ANGLE)});
+    shot_t shotLeft =
+        shotNew(player->position, (vec2_t){SHOT_MOVEMENT * sinf(-SHOT_ANGLE),
+                                           SHOT_MOVEMENT * cosf(-SHOT_ANGLE)});
+    shotsPushBack(shots, shotCenter);
+    shotsPushBack(shots, shotRight);
+    shotsPushBack(shots, shotLeft);
     shots->coolTime = 0;
   }
 

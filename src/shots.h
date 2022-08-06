@@ -6,8 +6,7 @@
 #include "player.h"
 #include "vector.h"
 
-#define SHOT_MAX 30
-#define SHOT_INTERVAL 1
+#define SHOT_MAX 128
 
 typedef struct {
   vec2_t position;

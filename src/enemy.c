@@ -80,8 +80,8 @@ static void enemyBulletFan(enemy_t *self, bullets_t *bullets,
 
   if (self->age % 60 != 0) return;
 
-  bullet_t bulletCenter =
-      bulletNew(self->position, (vec2_t){0.0F, -3.0F}, 5.0F, bulletDrawSquare);
+  bullet_t bulletCenter = bulletNew(self->position, (vec2_t){0.0F, -VELOCITY},
+                                    5.0F, bulletDrawSquare);
   bullet_t bulletRight = bulletNew(
       self->position, (vec2_t){VELOCITY * sinf(ANGLE), -VELOCITY * cosf(ANGLE)},
       5.0F, bulletDrawSquare);
