@@ -8,12 +8,10 @@
 #include "opengl.h"
 #include "text.h"
 #include "texture.h"
-#include "util.h"
 
 #define UPDATE_INTERVAL 30
 
 global_t global;
-fps_t fps;
 
 void idle() { glutPostRedisplay(); }
 
@@ -28,8 +26,6 @@ void update(__attribute__((unused)) int value) {
 }
 
 void display() {
-  fpsUpdate(&fps);
-
   glClear(GL_COLOR_BUFFER_BIT);
 
   glColor3ub(0x00, 0x00, 0x30);
@@ -41,7 +37,6 @@ void display() {
   glEnd();
 
   globalDraw(&global);
-  fpsDraw(&fps);
 
   glutSwapBuffers();
 }
@@ -82,7 +77,6 @@ void init() {
 
   textureInit();
   textInit();
-  fpsInit(&fps);
   eventInit();
   globalInit(&global);
 }

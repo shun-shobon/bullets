@@ -13,14 +13,6 @@ vec2_t vec2Sub(const vec2_t *v1, const vec2_t *v2) {
   return (vec2_t){v1->x - v2->x, v1->y - v2->y};
 }
 
-vec2_t vec2Mul(const vec2_t *v1, const vec2_t *v2) {
-  return (vec2_t){v1->x * v2->x, v1->y * v2->y};
-}
-
-vec2_t vec2Div(const vec2_t *v1, const vec2_t *v2) {
-  return (vec2_t){v1->x / v2->x, v1->y / v2->y};
-}
-
 vec2_t vec2MulScalar(const vec2_t *v, float s) {
   return (vec2_t){v->x * s, v->y * s};
 }
@@ -125,22 +117,4 @@ bool isCrossSegmentSegment(const vec2_t *p1, const vec2_t *v1, const vec2_t *p2,
 
   return vec2Cross(v1, &v12) * vec2Cross(v1, &v12End) < 0.0F &&
          vec2Cross(v2, &v21) * vec2Cross(v2, &v21End) < 0.0F;
-}
-
-bool vec2_is_vertical(vec2_t *v1, vec2_t *v2) {
-  // 内積が0ならば垂直関係
-  float dot = vec2Dot(v1, v2);
-  return -EPSILON < dot && dot < EPSILON;
-}
-
-bool vec2_is_parallel(vec2_t *v1, vec2_t *v2) {
-  // 外積が0ならば並行関係
-  float cross = vec2Cross(v1, v2);
-  return -EPSILON < cross && cross < EPSILON;
-}
-
-bool vec2_is_sharp_angle(vec2_t *v1, vec2_t *v2) {
-  // 内積が正なら鋭角
-  float dot = vec2Dot(v1, v2);
-  return 0.0F < dot;
 }
