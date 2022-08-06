@@ -25,7 +25,7 @@ void gameInit(game_t *game) {
   shotsInit(&game->shots);
   enemiesInit(&game->enemies);
   bulletsInit(&game->bullets);
-  spawnerInit(&game->spawner);
+  spawnerInit(&game->spawner, &game->gamestate);
 }
 
 void gameUpdate(game_t *game) {
@@ -35,7 +35,7 @@ void gameUpdate(game_t *game) {
   enemiesUpdate(&game->enemies, &game->bullets, &game->shots, &game->player,
                 &game->gamestate);
   bulletsUpdate(&game->bullets);
-  spawnerUpdate(&game->spawner, &game->enemies, game->gamestate.age);
+  spawnerUpdate(&game->spawner, &game->enemies, &game->gamestate);
 }
 
 void gameDraw(const game_t *game) {

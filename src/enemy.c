@@ -56,8 +56,8 @@ static void enemyMoveLiner(enemy_t *self) {
 
 // 波打った移動
 static void enemyMoveWave(enemy_t *self) {
-  static const float CYCLE = 50.0F;
-  static const float MOVEMENT_X_MAX = 40.0F;
+  static const float CYCLE = 100.0F;
+  static const float MOVEMENT_X_MAX = 50.0F;
 
   self->position.y -= self->yVelocity;
   self->velocity.y = -self->yVelocity;

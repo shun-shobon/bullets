@@ -2,10 +2,12 @@
 #pragma once
 
 #include "enemies.h"
+#include "gamestate.h"
 
 typedef struct {
   int nextSpawnAge;
 } spawner_t;
 
-void spawnerInit(spawner_t *spawner);
-void spawnerUpdate(spawner_t *spawner, enemies_t *enemies, int age);
+void spawnerInit(spawner_t *spawner, const gamestate_t *gamestate);
+void spawnerUpdate(spawner_t *spawner, enemies_t *enemies,
+                   const gamestate_t *gamestate);
