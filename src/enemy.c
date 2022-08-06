@@ -6,8 +6,9 @@
 
 #include "bullet.h"
 #include "bullets.h"
-#include "opengl.h"
 #include "primitive.h"
+
+static const float BULLET_SIZE = 10.0F;
 
 static void enemyMoveLiner(enemy_t *self);
 static void enemyMoveWave(enemy_t *self);
@@ -20,7 +21,8 @@ static void enemyBulletOddStraight(enemy_t *self, bullets_t *bullets,
                                    player_t *player);
 static void enemyBulletOddFan(enemy_t *self, bullets_t *bullets,
                               player_t *player);
-static void enemyDrawSquare(enemy_t *self);
+static void enemyDrawA(enemy_t *self);
+static void enemyDrawB(enemy_t *self);
 
 void enemyUpdate(enemy_t *enemy, bullets_t *bullets, player_t *player) {
   enemy->move(enemy);
@@ -36,7 +38,7 @@ const enemy_move_func_t enemyMoveFuncs[] = {enemyMoveLiner, enemyMoveWave};
 const enemy_bullet_func_t enemyBulletFuncs[] = {
     enemyBulletStraight, enemyBulletFan, enemyBulletCircle,
     enemyBulletOddStraight, enemyBulletOddFan};
-const enemy_draw_func_t enemyDrawFuncs[] = {enemyDrawSquare};
+const enemy_draw_func_t enemyDrawFuncs[] = {enemyDrawA, enemyDrawB};
 
 enemy_move_func_t getRandomEnemyMoveFunc() {
   return enemyMoveFuncs[random() % ENEMY_MOVE_FUNCS];
@@ -73,8 +75,8 @@ static void enemyBulletStraight(enemy_t *self, bullets_t *bullets,
                                 __attribute__((unused)) player_t *player) {
   if (self->age % 20 != 0) return;
 
-  bullet_t bullet =
-      bulletNew(self->position, (vec2_t){0.0F, -3.0F}, 5.0F, bulletDrawSquare);
+  bullet_t bullet = bulletNew(self->position, (vec2_t){0.0F, -3.0F},
+                              BULLET_SIZE, bulletDrawA);
   bulletsPushBack(bullets, bullet);
 }
 
@@ -87,14 +89,14 @@ static void enemyBulletFan(enemy_t *self, bullets_t *bullets,
   if (self->age % 60 != 0) return;
 
   bullet_t bulletCenter = bulletNew(self->position, (vec2_t){0.0F, -VELOCITY},
-                                    5.0F, bulletDrawSquare);
+                                    BULLET_SIZE, bulletDrawA);
   bullet_t bulletRight = bulletNew(
       self->position, (vec2_t){VELOCITY * sinf(ANGLE), -VELOCITY * cosf(ANGLE)},
-      5.0F, bulletDrawSquare);
+      BULLET_SIZE, bulletDrawA);
   bullet_t bulletLeft =
       bulletNew(self->position,
                 (vec2_t){VELOCITY * sinf(-ANGLE), -VELOCITY * cosf(-ANGLE)},
-                5.0F, bulletDrawSquare);
+                BULLET_SIZE, bulletDrawA);
 
   bulletsPushBack(bullets, bulletCenter);
   bulletsPushBack(bullets, bulletRight);
@@ -113,7 +115,7 @@ static void enemyBulletCircle(enemy_t *self, bullets_t *bullets,
     float theta = (float)i * 2.0F * (float)M_PI / (float)AMOUNT;
     vec2_t velocity = {VELOCITY * sinf(theta), VELOCITY * cosf(theta)};
     bullet_t bullet =
-        bulletNew(self->position, velocity, 5.0F, bulletDrawSquare);
+        bulletNew(self->position, velocity, BULLET_SIZE, bulletDrawA);
     bulletsPushBack(bullets, bullet);
   }
 }
@@ -128,7 +130,8 @@ static void enemyBulletOddStraight(enemy_t *self, bullets_t *bullets,
   vec2_t enemyPlayerVector = vec2Sub(&player->position, &self->position);
   vec2_t enemyPlayerVectorNormalized = vec2Normalize(&enemyPlayerVector);
   vec2_t velocity = vec2MulScalar(&enemyPlayerVectorNormalized, VELOCITY);
-  bullet_t bullet = bulletNew(self->position, velocity, 5.0F, bulletDrawSquare);
+  bullet_t bullet =
+      bulletNew(self->position, velocity, BULLET_SIZE, bulletDrawB);
   bulletsPushBack(bullets, bullet);
 }
 
@@ -151,18 +154,20 @@ static void enemyBulletOddFan(enemy_t *self, bullets_t *bullets,
       velocityCenter.x * cosf(-ANGLE) - velocityCenter.y * sinf(-ANGLE),
       velocityCenter.x * sinf(-ANGLE) + velocityCenter.y * cosf(-ANGLE)};
   bullet_t bulletCenter =
-      bulletNew(self->position, velocityCenter, 5.0F, bulletDrawSquare);
+      bulletNew(self->position, velocityCenter, BULLET_SIZE, bulletDrawB);
   bullet_t bulletRight =
-      bulletNew(self->position, velocityRight, 5.0F, bulletDrawSquare);
+      bulletNew(self->position, velocityRight, BULLET_SIZE, bulletDrawB);
   bullet_t bulletLeft =
-      bulletNew(self->position, velocityLeft, 5.0F, bulletDrawSquare);
+      bulletNew(self->position, velocityLeft, BULLET_SIZE, bulletDrawB);
   bulletsPushBack(bullets, bulletCenter);
   bulletsPushBack(bullets, bulletRight);
   bulletsPushBack(bullets, bulletLeft);
 }
 
-// 正方形描画
-static void enemyDrawSquare(enemy_t *self) {
-  glColor3ub(0xff, 0xff, 0xff);
-  drawSquare(&self->position, self->size);
+static void enemyDrawA(enemy_t *self) {
+  drawTexture(&self->position, self->size, TEXTURE_ENEMY_A);
+}
+
+static void enemyDrawB(enemy_t *self) {
+  drawTexture(&self->position, self->size, TEXTURE_ENEMY_B);
 }

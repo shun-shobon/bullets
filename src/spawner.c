@@ -32,7 +32,7 @@ void spawnerUpdate(spawner_t *spawner, enemies_t *enemies,
   enemy_draw_func_t draw = getRandomEnemyDrawFunc();
 
   enemy_t enemy =
-      enemyNew(position, yVelocity, 20.0F, 10, score, move, bullet, draw);
+      enemyNew(position, yVelocity, 30.0F, 10, score, move, bullet, draw);
   enemiesPushBack(enemies, enemy);
 }
 

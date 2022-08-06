@@ -2,13 +2,13 @@
 #include "player.h"
 
 #include <math.h>
-#include <stdio.h>
 
 #include "bullets.h"
 #include "consts.h"
 #include "event.h"
 #include "opengl.h"
 #include "primitive.h"
+#include "texture.h"
 #include "vector.h"
 
 static void playerSetVector(player_t *player);
@@ -46,18 +46,12 @@ void playerUpdate(player_t *player, bullets_t *bullets) {
 }
 
 void playerDraw(const player_t *player) {
-  float size = 10.0F;
+  static const float size = 40.0F;
 
-  glColor3ub(0x00, 0xff, 0x00);
-  glBegin(GL_QUADS);
-  glVertex2f(player->position.x - size, player->position.y - size);
-  glVertex2f(player->position.x + size, player->position.y - size);
-  glVertex2f(player->position.x + size, player->position.y + size);
-  glVertex2f(player->position.x - size, player->position.y + size);
-  glEnd();
+  drawTexture(&player->position, size, TEXTURE_PLAYER);
 
-  glColor3ub(0xff, 0x00, 0x00);
-  drawCircle(&player->position, PLAYER_SIZE / 2, true);
+  glColor3ub(0xff, 0xff, 0x00);
+  drawSquare(&player->position, PLAYER_SIZE / 2);
 }
 
 static void playerSetVector(player_t *player) {

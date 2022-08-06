@@ -1,21 +1,20 @@
 // 作成者: j19426 西澤駿太郎
 #pragma once
 
-// Linuxの場合
-#ifdef __linux__
+#ifdef __linux__  // Linuxの場合
 #include <GL/glut.h>
+#include <glpng.h>
 
-// macOSの場合
-#elif __MACH__
+#elif __MACH__  // macOSの場合
 #define GL_SILENCE_DEPRECATION
 #include <GLUT/glut.h>
+#include <glpng.h>
 
-// Cygwinの場合
-#elif __CYGWIN__
+#elif __CYGWIN__  // Cygwinの場合
 #include <GL/glut.h>
+#include <glpng.h>
 
-// それ以外の場合はエラー
-#else
+#else  // それ以外の場合はエラー
 #error Unsupported platform.
 
 #endif

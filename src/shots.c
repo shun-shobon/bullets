@@ -3,9 +3,9 @@
 
 #include "consts.h"
 #include "event.h"
-#include "opengl.h"
 #include "player.h"
 #include "primitive.h"
+#include "texture.h"
 #include "vector.h"
 
 static void shotsPushBack(shots_t *shots, shot_t shot);
@@ -71,6 +71,5 @@ static void shotsPushBack(shots_t *shots, shot_t shot) {
 }
 
 static void shotDraw(const shot_t *shot) {
-  glColor3ub(0x55, 0xaa, 0x55);
-  drawSquare(&shot->position, SHOT_SIZE);
+  drawTexture(&shot->position, SHOT_SIZE * 2, TEXTURE_SHOT);
 }

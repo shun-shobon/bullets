@@ -51,7 +51,7 @@ void enemyUpdate(enemy_t *enemy, bullets_t *bullets, player_t *player);
 
 #define ENEMY_MOVE_FUNCS 2
 #define ENEMY_BULLET_FUNCS 5
-#define ENEMY_DRAW_FUNCS 1
+#define ENEMY_DRAW_FUNCS 2
 
 extern const enemy_move_func_t enemyMoveFuncs[];
 extern const enemy_bullet_func_t enemyBulletFuncs[];

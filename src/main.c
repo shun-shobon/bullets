@@ -5,6 +5,7 @@
 #include "event.h"
 #include "game.h"
 #include "opengl.h"
+#include "texture.h"
 #include "util.h"
 
 #define UPDATE_INTERVAL 30
@@ -75,7 +76,11 @@ void resize(int winWidth, int winHeight) {
 
 void init() {
   glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
+  textureInit();
   fpsInit(&fps);
   eventInit();
 

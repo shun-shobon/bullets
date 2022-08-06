@@ -5,6 +5,7 @@
 #include <stdbool.h>
 
 #include "opengl.h"
+#include "texture.h"
 #include "vector.h"
 
 void drawCircle(const vec2_t *center, float radius, bool fill) {
@@ -29,4 +30,34 @@ void drawSquare(const vec2_t *center, float size) {
   glVertex2f(center->x + size / 2, center->y + size / 2);
   glVertex2f(center->x - size / 2, center->y + size / 2);
   glEnd();
+}
+
+void drawTexture(const vec2_t *center, float size, texture_key_t textureKey) {
+  texture_t *texture = &textures[textureKey];
+
+  glPushMatrix();
+
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, texture->id);
+  glColor4ub(0xff, 0xff, 0xff, 0xff);
+
+  glBegin(GL_QUADS);
+
+  glTexCoord2f(0.0F, 1.0F);
+  glVertex2f(center->x - size / 2.0F, center->y - size / 2.0F);
+
+  glTexCoord2f(1.0F, 1.0F);
+  glVertex2f(center->x + size / 2.0F, center->y - size / 2.0F);
+
+  glTexCoord2f(1.0F, 0.0F);
+  glVertex2f(center->x + size / 2.0F, center->y + size / 2.0F);
+
+  glTexCoord2f(0.0F, 0.0F);
+  glVertex2f(center->x - size / 2.0F, center->y + size / 2.0F);
+
+  glEnd();
+
+  glDisable(GL_TEXTURE_2D);
+
+  glPopMatrix();
 }

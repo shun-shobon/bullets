@@ -27,23 +27,26 @@ ifeq ($(CC),clang)
 	CC_DEBUG_FLAGS += -Weverything
 endif
 
+INCPATH = -I./glpng/include
 
 UNAME = $(shell uname)
 
 ifeq ($(UNAME),Darwin)
 	CC = clang
 	LD = clang
-	LIBS = -framework OpenGL -framework GLUT
+	LIBPATH = -L./glpng/macos
+	LIBS = -lglpng -framework OpenGL -framework GLUT
 else ifeq ($(UNAME),Linux)
 	CC = gcc
 	LD = gcc
-	LIBS = -lglut -lGLU -lGL
+	LIBS = -lglpng -lglut -lGLU -lGL
 else
 	CC = i686-pc-cygwin-gcc
 	LD = i686-pc-cygwin-gcc
 	OBJS += $(OBJDIR)/icon.o
-	INCPATH = -I/usr/include/opengl
-	LIBS = -lglut32 -lglu32 -lopengl32
+	LIBPATH = -L./glpng/cygwin
+	INCPATH += -I/usr/include/opengl
+	LIBS = -lglpng -lglut32 -lglu32 -lopengl32
 endif
 
 .PHONY: all debug release run clean
@@ -69,11 +72,11 @@ clean:
 
 $(TARGET): $(OBJS)
 	@[ -d $(BINDIR) ] || mkdir -p $(BINDIR)
-	$(LD) $(LDFLAGS) $(OBJS) -o $@ $(LIBS)
+	$(LD) $(LDFLAGS) $(LIBPATH) $(OBJS) -o $@ $(LIBS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile
 	@[ -d $(OBJDIR) ] || mkdir -p $(OBJDIR)
-	$(CC) $(STD) $(CCFLAGS) -o $@ -c -MMD -MP -MF $(@:.o=.d) $<
+	$(CC) $(STD) $(CCFLAGS) $(INCPATH) -o $@ -c -MMD -MP -MF $(@:.o=.d) $<
 
 $(OBJDIR)/icon.o: $(SRCDIR)/icon.rc $(SRCDIR)/icon.ico
 	i686-pc-cygwin-windres -i $(SRCDIR)/icon.rc -o $@

@@ -25,5 +25,5 @@ static inline bullet_t bulletNew(vec2_t position, vec2_t velocity, float size,
                     .draw = draw};
 }
 
-void bulletDrawSquare(const bullet_t *bullet);
-void bulletDrawCircle(const bullet_t *bullet);
+void bulletDrawA(const bullet_t *bullet);
+void bulletDrawB(const bullet_t *bullet);
