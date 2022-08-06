@@ -2,6 +2,7 @@
 #include "title.h"
 
 #include <math.h>
+#include <stdlib.h>
 
 #include "consts.h"
 #include "effect.h"
@@ -20,6 +21,9 @@ void titleUpdate(title_t *title, phase_t *moveNextPhase) {
   if (keyState[KEY_Z]) {
     *moveNextPhase = PHASE_GAME;
   }
+  if (keyState[KEY_Q]) {
+    exit(0);
+  }
 }
 
 void titleDraw(__attribute__((unused)) const title_t *title) {
@@ -29,6 +33,10 @@ void titleDraw(__attribute__((unused)) const title_t *title) {
               WINDOW_SIZE.x, TEXTURE_TITLE);
   drawText(&(vec2_t){WINDOW_SIZE.x / 2.0F, WINDOW_SIZE.y * 0.3F},
            "PRESS Z TO START", 20.0F,
+           0.5F + sinf((float)title->age * 2.0F * (float)M_PI / 40.0F) / 2.0F,
+           ALIGN_CENTER);
+  drawText(&(vec2_t){WINDOW_SIZE.x / 2.0F, WINDOW_SIZE.y * 0.3F - 40.0F},
+           "PRESS Q TO QUIT", 20.0F,
            0.5F + sinf((float)title->age * 2.0F * (float)M_PI / 40.0F) / 2.0F,
            ALIGN_CENTER);
 }

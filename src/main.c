@@ -1,6 +1,4 @@
 // 作成者: j19426 西澤駿太郎
-#include <stdlib.h>
-
 #include "consts.h"
 #include "effect.h"
 #include "event.h"
@@ -17,11 +15,6 @@ void idle() { glutPostRedisplay(); }
 
 void update(__attribute__((unused)) int value) {
   globalUpdate(&global);
-
-  if (keyState[KEY_Q]) {
-    exit(0);
-  }
-
   glutTimerFunc(UPDATE_INTERVAL, update, 0);
 }
 
@@ -99,5 +92,6 @@ int main(int argc, char *argv[]) {
 
   init();
   glutMainLoop();
+
   return 0;
 }
