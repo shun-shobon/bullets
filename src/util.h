@@ -19,4 +19,7 @@ void fpsDraw(const fps_t *fps);
 
 void *mallocSafe(size_t size);
 
+float clampf(float min, float max, float x);
 float absf(float x);
+float randomf();
+float exprandf(float lambda);

@@ -1,6 +1,7 @@
 // 作成者: j19426 西澤駿太郎
 #include "util.h"
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -74,4 +75,11 @@ void *mallocSafe(size_t size) {
   return ptr;
 }
 
+float clampf(float min, float max, float x) {
+  if (x < min) return min;
+  if (max < x) return max;
+  return x;
+}
 float absf(float x) { return x < 0.0F ? -x : x; }
+float randomf() { return (float)random() / (float)RAND_MAX; }
+float exprandf(float lambda) { return -1.0F / lambda * logf(randomf()); }

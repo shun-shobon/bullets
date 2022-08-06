@@ -6,6 +6,7 @@
 #include "consts.h"
 #include "enemies.h"
 #include "enemy.h"
+#include "util.h"
 #include "vector.h"
 
 static int getNextSpawnAge(int age);
@@ -42,6 +43,4 @@ static vec2_t getRandomSpawnPosition() {
   return (vec2_t){x, y};
 }
 
-static float getRandomYVelocity() {
-  return 0.5F + ((float)random() / (float)RAND_MAX) * 1.5F;
-}
+static float getRandomYVelocity() { return 0.5F + randomf() * 1.5F; }
