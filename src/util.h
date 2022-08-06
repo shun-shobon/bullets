@@ -22,4 +22,5 @@ void *mallocSafe(size_t size);
 float clampf(float min, float max, float x);
 float absf(float x);
 float randomf();
-float exprandf(float lambda);
+float expRandomf(float lambda);
+float expRandomNormalizedf(float lambda);

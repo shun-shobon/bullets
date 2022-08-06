@@ -13,7 +13,7 @@
 static int getNextSpawnAge(const gamestate_t *gamestate);
 static vec2_t getRandomSpawnPosition();
 static float getRandomYVelocity(const gamestate_t *gamestate);
-static int getRandomScore();
+static int getRandomScore(const gamestate_t *gamestate);
 
 void spawnerInit(spawner_t *spawner, const gamestate_t *gamestate) {
   spawner->nextSpawnAge = getNextSpawnAge(gamestate);
@@ -26,7 +26,7 @@ void spawnerUpdate(spawner_t *spawner, enemies_t *enemies,
 
   vec2_t position = getRandomSpawnPosition();
   float yVelocity = getRandomYVelocity(gamestate);
-  int score = getRandomScore();
+  int score = getRandomScore(gamestate);
   enemy_move_func_t move = getRandomEnemyMoveFunc();
   enemy_bullet_func_t bullet = getRandomEnemyBulletFunc();
   enemy_draw_func_t draw = getRandomEnemyDrawFunc();
@@ -38,7 +38,7 @@ void spawnerUpdate(spawner_t *spawner, enemies_t *enemies,
 
 static int getNextSpawnAge(const gamestate_t *gamestate) {
   return gamestate->age + SPAWN_INTERVAL_MIN +
-         (int)(clampf(0.0F, 1.0F, exprandf((float)(gamestate->level + 1))) *
+         (int)(expRandomNormalizedf((float)(gamestate->level + 1)) *
                (float)(SPAWN_INTERVAL_MAX - SPAWN_INTERVAL_MIN));
 }
 
@@ -51,8 +51,11 @@ static vec2_t getRandomSpawnPosition() {
 
 static float getRandomYVelocity(const gamestate_t *gamestate) {
   return 0.5F +
-         (1 - clampf(0.0F, 1.0F, exprandf((float)(gamestate->level + 1)))) *
-             2.0F;
+         (1 - expRandomNormalizedf((float)(gamestate->level + 1))) * 2.0F;
 }
 
-static int getRandomScore() { return 50 + (int)(randomf() * 45.0F) * 10; }
+static int getRandomScore(const gamestate_t *gamestate) {
+  return 50 + (int)((1 - expRandomNormalizedf((float)(gamestate->level + 1))) *
+                    45.0F) *
+                  10;
+}

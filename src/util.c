@@ -2,6 +2,7 @@
 #include "util.h"
 
 #include <math.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -82,4 +83,10 @@ float clampf(float min, float max, float x) {
 }
 float absf(float x) { return x < 0.0F ? -x : x; }
 float randomf() { return (float)random() / (float)RAND_MAX; }
-float exprandf(float lambda) { return -1.0F / lambda * logf(randomf()); }
+float expRandomf(float lambda) { return -1.0F / lambda * logf(randomf()); }
+float expRandomNormalizedf(float lambda) {
+  while (true) {
+    float val = expRandomf(lambda);
+    if (val <= 1.0F) return val;
+  }
+}
