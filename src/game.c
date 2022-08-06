@@ -73,8 +73,8 @@ static void gameScoreDraw(const gamestate_t *gamestate) {
   snprintf(scoreStr, 32, "SCORE: %010d", gamestate->score);
   unsigned int length = strlen(scoreStr);
 
-  float x = GAME_OFFSET.x * 2.0F + GAME_SIZE.x;
-  float y = WINDOW_SIZE.y / 2.0F + 20.0F;
+  float x = GAME_OFFSET.x;
+  float y = GAME_OFFSET.y - 20.0F;
 
   glColor3ub(0x00, 0x00, 0x00);
   glRasterPos2f(x - 1, y - 1);
@@ -94,8 +94,8 @@ static void gameLevelDraw(const gamestate_t *gamestate) {
   snprintf(scoreStr, 16, "LEVEL: %02d", gamestate->level);
   unsigned int length = strlen(scoreStr);
 
-  float x = GAME_OFFSET.x * 2.0F + GAME_SIZE.x;
-  float y = WINDOW_SIZE.y / 2.0F;
+  float x = GAME_OFFSET.x;
+  float y = GAME_OFFSET.y - 40.0F;
 
   glColor3ub(0x00, 0x00, 0x00);
   glRasterPos2f(x - 1, y - 1);

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "consts.h"
+#include "effect.h"
 #include "event.h"
 #include "game.h"
 #include "opengl.h"

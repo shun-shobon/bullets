@@ -6,11 +6,11 @@
 #include "vector.h"
 
 // 画面サイズ
-static const vec2_t WINDOW_SIZE = {600, 400};
+static const vec2_t WINDOW_SIZE = {340, 480};
 
 // ゲームサイズとオフセット
-static const vec2_t GAME_SIZE = {300, 360};
-static const vec2_t GAME_OFFSET = {20, 20};
+static const vec2_t GAME_SIZE = {300, 400};
+static const vec2_t GAME_OFFSET = {20, 60};
 
 // プレイヤー関連
 static const float PLAYER_MOVEMENT_NORMAL = 6.0F;
