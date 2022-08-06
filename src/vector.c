@@ -41,6 +41,11 @@ float vec2Length(const vec2_t *v) { return sqrtf(vec2LengthSq(v)); }
 
 float vec2LengthSq(const vec2_t *v) { return v->x * v->x + v->y * v->y; }
 
+vec2_t vec2Normalize(const vec2_t *v) {
+  float length = vec2Length(v);
+  return vec2DivScalar(v, length);
+}
+
 float distancePointPoint(const vec2_t *p1, const vec2_t *p2) {
   vec2_t v = vec2Sub(p1, p2);
   return vec2Length(&v);
@@ -120,11 +125,6 @@ bool isCrossSegmentSegment(const vec2_t *p1, const vec2_t *v1, const vec2_t *p2,
 
   return vec2Cross(v1, &v12) * vec2Cross(v1, &v12End) < 0.0F &&
          vec2Cross(v2, &v21) * vec2Cross(v2, &v21End) < 0.0F;
-}
-
-vec2_t vec2_normalize(vec2_t *v) {
-  float length = vec2Length(v);
-  return vec2DivScalar(v, length);
 }
 
 bool vec2_is_vertical(vec2_t *v1, vec2_t *v2) {

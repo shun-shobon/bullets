@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 #include "bullets.h"
+#include "player.h"
 #include "vector.h"
 
 struct enemy {
@@ -16,13 +17,14 @@ struct enemy {
   int hp;
   int maxHp;
   void (*move)(struct enemy *self);
-  void (*bullet)(struct enemy *self, bullets_t *bullets);
+  void (*bullet)(struct enemy *self, bullets_t *bullets, player_t *player);
   void (*draw)(struct enemy *self);
   bool shouldRemove;
 };
 typedef struct enemy enemy_t;
 typedef void (*enemy_move_func_t)(enemy_t *self);
-typedef void (*enemy_bullet_func_t)(enemy_t *self, bullets_t *bullets);
+typedef void (*enemy_bullet_func_t)(enemy_t *self, bullets_t *bullets,
+                                    player_t *player);
 typedef void (*enemy_draw_func_t)(enemy_t *self);
 
 static inline enemy_t enemyNew(vec2_t position, float yVelocity, float size,
@@ -43,10 +45,10 @@ static inline enemy_t enemyNew(vec2_t position, float yVelocity, float size,
                    .shouldRemove = false};
 }
 
-void enemyUpdate(enemy_t *enemy, bullets_t *bullets);
+void enemyUpdate(enemy_t *enemy, bullets_t *bullets, player_t *player);
 
 #define ENEMY_MOVE_FUNCS 2
-#define ENEMY_BULLET_FUNCS 3
+#define ENEMY_BULLET_FUNCS 4
 #define ENEMY_DRAW_FUNCS 1
 
 extern const enemy_move_func_t enemyMoveFuncs[];

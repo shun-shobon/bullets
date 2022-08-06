@@ -11,20 +11,25 @@
 
 static void enemyMoveLiner(enemy_t *self);
 static void enemyMoveWave(enemy_t *self);
-static void enemyBulletStraight(enemy_t *self, bullets_t *bullets);
-static void enemyBulletFan(enemy_t *self, bullets_t *bullets);
-static void enemyBulletCircle(enemy_t *self, bullets_t *bullets);
+static void enemyBulletStraight(enemy_t *self, bullets_t *bullets,
+                                player_t *player);
+static void enemyBulletFan(enemy_t *self, bullets_t *bullets, player_t *player);
+static void enemyBulletCircle(enemy_t *self, bullets_t *bullets,
+                              player_t *player);
+static void enemyBulletOddStraight(enemy_t *self, bullets_t *bullets,
+                                   player_t *player);
 static void enemyDrawSquare(enemy_t *self);
 
-void enemyUpdate(enemy_t *enemy, bullets_t *bullets) {
+void enemyUpdate(enemy_t *enemy, bullets_t *bullets, player_t *player) {
   enemy->move(enemy);
-  enemy->bullet(enemy, bullets);
+  enemy->bullet(enemy, bullets, player);
   enemy->age += 1;
 }
 
 const enemy_move_func_t enemyMoveFuncs[] = {enemyMoveLiner, enemyMoveWave};
 const enemy_bullet_func_t enemyBulletFuncs[] = {
-    enemyBulletStraight, enemyBulletFan, enemyBulletCircle};
+    enemyBulletStraight, enemyBulletFan, enemyBulletCircle,
+    enemyBulletOddStraight};
 const enemy_draw_func_t enemyDrawFuncs[] = {enemyDrawSquare};
 
 enemy_move_func_t getRandomEnemyMoveFunc() {
@@ -58,7 +63,8 @@ static void enemyMoveWave(enemy_t *self) {
 }
 
 // 直線弾発射
-static void enemyBulletStraight(enemy_t *self, bullets_t *bullets) {
+static void enemyBulletStraight(enemy_t *self, bullets_t *bullets,
+                                __attribute__((unused)) player_t *player) {
   if (self->age % 20 != 0) return;
 
   bullet_t bullet =
@@ -67,7 +73,8 @@ static void enemyBulletStraight(enemy_t *self, bullets_t *bullets) {
 }
 
 // 扇弾発射
-static void enemyBulletFan(enemy_t *self, bullets_t *bullets) {
+static void enemyBulletFan(enemy_t *self, bullets_t *bullets,
+                           __attribute__((unused)) player_t *player) {
   static const float VELOCITY = 3.0F;
   static const float ANGLE = 30.0F * 2.0F * (float)M_PI / 360.0F;
 
@@ -89,7 +96,8 @@ static void enemyBulletFan(enemy_t *self, bullets_t *bullets) {
 }
 
 // 円形弾発射
-static void enemyBulletCircle(enemy_t *self, bullets_t *bullets) {
+static void enemyBulletCircle(enemy_t *self, bullets_t *bullets,
+                              __attribute__((unused)) player_t *player) {
   static const float VELOCITY = 3.0F;
   static const int AMOUNT = 8;
 
@@ -102,6 +110,20 @@ static void enemyBulletCircle(enemy_t *self, bullets_t *bullets) {
         bulletNew(self->position, velocity, 5.0F, bulletDrawSquare);
     bulletsPushBack(bullets, bullet);
   }
+}
+
+// 奇数弾発射
+static void enemyBulletOddStraight(enemy_t *self, bullets_t *bullets,
+                                   player_t *player) {
+  static const float VELOCITY = 3.0F;
+
+  if (self->age % 80 != 0) return;
+
+  vec2_t enemyPlayerVector = vec2Sub(&player->position, &self->position);
+  vec2_t enemyPlayerVectorNormalized = vec2Normalize(&enemyPlayerVector);
+  vec2_t velocity = vec2MulScalar(&enemyPlayerVectorNormalized, VELOCITY);
+  bullet_t bullet = bulletNew(self->position, velocity, 5.0F, bulletDrawSquare);
+  bulletsPushBack(bullets, bullet);
 }
 
 // 正方形描画

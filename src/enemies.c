@@ -24,10 +24,11 @@ void enemiesDrop(enemies_t *enemies) {
   }
 }
 
-void enemiesUpdate(enemies_t *enemies, bullets_t *bullets, shots_t *shots) {
+void enemiesUpdate(enemies_t *enemies, bullets_t *bullets, shots_t *shots,
+                   player_t *player) {
   for (enemy_node_t *node = enemies->head; node; node = node->next) {
     enemy_t *enemy = &node->item;
-    enemyUpdate(enemy, bullets);
+    enemyUpdate(enemy, bullets, player);
 
     int limit =
         shots->head <= shots->tail ? shots->tail : shots->tail + SHOT_MAX;

@@ -27,7 +27,8 @@ void gameUpdate(game_state_t *gameState) {
 
   playerUpdate(&gameState->player, &gameState->bullets);
   shotsUpdate(&gameState->shots, &gameState->player);
-  enemiesUpdate(&gameState->enemies, &gameState->bullets, &gameState->shots);
+  enemiesUpdate(&gameState->enemies, &gameState->bullets, &gameState->shots,
+                &gameState->player);
   bulletsUpdate(&gameState->bullets);
   spawnerUpdate(&gameState->spawner, &gameState->enemies, gameState->age);
 }

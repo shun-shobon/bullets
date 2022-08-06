@@ -6,7 +6,7 @@
 // 弾の最大数
 #define BULLETS_MAX 5000
 // 弾の最大生存時間
-#define BULLETS_MAX_AGE 5000
+#define BULLETS_MAX_AGE 500
 
 // リングバッファ
 typedef struct {

@@ -39,6 +39,7 @@ float vec2Dot(const vec2_t *v1, const vec2_t *v2);
 float vec2Cross(const vec2_t *v1, const vec2_t *v2);
 float vec2Length(const vec2_t *v);
 float vec2LengthSq(const vec2_t *v);
+vec2_t vec2Normalize(const vec2_t *v);
 float distancePointPoint(const vec2_t *p1, const vec2_t *p2);
 float distancePointSegment(const vec2_t *p1, const vec2_t *p2,
                            const vec2_t *v2);
