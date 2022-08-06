@@ -8,37 +8,37 @@
 
 #include "consts.h"
 #include "enemies.h"
-#include "gamestate.h"
 #include "opengl.h"
 #include "player.h"
 #include "shots.h"
+#include "stats.h"
 #include "text.h"
 
 static void gameWindowDraw();
-static void gameScoreDraw(const gamestate_t *gamestate);
-static void gameLevelDraw(const gamestate_t *gamestate);
+static void gameScoreDraw(const stats_t *gamestate);
+static void gameLevelDraw(const stats_t *gamestate);
 
 void gameInit(game_t *game) {
   srandom(time(NULL));
 
-  gamestateInit(&game->gamestate);
+  statsInit(&game->stats);
   playerInit(&game->player);
   shotsInit(&game->shots);
   enemiesInit(&game->enemies);
   bulletsInit(&game->bullets);
-  spawnerInit(&game->spawner, &game->gamestate);
+  spawnerInit(&game->spawner, &game->stats);
 }
 
 void gameDrop(game_t *game) { enemiesDrop(&game->enemies); }
 
 void gameUpdate(game_t *game, __attribute__((unused)) phase_t *moveNextPhase) {
-  gamestateUpdate(&game->gamestate);
+  statsUpdate(&game->stats);
   playerUpdate(&game->player, &game->bullets);
   shotsUpdate(&game->shots, &game->player);
   enemiesUpdate(&game->enemies, &game->bullets, &game->shots, &game->player,
-                &game->gamestate);
+                &game->stats);
   bulletsUpdate(&game->bullets);
-  spawnerUpdate(&game->spawner, &game->enemies, &game->gamestate);
+  spawnerUpdate(&game->spawner, &game->enemies, &game->stats);
 }
 
 void gameDraw(const game_t *game) {
@@ -51,8 +51,8 @@ void gameDraw(const game_t *game) {
   glPopMatrix();
 
   gameWindowDraw();
-  gameScoreDraw(&game->gamestate);
-  gameLevelDraw(&game->gamestate);
+  gameScoreDraw(&game->stats);
+  gameLevelDraw(&game->stats);
 }
 
 static void gameWindowDraw() {
@@ -80,7 +80,7 @@ static void gameWindowDraw() {
   glEnd();
 }
 
-static void gameScoreDraw(const gamestate_t *gamestate) {
+static void gameScoreDraw(const stats_t *gamestate) {
   char scoreStr[32];
   snprintf(scoreStr, 32, "SCORE %09d", gamestate->score);
 
@@ -88,7 +88,7 @@ static void gameScoreDraw(const gamestate_t *gamestate) {
   drawText(&position, scoreStr, 20.0F, 1.0F, ALIGN_LEFT);
 }
 
-static void gameLevelDraw(const gamestate_t *gamestate) {
+static void gameLevelDraw(const stats_t *gamestate) {
   char scoreStr[16];
   snprintf(scoreStr, 16, "LEVEL %02d", gamestate->level);
 

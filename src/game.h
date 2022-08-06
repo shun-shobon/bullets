@@ -4,13 +4,13 @@
 #include "bullets.h"
 #include "consts.h"
 #include "enemies.h"
-#include "gamestate.h"
 #include "player.h"
 #include "shots.h"
 #include "spawner.h"
+#include "stats.h"
 
 typedef struct {
-  gamestate_t gamestate;
+  stats_t stats;
   enemies_t enemies;
   player_t player;
   shots_t shots;

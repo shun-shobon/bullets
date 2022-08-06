@@ -5,7 +5,7 @@ typedef struct {
   int age;
   int score;
   int level;
-} gamestate_t;
+} stats_t;
 
-void gamestateInit(gamestate_t *gamestate);
-void gamestateUpdate(gamestate_t *gamestate);
+void statsInit(stats_t *stats);
+void statsUpdate(stats_t *stats);

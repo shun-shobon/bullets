@@ -4,7 +4,7 @@
 #include "bullets.h"
 #include "consts.h"
 #include "enemy.h"
-#include "gamestate.h"
+#include "stats.h"
 #include "util.h"
 
 static void enemiesGC(enemies_t *enemies);
@@ -26,7 +26,7 @@ void enemiesDrop(enemies_t *enemies) {
 }
 
 void enemiesUpdate(enemies_t *enemies, bullets_t *bullets, shots_t *shots,
-                   player_t *player, gamestate_t *gamestate) {
+                   player_t *player, stats_t *stats) {
   for (enemy_node_t *node = enemies->head; node; node = node->next) {
     enemy_t *enemy = &node->item;
     enemyUpdate(enemy, bullets, player);
@@ -44,7 +44,7 @@ void enemiesUpdate(enemies_t *enemies, bullets_t *bullets, shots_t *shots,
         enemy->hp -= 1;
         if (enemy->hp == 0) {
           enemy->shouldRemove = true;
-          gamestate->score += enemy->score;
+          stats->score += enemy->score;
           break;
         }
       }

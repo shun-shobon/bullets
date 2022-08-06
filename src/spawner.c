@@ -6,21 +6,21 @@
 #include "consts.h"
 #include "enemies.h"
 #include "enemy.h"
-#include "gamestate.h"
+#include "stats.h"
 #include "util.h"
 #include "vector.h"
 
-static int getNextSpawnAge(const gamestate_t *gamestate);
+static int getNextSpawnAge(const stats_t *gamestate);
 static vec2_t getRandomSpawnPosition();
-static float getRandomYVelocity(const gamestate_t *gamestate);
-static int getRandomScore(const gamestate_t *gamestate);
+static float getRandomYVelocity(const stats_t *gamestate);
+static int getRandomScore(const stats_t *gamestate);
 
-void spawnerInit(spawner_t *spawner, const gamestate_t *gamestate) {
+void spawnerInit(spawner_t *spawner, const stats_t *gamestate) {
   spawner->nextSpawnAge = getNextSpawnAge(gamestate);
 }
 
 void spawnerUpdate(spawner_t *spawner, enemies_t *enemies,
-                   const gamestate_t *gamestate) {
+                   const stats_t *gamestate) {
   if (spawner->nextSpawnAge != gamestate->age) return;
   spawner->nextSpawnAge = getNextSpawnAge(gamestate);
 
@@ -36,7 +36,7 @@ void spawnerUpdate(spawner_t *spawner, enemies_t *enemies,
   enemiesPushBack(enemies, enemy);
 }
 
-static int getNextSpawnAge(const gamestate_t *gamestate) {
+static int getNextSpawnAge(const stats_t *gamestate) {
   return gamestate->age + SPAWN_INTERVAL_MIN +
          (int)(expRandomNormalizedf((float)(gamestate->level + 1)) *
                (float)(SPAWN_INTERVAL_MAX - SPAWN_INTERVAL_MIN));
@@ -49,12 +49,12 @@ static vec2_t getRandomSpawnPosition() {
   return (vec2_t){x, y};
 }
 
-static float getRandomYVelocity(const gamestate_t *gamestate) {
+static float getRandomYVelocity(const stats_t *gamestate) {
   return 0.5F +
          (1 - expRandomNormalizedf((float)(gamestate->level + 1))) * 2.0F;
 }
 
-static int getRandomScore(const gamestate_t *gamestate) {
+static int getRandomScore(const stats_t *gamestate) {
   return 50 + (int)((1 - expRandomNormalizedf((float)(gamestate->level + 1))) *
                     45.0F) *
                   10;
