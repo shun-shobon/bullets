@@ -16,6 +16,7 @@ struct enemy {
   int age;
   int hp;
   int maxHp;
+  int score;
   void (*move)(struct enemy *self);
   void (*bullet)(struct enemy *self, bullets_t *bullets, player_t *player);
   void (*draw)(struct enemy *self);
@@ -28,7 +29,7 @@ typedef void (*enemy_bullet_func_t)(enemy_t *self, bullets_t *bullets,
 typedef void (*enemy_draw_func_t)(enemy_t *self);
 
 static inline enemy_t enemyNew(vec2_t position, float yVelocity, float size,
-                               int hp, enemy_move_func_t move,
+                               int hp, int score, enemy_move_func_t move,
                                enemy_bullet_func_t bullet,
                                enemy_draw_func_t draw) {
   return (enemy_t){.spawnPosition = position,
@@ -39,6 +40,7 @@ static inline enemy_t enemyNew(vec2_t position, float yVelocity, float size,
                    .age = 0,
                    .hp = hp,
                    .maxHp = hp,
+                   .score = score,
                    .move = move,
                    .bullet = bullet,
                    .draw = draw,

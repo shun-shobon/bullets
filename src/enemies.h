@@ -3,6 +3,7 @@
 
 #include "bullets.h"
 #include "enemy.h"
+#include "gamestate.h"
 #include "player.h"
 #include "shots.h"
 
@@ -23,6 +24,6 @@ typedef struct {
 void enemiesInit(enemies_t *enemies);
 void enemiesDrop(enemies_t *enemies);
 void enemiesUpdate(enemies_t *enemies, bullets_t *bullets, shots_t *shots,
-                   player_t *player);
+                   player_t *player, gamestate_t *gamestate);
 void enemiesDraw(const enemies_t *enemies);
 void enemiesPushBack(enemies_t *enemies, enemy_t newEnemy);

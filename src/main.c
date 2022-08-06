@@ -9,7 +9,7 @@
 
 #define UPDATE_INTERVAL 30
 
-game_state_t gameState;
+game_t gameState;
 fps_t fps;
 
 void idle() { glutPostRedisplay(); }

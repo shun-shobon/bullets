@@ -12,6 +12,7 @@
 static int getNextSpawnAge(int age);
 static vec2_t getRandomSpawnPosition();
 static float getRandomYVelocity();
+static int getRandomScore();
 
 void spawnerInit(spawner_t *spawner) {
   spawner->nextSpawnAge = getNextSpawnAge(0);
@@ -23,11 +24,13 @@ void spawnerUpdate(spawner_t *spawner, enemies_t *enemies, int age) {
 
   vec2_t position = getRandomSpawnPosition();
   float yVelocity = getRandomYVelocity();
+  int score = getRandomScore();
   enemy_move_func_t move = getRandomEnemyMoveFunc();
   enemy_bullet_func_t bullet = getRandomEnemyBulletFunc();
   enemy_draw_func_t draw = getRandomEnemyDrawFunc();
 
-  enemy_t enemy = enemyNew(position, yVelocity, 20.0F, 10, move, bullet, draw);
+  enemy_t enemy =
+      enemyNew(position, yVelocity, 20.0F, 10, score, move, bullet, draw);
   enemiesPushBack(enemies, enemy);
 }
 
@@ -44,3 +47,5 @@ static vec2_t getRandomSpawnPosition() {
 }
 
 static float getRandomYVelocity() { return 0.5F + randomf() * 1.5F; }
+
+static int getRandomScore() { return 50 + (int)(randomf() * 45.0F) * 10; }

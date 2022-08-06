@@ -6,40 +6,41 @@
 
 #include "consts.h"
 #include "enemies.h"
+#include "gamestate.h"
 #include "opengl.h"
 #include "player.h"
 #include "shots.h"
 
 static void gameWindowDraw();
 
-void gameInit(game_state_t *gameState) {
+void gameInit(game_t *game) {
   srandom(time(NULL));
 
-  playerInit(&gameState->player);
-  shotsInit(&gameState->shots);
-  enemiesInit(&gameState->enemies);
-  bulletsInit(&gameState->bullets);
-  spawnerInit(&gameState->spawner);
+  gamestateInit(&game->gamestate);
+  playerInit(&game->player);
+  shotsInit(&game->shots);
+  enemiesInit(&game->enemies);
+  bulletsInit(&game->bullets);
+  spawnerInit(&game->spawner);
 }
 
-void gameUpdate(game_state_t *gameState) {
-  gameState->age += 1;
-
-  playerUpdate(&gameState->player, &gameState->bullets);
-  shotsUpdate(&gameState->shots, &gameState->player);
-  enemiesUpdate(&gameState->enemies, &gameState->bullets, &gameState->shots,
-                &gameState->player);
-  bulletsUpdate(&gameState->bullets);
-  spawnerUpdate(&gameState->spawner, &gameState->enemies, gameState->age);
+void gameUpdate(game_t *game) {
+  gamestateUpdate(&game->gamestate);
+  playerUpdate(&game->player, &game->bullets);
+  shotsUpdate(&game->shots, &game->player);
+  enemiesUpdate(&game->enemies, &game->bullets, &game->shots, &game->player,
+                &game->gamestate);
+  bulletsUpdate(&game->bullets);
+  spawnerUpdate(&game->spawner, &game->enemies, game->gamestate.age);
 }
 
-void gameDraw(const game_state_t *gameState) {
+void gameDraw(const game_t *game) {
   glPushMatrix();
   glTranslatef(GAME_OFFSET.x, GAME_OFFSET.y, 0);
-  playerDraw(&gameState->player);
-  shotsDraw(&gameState->shots);
-  enemiesDraw(&gameState->enemies);
-  bulletsDraw(&gameState->bullets);
+  playerDraw(&game->player);
+  shotsDraw(&game->shots);
+  enemiesDraw(&game->enemies);
+  bulletsDraw(&game->bullets);
   glPopMatrix();
 
   gameWindowDraw();
