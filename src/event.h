@@ -12,8 +12,7 @@ typedef enum {
   KEY_DOWN,
   KEY_LEFT,
   KEY_RIGHT,
-  KEY_Q,
-  KEY_X,
+  KEY_P,
   KEY_Z,
   KEY_LENGTH,
 } key_code_t;

@@ -12,6 +12,7 @@ typedef struct {
   title_t title;
   game_t game;
   phase_t moveNextPhase;
+  bool isPause;
 } global_t;
 
 void globalInit(global_t *global);

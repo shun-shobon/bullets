@@ -2,6 +2,7 @@
 #include "global.h"
 
 #include "consts.h"
+#include "event.h"
 #include "game.h"
 #include "title.h"
 
@@ -10,10 +11,14 @@ static void movePhase(global_t *global, phase_t src, phase_t dst);
 void globalInit(global_t *global) {
   global->phase = PHASE_TITLE;
   global->moveNextPhase = PHASE_NONE;
+  global->isPause = false;
   titleInit(&global->title);
 }
 
 void globalUpdate(global_t *global) {
+  if (isKeyPress(KEY_P)) global->isPause = !global->isPause;
+  if (global->isPause) return;
+
   if (global->moveNextPhase != PHASE_NONE) {
     movePhase(global, global->phase, global->moveNextPhase);
   }

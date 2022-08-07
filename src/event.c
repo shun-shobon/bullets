@@ -57,15 +57,12 @@ bool isKeyClick(key_code_t keyCode) {
 
 static key_code_t getKeyFromChar(unsigned char rawKeyCode) {
   switch (rawKeyCode) {
+    case 'p':
+    case 'P':
+      return KEY_P;
     case 'z':
     case 'Z':
       return KEY_Z;
-    case 'x':
-    case 'X':
-      return KEY_X;
-    case 'q':
-    case 'Q':
-      return KEY_Q;
     default:
       return KEY_OTHER;
   }
