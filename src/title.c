@@ -18,10 +18,10 @@ void titleDrop(__attribute__((unused)) title_t *title) {}
 void titleUpdate(title_t *title, phase_t *moveNextPhase) {
   title->age += 1;
 
-  if (keyState[KEY_Z]) {
+  if (isKeyClick(KEY_Z)) {
     *moveNextPhase = PHASE_GAME;
   }
-  if (keyState[KEY_Q]) {
+  if (isKeyClick(KEY_Q)) {
     exit(0);
   }
 }

@@ -64,27 +64,26 @@ void playerDraw(const player_t *player, bool isGameOver) {
 
 static void playerSetVector(player_t *player) {
   int vertical = 0;
-  if ((keyState[KEY_UP] && keyState[KEY_DOWN]) ||
-      (!keyState[KEY_UP] && !keyState[KEY_DOWN])) {
+  if ((isKeyPress(KEY_UP) && isKeyPress(KEY_DOWN)) ||
+      (!isKeyPress(KEY_UP) && !isKeyPress(KEY_DOWN))) {
     vertical = 0;
-  } else if (keyState[KEY_UP] && !keyState[KEY_DOWN]) {
+  } else if (isKeyPress(KEY_UP) && !isKeyPress(KEY_DOWN)) {
     vertical = 1;
-  } else if (!keyState[KEY_UP] && keyState[KEY_DOWN]) {
+  } else if (!isKeyPress(KEY_UP) && isKeyPress(KEY_DOWN)) {
     vertical = -1;
   }
 
   int horizontal = 0;
-  if ((keyState[KEY_RIGHT] && keyState[KEY_LEFT]) ||
-      (!keyState[KEY_RIGHT] && !keyState[KEY_LEFT])) {
+  if ((isKeyPress(KEY_RIGHT) && isKeyPress(KEY_LEFT)) ||
+      (!isKeyPress(KEY_RIGHT) && !isKeyPress(KEY_LEFT))) {
     horizontal = 0;
-  } else if (keyState[KEY_RIGHT] && !keyState[KEY_LEFT]) {
+  } else if (isKeyPress(KEY_RIGHT) && !isKeyPress(KEY_LEFT)) {
     horizontal = 1;
-  } else if (!keyState[KEY_RIGHT] && keyState[KEY_LEFT]) {
+  } else if (!isKeyPress(KEY_RIGHT) && isKeyPress(KEY_LEFT)) {
     horizontal = -1;
   }
 
-  float movement =
-      keyState[KEY_SHIFT] ? PLAYER_MOVEMENT_SLOW : PLAYER_MOVEMENT_NORMAL;
+  float movement = PLAYER_MOVEMENT;
   float amount = vertical && horizontal ? sqrtf(3.0F) / 2.0F : 1;
   switch (vertical) {
     case 1:

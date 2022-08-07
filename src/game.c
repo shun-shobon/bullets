@@ -45,7 +45,7 @@ void gameUpdate(game_t *game, phase_t *moveNextPhase) {
   bulletsUpdate(&game->bullets);
   spawnerUpdate(&game->spawner, &game->enemies, &game->stats, game->isGameOver);
 
-  if (game->isGameOver && keyState[KEY_X]) *moveNextPhase = PHASE_TITLE;
+  if (game->isGameOver && isKeyClick(KEY_Z)) *moveNextPhase = PHASE_TITLE;
 }
 
 void gameDraw(const game_t *game) {
@@ -111,7 +111,7 @@ static void gameOverDraw(const game_t *game) {
               GAME_SIZE.x, TEXTURE_GAMEOVER);
   drawText(
       &(vec2_t){WINDOW_SIZE.x / 2.0F, WINDOW_SIZE.y * 0.3F},
-      "PRESS X TO MOVE TITLE", 13.0F,
+      "PRESS Z TO MOVE TITLE", 13.0F,
       0.5F + sinf((float)game->stats.age * 2.0F * (float)M_PI / 40.0F) / 2.0F,
       ALIGN_CENTER);
 }

@@ -5,77 +5,83 @@
 
 #include "opengl.h"
 
-bool keyState[KEY_LENGTH];
+static key_t keyState[KEY_LENGTH];
 
-static void handleKey(unsigned char rawKeyCode, bool isDown);
-static void handleSpecialKey(int rawKey, bool isDown);
-static void handleModifierKey();
+static key_code_t getKeyFromChar(unsigned char rawKeyCode);
+static key_code_t getKeyFromGlutKeyCode(int glutKeyCode);
 
 void eventInit() {
   for (int i = 0; i < KEY_LENGTH; i++) {
-    keyState[i] = false;
+    keyState[i].isPress = false;
+    keyState[i].isClicked = false;
   }
 }
 
 void handleKeyDown(unsigned char rawKeyCode, __attribute__((unused)) int x,
                    __attribute__((unused)) int y) {
-  handleKey(rawKeyCode, true);
+  keyState[getKeyFromChar(rawKeyCode)].isPress = true;
 }
 
 void handleKeyUp(unsigned char rawKeyCode, __attribute__((unused)) int x,
                  __attribute__((unused)) int y) {
-  handleKey(rawKeyCode, false);
+  keyState[getKeyFromChar(rawKeyCode)].isPress = false;
+  keyState[getKeyFromChar(rawKeyCode)].isClicked = false;
 }
 
-void handleSpecialKeyDown(int rawKey, __attribute__((unused)) int x,
+void handleSpecialKeyDown(int glutKeyCode, __attribute__((unused)) int x,
                           __attribute__((unused)) int y) {
-  handleSpecialKey(rawKey, true);
+  keyState[getKeyFromGlutKeyCode(glutKeyCode)].isPress = true;
 }
 
-void handleSpecialKeyUp(int rawKey, __attribute__((unused)) int x,
+void handleSpecialKeyUp(int glutKeyCode, __attribute__((unused)) int x,
                         __attribute__((unused)) int y) {
-  handleSpecialKey(rawKey, false);
+  keyState[getKeyFromGlutKeyCode(glutKeyCode)].isPress = false;
+  keyState[getKeyFromGlutKeyCode(glutKeyCode)].isClicked = false;
 }
 
-static void handleKey(unsigned char rawKeyCode, bool isDown) {
+bool isKeyPress(key_code_t keyCode) {
+  if (keyState[keyCode].isPress) {
+    keyState[keyCode].isClicked = true;
+    return true;
+  }
+  return false;
+}
+
+bool isKeyClick(key_code_t keyCode) {
+  if (keyState[keyCode].isPress && !keyState[keyCode].isClicked) {
+    keyState[keyCode].isClicked = true;
+    return true;
+  }
+  return false;
+}
+
+static key_code_t getKeyFromChar(unsigned char rawKeyCode) {
   switch (rawKeyCode) {
     case 'z':
     case 'Z':
-      keyState[KEY_Z] = isDown;
-      break;
+      return KEY_Z;
     case 'x':
     case 'X':
-      keyState[KEY_X] = isDown;
-      break;
+      return KEY_X;
     case 'q':
     case 'Q':
-      keyState[KEY_Q] = isDown;
-      break;
+      return KEY_Q;
+    default:
+      return KEY_OTHER;
   }
-
-  handleModifierKey();
 }
 
-void handleSpecialKey(int rawKey, bool isDown) {
-  switch (rawKey) {
+static key_code_t getKeyFromGlutKeyCode(int glutKeyCode) {
+  switch (glutKeyCode) {
     case GLUT_KEY_DOWN:
-      keyState[KEY_DOWN] = isDown;
-      break;
+      return KEY_DOWN;
     case GLUT_KEY_UP:
-      keyState[KEY_UP] = isDown;
-      break;
+      return KEY_UP;
     case GLUT_KEY_LEFT:
-      keyState[KEY_LEFT] = isDown;
-      break;
+      return KEY_LEFT;
     case GLUT_KEY_RIGHT:
-      keyState[KEY_RIGHT] = isDown;
-      break;
+      return KEY_RIGHT;
+    default:
+      return KEY_OTHER;
   }
-
-  handleModifierKey();
-}
-
-static void handleModifierKey() {
-  int modifiers = glutGetModifiers();
-  keyState[KEY_SHIFT] = (bool)(modifiers & GLUT_ACTIVE_SHIFT);
 }
