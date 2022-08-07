@@ -1,6 +1,5 @@
 // 作成者: j19426 西澤駿太郎
 #include "consts.h"
-#include "effect.h"
 #include "event.h"
 #include "global.h"
 #include "opengl.h"
