@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
   glutInit(&argc, argv);
   glutInitWindowSize((int)WINDOW_SIZE.x, (int)WINDOW_SIZE.y);
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
-  glutCreateWindow(argv[0]);
+  glutCreateWindow("BULLETS");
 
   // イベントハンドラの登録
   glutDisplayFunc(display);

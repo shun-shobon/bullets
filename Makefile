@@ -1,5 +1,5 @@
 # 作成者: j19426 西澤駿太郎
-TARGET = shooting
+TARGET = j19426
 
 SRCDIR = ./src
 INCDIR = ./src
