@@ -11,7 +11,6 @@
 #include "event.h"
 #include "opengl.h"
 #include "player.h"
-#include "primitive.h"
 #include "select.h"
 #include "shots.h"
 #include "stats.h"

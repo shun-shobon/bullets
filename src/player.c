@@ -8,7 +8,6 @@
 #include "consts.h"
 #include "event.h"
 #include "opengl.h"
-#include "primitive.h"
 #include "texture.h"
 #include "vector.h"
 
@@ -59,7 +58,6 @@ void playerDraw(const player_t *player, bool isGameOver) {
   drawTexture(&player->position, size, 1.0F, TEXTURE_PLAYER);
 
   glColor3ub(0xff, 0xff, 0x00);
-  drawSquare(&player->position, PLAYER_SIZE / 2);
 }
 
 static void playerSetVector(player_t *player) {

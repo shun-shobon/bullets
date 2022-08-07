@@ -6,7 +6,7 @@
 
 #include "bullet.h"
 #include "bullets.h"
-#include "primitive.h"
+#include "texture.h"
 
 static const float BULLET_SIZE = 10.0F;
 

@@ -6,7 +6,6 @@
 #include <stdlib.h>
 
 #include "event.h"
-#include "primitive.h"
 #include "text.h"
 #include "texture.h"
 #include "util.h"

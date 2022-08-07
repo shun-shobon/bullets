@@ -2,6 +2,7 @@
 #pragma once
 
 #include "opengl.h"
+#include "vector.h"
 
 typedef enum {
   TEXTURE_PLAYER,
@@ -21,6 +22,6 @@ typedef struct {
   pngInfo info;
 } texture_t;
 
-extern texture_t textures[TEXTURE_LENGTH];
-
 void textureInit();
+void drawTexture(const vec2_t *center, float size, float alpha,
+                 texture_key_t textureKey);

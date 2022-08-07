@@ -4,7 +4,6 @@
 #include "consts.h"
 #include "event.h"
 #include "player.h"
-#include "primitive.h"
 #include "texture.h"
 #include "vector.h"
 

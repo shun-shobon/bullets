@@ -6,8 +6,8 @@
 #include "consts.h"
 #include "effect.h"
 #include "event.h"
-#include "primitive.h"
 #include "select.h"
+#include "texture.h"
 #include "vector.h"
 
 void titleInit(title_t *title) {
