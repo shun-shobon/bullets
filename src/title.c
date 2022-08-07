@@ -26,7 +26,7 @@ void titleUpdate(title_t *title, phase_t *moveNextPhase) {
   }
 }
 
-void titleDraw(__attribute__((unused)) const title_t *title) {
+void titleDraw(const title_t *title) {
   gridDraw(&(vec2_t){0.0F, 0.0F}, &WINDOW_SIZE, title->age);
 
   drawTexture(&(vec2_t){WINDOW_SIZE.x / 2.0F, WINDOW_SIZE.y * 0.7F},
