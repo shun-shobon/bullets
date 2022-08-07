@@ -32,14 +32,15 @@ void drawSquare(const vec2_t *center, float size) {
   glEnd();
 }
 
-void drawTexture(const vec2_t *center, float size, texture_key_t textureKey) {
+void drawTexture(const vec2_t *center, float size, float alpha,
+                 texture_key_t textureKey) {
   texture_t *texture = &textures[textureKey];
 
   glPushMatrix();
 
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texture->id);
-  glColor4ub(0xff, 0xff, 0xff, 0xff);
+  glColor4f(1.0F, 1.0F, 1.0F, alpha);
 
   glBegin(GL_QUADS);
 

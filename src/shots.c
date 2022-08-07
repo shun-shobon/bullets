@@ -71,5 +71,5 @@ static void shotsPushBack(shots_t *shots, shot_t shot) {
 }
 
 static void shotDraw(const shot_t *shot) {
-  drawTexture(&shot->position, SHOT_SIZE * 2, TEXTURE_SHOT);
+  drawTexture(&shot->position, SHOT_SIZE * 2, 1.0F, TEXTURE_SHOT);
 }

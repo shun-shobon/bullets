@@ -165,9 +165,9 @@ static void enemyBulletOddFan(enemy_t *self, bullets_t *bullets,
 }
 
 static void enemyDrawA(enemy_t *self) {
-  drawTexture(&self->position, self->size, TEXTURE_ENEMY_A);
+  drawTexture(&self->position, self->size, 1.0F, TEXTURE_ENEMY_A);
 }
 
 static void enemyDrawB(enemy_t *self) {
-  drawTexture(&self->position, self->size, TEXTURE_ENEMY_B);
+  drawTexture(&self->position, self->size, 1.0F, TEXTURE_ENEMY_B);
 }

@@ -2,9 +2,11 @@
 #pragma once
 
 #include "consts.h"
+#include "select.h"
 
 typedef struct {
   int age;
+  select_t select;
 } title_t;
 
 void titleInit(title_t *title);

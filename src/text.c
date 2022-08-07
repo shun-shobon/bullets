@@ -37,8 +37,8 @@ void textInit() {
               GL_NEAREST, GL_NEAREST);
 }
 
-void drawText(vec2_t *position, char *str, float height, float alpha,
-              align_t align) {
+float drawText(vec2_t *position, char *str, float height, float alpha,
+               align_t align) {
   int length = (int)strlen(str);
   float width = (float)length * height;
 
@@ -60,6 +60,8 @@ void drawText(vec2_t *position, char *str, float height, float alpha,
     drawChar(&charPosition, str[i], height, alpha);
     charPosition.x += height;
   }
+
+  return width;
 }
 
 static void drawChar(vec2_t *position, char c, float height, float alpha) {

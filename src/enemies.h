@@ -14,10 +14,9 @@ struct enemy_node {
 };
 typedef struct enemy_node enemy_node_t;
 
-// 双方向連結リスト
 typedef struct {
-  struct enemy_node *head;
-  struct enemy_node *tail;
+  enemy_node_t *head;
+  enemy_node_t *tail;
   int len;
 } enemies_t;
 

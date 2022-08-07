@@ -7,6 +7,7 @@
 #include "consts.h"
 #include "enemies.h"
 #include "player.h"
+#include "select.h"
 #include "shots.h"
 #include "spawner.h"
 #include "stats.h"
@@ -19,6 +20,7 @@ typedef struct {
   shots_t shots;
   bullets_t bullets;
   spawner_t spawner;
+  select_t select;
 } game_t;
 
 void gameInit(game_t *game);

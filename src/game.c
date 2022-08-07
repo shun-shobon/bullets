@@ -12,6 +12,7 @@
 #include "opengl.h"
 #include "player.h"
 #include "primitive.h"
+#include "select.h"
 #include "shots.h"
 #include "stats.h"
 #include "text.h"
@@ -32,9 +33,13 @@ void gameInit(game_t *game) {
   enemiesInit(&game->enemies);
   bulletsInit(&game->bullets);
   spawnerInit(&game->spawner, &game->stats);
+  selectInit(&game->select, "CONTINUE", "TITLE", NULL);
 }
 
-void gameDrop(game_t *game) { enemiesDrop(&game->enemies); }
+void gameDrop(game_t *game) {
+  enemiesDrop(&game->enemies);
+  selectDrop(&game->select);
+}
 
 void gameUpdate(game_t *game, phase_t *moveNextPhase) {
   statsUpdate(&game->stats);
@@ -45,7 +50,16 @@ void gameUpdate(game_t *game, phase_t *moveNextPhase) {
   bulletsUpdate(&game->bullets);
   spawnerUpdate(&game->spawner, &game->enemies, &game->stats, game->isGameOver);
 
-  if (game->isGameOver && isKeyClick(KEY_Z)) *moveNextPhase = PHASE_TITLE;
+  if (!game->isGameOver) return;
+  selectUpdate(&game->select);
+  switch (game->select.selected) {
+    case 0:
+      *moveNextPhase = PHASE_GAME;
+      break;
+    case 1:
+      *moveNextPhase = PHASE_TITLE;
+      break;
+  }
 }
 
 void gameDraw(const game_t *game) {
@@ -108,10 +122,8 @@ static void gameOverDraw(const game_t *game) {
   if (!game->isGameOver) return;
 
   drawTexture(&(vec2_t){WINDOW_SIZE.x / 2.0F, WINDOW_SIZE.y * 0.7F},
-              GAME_SIZE.x, TEXTURE_GAMEOVER);
-  drawText(
-      &(vec2_t){WINDOW_SIZE.x / 2.0F, WINDOW_SIZE.y * 0.3F},
-      "PRESS Z TO MOVE TITLE", 13.0F,
-      0.5F + sinf((float)game->stats.age * 2.0F * (float)M_PI / 40.0F) / 2.0F,
-      ALIGN_CENTER);
+              GAME_SIZE.x, 1.0F, TEXTURE_GAMEOVER);
+  selectDraw(&game->select, game->stats.age,
+             &(vec2_t){WINDOW_SIZE.x / 2.0F, WINDOW_SIZE.y * 0.3F}, 20.0F,
+             20.0F);
 }

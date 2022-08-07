@@ -56,7 +56,7 @@ void playerDraw(const player_t *player, bool isGameOver) {
 
   static const float size = 40.0F;
 
-  drawTexture(&player->position, size, TEXTURE_PLAYER);
+  drawTexture(&player->position, size, 1.0F, TEXTURE_PLAYER);
 
   glColor3ub(0xff, 0xff, 0x00);
   drawSquare(&player->position, PLAYER_SIZE / 2);
