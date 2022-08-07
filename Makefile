@@ -49,7 +49,7 @@ else
 	LIBS = -lglpng -lglut32 -lglu32 -lopengl32
 endif
 
-.PHONY: all debug release run clean
+.PHONY: all debug release run clean tar
 
 release: CCFLAGS += $(CC_RELEASE_FLAGS)
 release: LDFLAGS += $(LD_RELEASE_FLAGS)
@@ -69,6 +69,12 @@ lint: $(SRCS) compile_commands.json
 
 clean:
 	rm -rf $(TARGET) $(OBJDIR) compile_commands.json
+
+tar: clean
+	mkdir $(TARGET)
+	cp -r assets/ glpng/ src/ Makefile $(TARGET)/
+	tar -zcvf j19426.tar.gz $(TARGET)/
+	rm -rf $(TARGET)/
 
 $(TARGET): $(OBJS)
 	@[ -d $(BINDIR) ] || mkdir -p $(BINDIR)
