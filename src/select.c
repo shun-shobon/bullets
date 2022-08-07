@@ -5,6 +5,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
+#include "consts.h"
 #include "event.h"
 #include "text.h"
 #include "texture.h"
@@ -66,7 +67,7 @@ void selectDraw(const select_t *select, int age, const vec2_t *position,
     if (select->select == i) {
       vec2_t cursorPosition = {textPosition.x - width / 2.0F - gap,
                                textPosition.y};
-      float alpha = 0.5F + sinf((float)age * 2.0F * (float)M_PI / 20.0F) / 2.0F;
+      float alpha = 0.5F + sinf((float)age * 2.0F * PI / 20.0F) / 2.0F;
       drawTexture(&cursorPosition, height, alpha, TEXTURE_CURSOR);
     }
 

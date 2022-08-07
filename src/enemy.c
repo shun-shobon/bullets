@@ -6,6 +6,7 @@
 
 #include "bullet.h"
 #include "bullets.h"
+#include "consts.h"
 #include "texture.h"
 
 static const float BULLET_SIZE = 10.0F;
@@ -64,7 +65,7 @@ static void enemyMoveWave(enemy_t *self) {
   self->position.y -= self->yVelocity;
   self->velocity.y = -self->yVelocity;
 
-  float theta = self->position.y * (float)M_PI / CYCLE;
+  float theta = self->position.y * PI / CYCLE;
   float x = self->spawnPosition.x + MOVEMENT_X_MAX * sinf(theta);
   self->velocity.x = x - self->position.x;
   self->position.x = x;
@@ -84,7 +85,7 @@ static void enemyBulletStraight(enemy_t *self, bullets_t *bullets,
 static void enemyBulletFan(enemy_t *self, bullets_t *bullets,
                            __attribute__((unused)) player_t *player) {
   static const float VELOCITY = 3.0F;
-  static const float ANGLE = 30.0F * 2.0F * (float)M_PI / 360.0F;
+  static const float ANGLE = 30.0F * 2.0F * PI / 360.0F;
 
   if (self->age % 60 != 0) return;
 
@@ -112,7 +113,7 @@ static void enemyBulletCircle(enemy_t *self, bullets_t *bullets,
   if (self->age % 80 != 0) return;
 
   for (int i = 0; i < AMOUNT; i++) {
-    float theta = (float)i * 2.0F * (float)M_PI / (float)AMOUNT;
+    float theta = (float)i * 2.0F * PI / (float)AMOUNT;
     vec2_t velocity = {VELOCITY * sinf(theta), VELOCITY * cosf(theta)};
     bullet_t bullet =
         bulletNew(self->position, velocity, BULLET_SIZE, bulletDrawA);
@@ -139,7 +140,7 @@ static void enemyBulletOddStraight(enemy_t *self, bullets_t *bullets,
 static void enemyBulletOddFan(enemy_t *self, bullets_t *bullets,
                               player_t *player) {
   static const float VELOCITY = 3.0F;
-  static const float ANGLE = 15.0F * 2.0F * (float)M_PI / 360.0F;
+  static const float ANGLE = 15.0F * 2.0F * PI / 360.0F;
 
   if (self->age % 60 != 0) return;
 
