@@ -21,7 +21,7 @@ void update(__attribute__((unused)) int value) {
 void display() {
   glClear(GL_COLOR_BUFFER_BIT);
 
-  glColor3ub(0x00, 0x00, 0x50);
+  glColor3ub(0x00, 0x00, 0x30);
   glBegin(GL_QUADS);
   glVertex2f(0.0F, 0.0F);
   glVertex2f(WINDOW_SIZE.x, 0.0F);

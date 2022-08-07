@@ -64,7 +64,7 @@ void gameDraw(const game_t *game) {
 }
 
 static void gameWindowDraw() {
-  glColor3ub(0x00, 0x00, 0x40);
+  glColor3ub(0x00, 0x00, 0x20);
   glBegin(GL_QUAD_STRIP);
   glVertex2f(0.0F, 0.0F);
   glVertex2f(GAME_OFFSET.x, GAME_OFFSET.y);
