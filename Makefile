@@ -72,7 +72,7 @@ clean:
 
 tar: clean
 	mkdir $(TARGET)
-	cp -r assets/ glpng/ src/ Makefile $(TARGET)/
+	cp -r assets/ glpng/ src/ Makefile README.txt $(TARGET)/
 	tar -zcvf j19426.tar.gz $(TARGET)/
 	rm -rf $(TARGET)/
 
