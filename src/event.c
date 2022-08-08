@@ -5,7 +5,7 @@
 
 #include "opengl.h"
 
-static key_t keyState[KEY_LENGTH];
+static key_state_t keyState[KEY_LENGTH];
 
 static key_code_t getKeyFromChar(unsigned char rawKeyCode);
 static key_code_t getKeyFromGlutKeyCode(int glutKeyCode);

@@ -5,7 +5,7 @@
 
 #include "vector.h"
 
-static const float PI = 3.14159265358979F;
+#define PI 3.14159265358979F
 
 // フェイズ
 typedef enum {

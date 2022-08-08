@@ -4,7 +4,7 @@
 typedef struct {
   bool isPress;
   bool isClicked;
-} key_t;
+} key_state_t;
 
 typedef enum {
   KEY_OTHER,

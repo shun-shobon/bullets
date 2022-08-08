@@ -23,7 +23,7 @@ static void gameLevelDraw(const stats_t *stats);
 static void gameOverDraw(const game_t *game);
 
 void gameInit(game_t *game) {
-  srandom(time(NULL));
+  srand(time(NULL));
 
   game->isGameOver = false;
   statsInit(&game->stats);

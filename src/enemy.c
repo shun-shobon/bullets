@@ -42,13 +42,13 @@ const enemy_bullet_func_t enemyBulletFuncs[] = {
 const enemy_draw_func_t enemyDrawFuncs[] = {enemyDrawA, enemyDrawB};
 
 enemy_move_func_t getRandomEnemyMoveFunc() {
-  return enemyMoveFuncs[random() % ENEMY_MOVE_FUNCS];
+  return enemyMoveFuncs[rand() % ENEMY_MOVE_FUNCS];
 }
 enemy_bullet_func_t getRandomEnemyBulletFunc() {
-  return enemyBulletFuncs[random() % ENEMY_BULLET_FUNCS];
+  return enemyBulletFuncs[rand() % ENEMY_BULLET_FUNCS];
 }
 enemy_draw_func_t getRandomEnemyDrawFunc() {
-  return enemyDrawFuncs[random() % ENEMY_DRAW_FUNCS];
+  return enemyDrawFuncs[rand() % ENEMY_DRAW_FUNCS];
 }
 
 // 直線的な移動

@@ -16,11 +16,11 @@ void *mallocSafe(size_t size) {
 }
 
 float absf(float x) { return x < 0.0F ? -x : x; }
-float randomf() { return (float)random() / (float)RAND_MAX; }
-float expRandomf(float lambda) { return -1.0F / lambda * logf(randomf()); }
-float expRandomNormalizedf(float lambda) {
+float randf() { return (float)rand() / (float)RAND_MAX; }
+float expRandf(float lambda) { return -1.0F / lambda * logf(randf()); }
+float expRandNormalizedf(float lambda) {
   while (true) {
-    float val = expRandomf(lambda);
+    float val = expRandf(lambda);
     if (val <= 1.0F) return val;
   }
 }

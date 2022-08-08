@@ -40,24 +40,23 @@ void spawnerUpdate(spawner_t *spawner, enemies_t *enemies,
 
 static int getNextSpawnAge(const stats_t *gamestate) {
   return gamestate->age + SPAWN_INTERVAL_MIN +
-         (int)(expRandomNormalizedf((float)(gamestate->level + 1)) *
+         (int)(expRandNormalizedf((float)(gamestate->level + 1)) *
                (float)(SPAWN_INTERVAL_MAX - SPAWN_INTERVAL_MIN));
 }
 
 static vec2_t getRandomSpawnPosition() {
-  float x = (float)(random() % (long)GAME_SIZE.x);
+  float x = (float)(rand() % (long)GAME_SIZE.x);
   float y = GAME_SIZE.y + 50.0F;
 
   return (vec2_t){x, y};
 }
 
 static float getRandomYVelocity(const stats_t *gamestate) {
-  return 0.5F +
-         (1 - expRandomNormalizedf((float)(gamestate->level + 1))) * 2.0F;
+  return 0.5F + (1 - expRandNormalizedf((float)(gamestate->level + 1))) * 2.0F;
 }
 
 static int getRandomScore(const stats_t *gamestate) {
-  return 50 + (int)((1 - expRandomNormalizedf((float)(gamestate->level + 1))) *
+  return 50 + (int)((1 - expRandNormalizedf((float)(gamestate->level + 1))) *
                     45.0F) *
                   10;
 }
